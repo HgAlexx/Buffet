@@ -286,9 +286,9 @@ function Buffet:PLAYER_LOGIN()
     self:RegisterEvent("UNIT_MAXHEALTH")
     self:RegisterEvent("UNIT_MAXPOWER")
 
-    if not IsClassic then
+    --if not IsClassic then
         self:RegisterEvent("ZONE_CHANGED")
-    end
+    --end
 
     self.PLAYER_LOGIN = nil
 
@@ -660,17 +660,15 @@ function Buffet:ScanDynamic()
             end
 
             -- check restricted items against rules
-            if not IsClassic then
-                if Restrictions[itemId] then
-                    if not isRestricted and Restrictions[itemId].inInstanceTypes then
-                        isRestricted = not self:IsPlayerInInstanceType(Restrictions[itemId].inInstanceTypes)
-                    end
-                    if Restrictions[itemId].inInstanceIds then
-                        isRestricted = not self:IsPlayerInInstanceId(Restrictions[itemId].inInstanceIds)
-                    end
-                    if not isRestricted and Restrictions[itemId].inSubZones then
-                        isRestricted = not self:IsPlayerInSubZoneName(Restrictions[itemId].inSubZones)
-                    end
+            if Restrictions[itemId] then
+                if not isRestricted and Restrictions[itemId].inInstanceIds then
+                    isRestricted = not self:IsPlayerInInstanceId(Restrictions[itemId].inInstanceIds)
+                end
+                if not isRestricted and Restrictions[itemId].inInstanceTypes then
+                    isRestricted = not self:IsPlayerInInstanceType(Restrictions[itemId].inInstanceTypes)
+                end
+                if not isRestricted and Restrictions[itemId].inSubZones then
+                    isRestricted = not self:IsPlayerInSubZoneName(Restrictions[itemId].inSubZones)
                 end
             end
 
@@ -1027,10 +1025,13 @@ function Buffet:IsPlayerInInstanceId(ids)
 end
 
 function Buffet:IsPlayerInInstanceType(types)
-    local _,instanceType = GetInstanceInfo()
+    local _,instanceType, diffId = GetInstanceInfo()
     instanceType = instanceType or "none"
     for _,v in pairs(types) do
-        if v == instanceType then
+        if (v == "none" and diffId == 0 and instanceType ~= "pvp" and instanceType ~= "arena") then
+            return true
+        end
+        if (v == instanceType) then
             return true
         end
     end
