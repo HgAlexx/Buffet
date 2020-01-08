@@ -23,6 +23,7 @@ Localization.deDE.lua
 Localization.esES.lua
 Localization.frFR.lua
 Localization.itIT.lua
+Localization.zhCN.lua
 
 DynamicDb.lua
 Buffet.lua
