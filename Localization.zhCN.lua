@@ -9,7 +9,7 @@ if GetLocale() == "zhCN" then
     KeyWords.Use = "使用"
     KeyWords.Restores = "恢复"
     KeyWords.Heals = "治疗"
-    KeyWords.ConjuredItem = "魔法物品"
+    KeyWords.ConjuredItem = "魔法制造"
     KeyWords.Health = "生命值"
     KeyWords.Damage = "生命值"
     KeyWords.Mana = "法力值"
