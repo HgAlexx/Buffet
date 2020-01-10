@@ -867,14 +867,14 @@ function Buffet:ParseTexts(texts, itemClassId, itemSubClassId)
                     local value, v1, v2 = nil, nil, nil
                     if isBandage then
                         v1, v2 = match(text, Classic_Patterns.Bandage)
-                        if GetLocale() == "deDE" then
+                        if GetLocale() == "deDE" or GetLocale() == "zhCN" then
                             value = v2
                         else
                             value = v1
                         end
                     else
                         v1, v2 = match(text, Classic_Patterns.Food)
-                        if GetLocale() == "deDE" then
+                        if GetLocale() == "deDE" or GetLocale() == "zhCN" then
                             value = v2
                         else
                             value = v1
@@ -936,7 +936,7 @@ function Buffet:ParseTexts(texts, itemClassId, itemSubClassId)
                 if IsClassic then
                     local value, v1, v2 = nil, nil, nil
                     v1, v2 = match(text, Classic_Patterns.Drink)
-                    if GetLocale() == "deDE" then
+                    if GetLocale() == "deDE" or GetLocale() == "zhCN" then
                         value = v2
                     else
                         value = v1
