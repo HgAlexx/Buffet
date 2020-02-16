@@ -9,7 +9,7 @@ local _, ns = ...
 -- Imports
 local Utility = ns.Utility
 
-if Utility.IsRetail and GetLocale() == "zhCN" then
+if Utility.IsClassic and GetLocale() == "zhCN" then
     -- Local namespace
     local Locales = {}
 
