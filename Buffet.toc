@@ -24,11 +24,13 @@ Retail\Localization.deDE.lua
 Retail\Localization.esES.lua
 Retail\Localization.frFR.lua
 Retail\Localization.itIT.lua
+Retail\Localization.zhCN.lua
 
 Classic\Localization.enUS.lua
 Classic\Localization.deDE.lua
 Classic\Localization.esES.lua
 Classic\Localization.frFR.lua
+Classic\Localization.zhCN.lua
 
 Retail\ConstRetail.lua
 Retail\Retail.lua

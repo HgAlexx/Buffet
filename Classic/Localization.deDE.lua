@@ -44,8 +44,8 @@ if Utility.IsClassic and GetLocale() == "deDE" then
     Locales.Patterns.HealthAndMana = {
         {
             pattern = "stellt ([%d%.]+) bis ([%d%.]+) punkt%(e%) gesundheit.- stellt ([%d%.]+) bis ([%d%.]+) punkt%(e%) mana",
-            healthIndex = 1,
-            manaIndex = 2,
+            healthIndex =  {1, 2},
+            manaIndex =  {3, 4},
             pct = false
         },
     }
