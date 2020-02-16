@@ -1,219 +1,36 @@
-----------------------
---      Locals      --
-----------------------
-
 local addonName, ns = ...
-Buffet_Version = GetAddOnMetadata(addonName, 'Version');
 
-local defaults = { macroHP = "#showtooltip\n%MACRO%", macroMP = "#showtooltip\n%MACRO%", combat = true }
-local firstRun = true
-local dirty = false
-local bests = ns.bests
-local buffetTooltipFromTemplate = nil
-local nextScan = 0
-local nextScanDelay = 1.2
-local tooltipCache = {}
-local scanAttempt = {}
-local itemCache = {}
-local stats = {}
-local IsClassic = false
+-- Imports
+local Utility = ns.Utility
+local Const = ns.Const
+local Engine = ns.Engine
+local Locales = ns.Locales
 
-local mylevel = 0
-local myhealth = 0
-local mymana = 0
+-- Localize functions
+local string_match = string.match
+local string_find = string.find
+local string_format = string.format
 
+-- Local namespace
+local Core = {}
 
------------------------------
---   localize functions    --
------------------------------
-local match = string.match
+-- Some init
+Core.nextScan = 0
+Core.nextScanTimer = nil
+Core.bests = {}
+Core.scanAttempt = {}
+Core.firstRun = true
+Core.scanning = false
+Core.itemCache = {}
 
+local Buffet = CreateFrame("frame")
+Core.Buffet = Buffet
 
------------------------------
---      Event Handler      --
------------------------------
-
-Buffet = CreateFrame("frame")
 Buffet:SetScript("OnEvent", function(self, event, ...)
     if self[event] then
         return self[event](self, event, ...)
     end
 end)
-Buffet:RegisterEvent("ADDON_LOADED")
-function Buffet:Print(...)
-    ChatFrame1:AddMessage(string.join(" ", "|cFF33FF99Buffet|r:", ...))
-end
-function Buffet:Debug(...)
-    --@debug@
-    -- [[
-    local arg = {...}
-    local t = ""
-    for i, v in ipairs(arg) do
-        if type(v) == "table" then
-            for _, w in ipairs(v) do
-                t = t .. ", " .. tostring(w)
-            end
-        else
-            t = t .. " " .. tostring(v)
-        end
-    end
-    ChatFrame1:AddMessage("|cFF33BB99Buffet|r:" .. t)
-    --]]
-    --@end-debug@
-end
-
-function Buffet:MyGetTime()
-    return (debugprofilestop() / 1000)
-end
-
-function Buffet:BoolToStr(b)
-    if b then
-        return "Yes"
-    end
-    return "No"
-end
-
-function Buffet:SlashHandler(message, editbox)
-    local _, _, cmd, args = string.find(message, "%s?(%w+)%s?(.*)")
-
-    if cmd == "combat" then
-        local combat = args or nil
-        if combat ~= nil and combat ~= "" then
-            combat = tonumber(combat)
-            self.db.combat = (combat == 1)
-            self:ScanDynamic()
-        end
-        if self.db.combat then
-            self:Print("combat mode: enable")
-        else
-            self:Print("combat mode: disable")
-        end
-    elseif cmd == "stats" then
-        self:Print("Session Statistics:")
-        self:Print("- Functions called:")
-        for k, v in pairs(stats.timers) do
-            local item = v
-            local avgTime = 0
-            if v.count > 0 then
-                avgTime = v.totalTime / v.count
-            end
-            self:Print(string.format("  - %s: %d time(s), total time: %.5fs, average time: %.5fs", k, v.count, v.totalTime, avgTime))
-        end
-        self:Print("- Events raised:")
-        for k, v in pairs(stats.events) do
-            self:Print(string.format("  - %s: %d time(s)", k, v))
-        end
-        self:Print("- Caches size:")
-        self:Print(string.format("  - %d item(s) cached", self:TableCount(itemCache)))
-        self:Print(string.format("  - %d tooltip(s) cached", self:TableCount(tooltipCache)))
-    elseif cmd == "clear" then
-        scanAttempt = {}
-        tooltipCache = {}
-        itemCache = {}
-        self:Print("Caches cleared!")
-        self:Print("Rescanning bags...")
-        self:ScanDynamic()
-    elseif cmd == "scan" then
-        self:Print("Scanning bags...")
-        self:ScanDynamic()
-    elseif cmd == "delay" then
-        local delay = args or nil
-        if delay and delay ~= "" then
-            delay = tonumber(delay)
-            if type(delay) == "number" and delay >= 0.1 and delay <= 10 then
-                self:Print("next scan delay set to", delay, "seconds")
-                nextScanDelay = delay
-            else
-                self:Print("invalid value, delay must be a number between 0.1 and 10")
-            end
-        else
-            self:Print("next scan delay current value is", nextScanDelay)
-        end
-    elseif cmd == "info" then
-        local itemString = args or nil
-        if itemString then
-            local _, itemLink = GetItemInfo(itemString)
-            if itemLink then
-                local itemId = match(itemLink, "item:([%d]+)")
-                if itemId then
-                    itemId = tonumber(itemId)
-                    if itemCache[itemId] then
-                        local data = itemCache[itemId]
-                        self:Print("Item " .. itemString .. ":")
-                        self:Print("- Is health: " .. self:BoolToStr(data.isHealth))
-                        self:Print("- Is mana: " .. self:BoolToStr(data.isMana))
-                        self:Print("- Is well fed: " .. self:BoolToStr(data.isWellFed))
-                        self:Print("- Is conjured: " .. self:BoolToStr(data.isConjured))
-                        self:Print("- Is percent: " .. self:BoolToStr(data.isPct))
-                        self:Print("- Is potion: " .. self:BoolToStr(data.isPotion))
-                        self:Print("- Is bandage: " .. self:BoolToStr(data.isBandage))
-                        if data.isPct then
-                            self:Print(string.format("- health value: %d", data.health * 100))
-                            self:Print(string.format("- mana value: %d", data.mana * 100))
-                        else
-                            self:Print(string.format("- health value: %d", data.health))
-                            self:Print(string.format("- mana value: %d", data.mana))
-                        end
-                    else
-                        self:Print("Item " .. itemString .. ": Not in cache")
-                    end
-                end
-            end
-        else
-            self:Print("Invalid argument")
-        end
-    elseif cmd == "debug" then
-        local itemString = args or nil
-        if itemString then
-            local _, itemLink, _, itemLevel, _, _, _, _, _, _, _, itemClassId, itemSubClassId = GetItemInfo(itemString)
-            if itemLink then
-                local itemId = match(itemLink, "item:([%d]+)")
-                if itemId then
-                    itemId = tonumber(itemId)
-
-                    local texts, cached, failedAttempt = self:ScanTooltip(itemLink, itemId, itemLevel)
-                    if failedAttempt or not cached then
-                        self:Print("Item " .. itemString .. ": ScanTooltip failed")
-                        return
-                    end
-
-                    local isHealth, isMana, isConjured, isWellFed, health, mana, isPct, isPotion, isBandage = self:ParseTexts(texts, itemClassId, itemSubClassId)
-
-                    self:Print("Item " .. itemString .. ":")
-                    self:Print("- Is health: " .. self:BoolToStr(isHealth))
-                    self:Print("- Is mana: " .. self:BoolToStr(isMana))
-                    self:Print("- Is well fed: " .. self:BoolToStr(isWellFed))
-                    self:Print("- Is conjured: " .. self:BoolToStr(isConjured))
-                    self:Print("- Is percent: " .. self:BoolToStr(isPct))
-                    self:Print("- Is potion: " .. self:BoolToStr(isPotion))
-                    self:Print("- Is bandage: " .. self:BoolToStr(isBandage))
-                    if isPct then
-                        self:Print(string.format("- health value: %d", health * 100))
-                        self:Print(string.format("- mana value: %d", mana * 100))
-                    else
-                        self:Print(string.format("- health value: %d", health))
-                        self:Print(string.format("- mana value: %d", mana))
-                    end
-                end
-            end
-        else
-            self:Print("Invalid argument")
-        end
-    else
-        self:Print("Usage:")
-        self:Print("/buffet combat [0, 1]: 1 to enable, 0 to disable")
-        self:Print("/buffet clear: clear all caches")
-        self:Print("/buffet delay [<number>]: show or set next scan delay in seconds (default is 1.2)")
-        self:Print("/buffet info <itemLink>: display info about <itemLink> (if item is in cache)")
-        self:Print("/buffet scan: perform a manual scan of your bags")
-        self:Print("/buffet stats: show some internal statistics")
-        self:Print("/buffet debug <itemLink>: scan and display info about <itemLink> (bypass caches)")
-    end
-end
-SLASH_BUFFET1 = "/buffet"
-SlashCmdList["BUFFET"] = function(message, editbox)
-    Buffet:SlashHandler(message, editbox)
-end
 
 function Buffet:ADDON_LOADED(event, addon)
     if addon:lower() ~= "buffet" then
@@ -221,37 +38,36 @@ function Buffet:ADDON_LOADED(event, addon)
     end
     self:UnregisterEvent("ADDON_LOADED")
 
-    -- load saved variables
-    BuffetItemDB = BuffetItemDB or {}
-    BuffetDB = setmetatable(BuffetDB or {}, { __index = defaults })
-    self.db = BuffetDB
+    Core.Version = GetAddOnMetadata(addonName, 'Version');
 
-    local _, build, _, interfaceVersion = GetBuildInfo()
+    -- load saved variables
+    BuffetItemDB = setmetatable(BuffetItemDB or {}, { __index = Const.ItemDBdefaults })
+    BuffetDB = setmetatable(BuffetDB or {}, { __index = Const.DBdefaults })
+    Core.db = BuffetDB
+
+    local _, build = GetBuildInfo()
     local currBuild, prevBuild, buffetVersion = tonumber(build), BuffetItemDB.build, BuffetItemDB.version
 
     -- load items cache only if we are running the same build (client and addon)
-    if prevBuild and (prevBuild == currBuild) and buffetVersion and (buffetVersion == Buffet_Version) then
-        itemCache = BuffetItemDB.itemCache or {}
+    if prevBuild and (prevBuild == currBuild) and buffetVersion and (buffetVersion == Core.Version) then
+        Core.itemCache = BuffetItemDB.itemCache or {}
     else
-        self:Print("Cache has been cleared due to version update.")
+        Utility.Print("Cache has been cleared due to version update.")
     end
 
-    if interfaceVersion < 80000 then
-        IsClassic = true
-        self:Debug("Classic mode enabled")
-    end
-
-    nextScanDelay = BuffetItemDB.nextScanDelay or nextScanDelay
+    Core.nextScanDelay = BuffetItemDB.nextScanDelay
 
     -- clean saved variables
-    BuffetItemDB = {}
-    BuffetItemDB.itemCache = itemCache
     BuffetItemDB.build = currBuild
-    BuffetItemDB.nextScanDelay = nextScanDelay
-    BuffetItemDB.version = Buffet_Version
+    BuffetItemDB.itemCache = Core.itemCache
+    BuffetItemDB.nextScanDelay = Core.nextScanDelay
+    BuffetItemDB.version = Core.Version
 
-    stats.events = {}
-    stats.timers = {}
+    Core.stats = {}
+    Core.stats.events = {}
+    Core.stats.timers = {}
+
+    Core:ResetBest()
 
     self.ADDON_LOADED = nil
 
@@ -265,312 +81,161 @@ end
 function Buffet:PLAYER_LOGIN()
     self:UnregisterEvent("PLAYER_LOGIN")
 
-    stats.events["PLAYER_REGEN_ENABLED"] = 0
-    stats.events["PLAYER_LEVEL_UP"] = 0
-    stats.events["BAG_UPDATE_DELAYED"] = 0
-    stats.events["UNIT_MAXHEALTH"] = 0
-    stats.events["UNIT_MAXPOWER"] = 0
-    stats.events["ZONE_CHANGED"] = 0
+    Core.stats.events["PLAYER_REGEN_ENABLED"] = 0
+    Core.stats.events["PLAYER_LEVEL_UP"] = 0
+    Core.stats.events["BAG_UPDATE_DELAYED"] = 0
+    Core.stats.events["UNIT_MAXHEALTH"] = 0
+    Core.stats.events["UNIT_MAXPOWER"] = 0
+    Core.stats.events["ZONE_CHANGED"] = 0
 
-    stats.timers["ScanTooltip"] = { totalTime = 0, count = 0 }
-    stats.timers["QueueScan"] = { totalTime = 0, count = 0 }
-    stats.timers["ScanDynamic"] = { totalTime = 0, count = 0 }
-    stats.timers["ParseTexts"] = { totalTime = 0, count = 0 }
-    stats.timers["UpdateCallback"] = { totalTime = 0, count = 0 }
+    --Core.stats.timers["ParseTexts"] = { totalTime = 0, count = 0 }
+    --Core.stats.timers["ScanTooltip"] = { totalTime = 0, count = 0 }
+    Core.stats.timers["QueueScan"] = { totalTime = 0, count = 0 }
+    Core.stats.timers["Scan"] = { totalTime = 0, count = 0 }
+    Core.stats.timers["UpdateCallback"] = { totalTime = 0, count = 0 }
 
     self:RegisterEvent("PLAYER_LOGOUT")
-
     self:RegisterEvent("PLAYER_REGEN_ENABLED")
     self:RegisterEvent("PLAYER_LEVEL_UP")
     self:RegisterEvent("BAG_UPDATE_DELAYED")
     self:RegisterEvent("UNIT_MAXHEALTH")
     self:RegisterEvent("UNIT_MAXPOWER")
-
-    --if not IsClassic then
-        self:RegisterEvent("ZONE_CHANGED")
-    --end
+    self:RegisterEvent("ZONE_CHANGED")
 
     self.PLAYER_LOGIN = nil
 
-    mylevel = UnitLevel("player")
-    myhealth = UnitHealthMax("player")
-    mymana = UnitPowerMax("player")
+    -- init few values
+    Core.playerLevel = UnitLevel("player")
+    Core.playerHealth = UnitHealthMax("player")
+    Core.playerMana = UnitPowerMax("player")
 
-    self:EnableDelayedScan()
-    -- dirty = true
+    Utility.Print("Buffet ", Core.Version, " Loaded!")
+
+    if Utility.IsClassic then
+        Utility.Debug("Classic mode enabled")
+    elseif Utility.IsRetail then
+        Utility.Debug("Retail mode enabled")
+    end
+
+    Core:QueueScan()
 end
 
 function Buffet:PLAYER_LOGOUT()
-    for i, v in pairs(defaults) do
-        if self.db[i] == v then
-            self.db[i] = nil
+    -- Save BuffetDB
+    for i, v in pairs(Const.DBdefaults) do
+        if Core.db[i] == v then
+            Core.db[i] = nil
         end
     end
-    -- save itemCache per account
-    BuffetItemDB.itemCache = itemCache
-    BuffetItemDB.nextScanDelay = nextScanDelay
+    for i, v in pairs(Core.db) do
+        if not Const.DBdefaults[i] then
+            Core.db[i] = nil
+        end
+    end
+
+    -- Save BuffetItemDB
+    BuffetItemDB.itemCache = Core.itemCache
+    BuffetItemDB.nextScanDelay = Core.nextScanDelay
+    for i, v in pairs(Const.ItemDBdefaults) do
+        if BuffetItemDB[i] == v then
+            BuffetItemDB[i] = nil
+        end
+    end
+    for i, v in pairs(BuffetItemDB) do
+        if not Const.ItemDBdefaults[i] then
+            BuffetItemDB[i] = nil
+        end
+    end
 end
 
 function Buffet:PLAYER_REGEN_ENABLED()
-    stats.events["PLAYER_REGEN_ENABLED"] = stats.events["PLAYER_REGEN_ENABLED"] + 1
-    if dirty then
-        self:EnableDelayedScan()
+    Core.stats.events["PLAYER_REGEN_ENABLED"] = Core.stats.events["PLAYER_REGEN_ENABLED"] + 1
+    if Core.dirty then
+        Core:EnableDelayedScan()
     end
 end
 
 function Buffet:ZONE_CHANGED()
-    stats.events["ZONE_CHANGED"] = stats.events["ZONE_CHANGED"] + 1
-    self:QueueScan()
+    Core.stats.events["ZONE_CHANGED"] = Core.stats.events["ZONE_CHANGED"] + 1
+    Core:QueueScan()
 end
 
 function Buffet:BAG_UPDATE_DELAYED()
-    stats.events["BAG_UPDATE_DELAYED"] = stats.events["BAG_UPDATE_DELAYED"] + 1
-    self:QueueScan()
+    Core.stats.events["BAG_UPDATE_DELAYED"] = Core.stats.events["BAG_UPDATE_DELAYED"] + 1
+    Core:QueueScan()
 end
 
 function Buffet:PLAYER_LEVEL_UP(event, arg1)
-    stats.events["PLAYER_LEVEL_UP"] = stats.events["PLAYER_LEVEL_UP"] + 1
-    mylevel = arg1
-    self:QueueScan()
+    Core.stats.events["PLAYER_LEVEL_UP"] = Core.stats.events["PLAYER_LEVEL_UP"] + 1
+    Core.playerLevel = arg1
+    Core:QueueScan()
 end
 
 function Buffet:UNIT_MAXHEALTH(event, arg1)
     if arg1 == "player" then
-        stats.events["UNIT_MAXHEALTH"] = stats.events["UNIT_MAXHEALTH"] + 1
-        myhealth = UnitHealthMax("player")
-        self:QueueScan()
+        Core.stats.events["UNIT_MAXHEALTH"] = Core.stats.events["UNIT_MAXHEALTH"] + 1
+        Core.playerHealth = UnitHealthMax("player")
+        Core:QueueScan()
     end
 end
 
 function Buffet:UNIT_MAXPOWER(event, arg1, arg2)
     if (arg1 == "player") and (arg2 == "MANA") then
-        stats.events["UNIT_MAXPOWER"] = stats.events["UNIT_MAXPOWER"] + 1
-        mymana = UnitPowerMax("player")
-        self:QueueScan()
+        Core.stats.events["UNIT_MAXPOWER"] = Core.stats.events["UNIT_MAXPOWER"] + 1
+        Core.playerMana = UnitPowerMax("player")
+        Core:QueueScan()
     end
 end
 
-function Buffet:StatsTimerUpdate(key, t)
-    stats.timers[key].count = stats.timers[key].count + 1
-    local t2 = self:MyGetTime()
-    stats.timers[key].totalTime = stats.timers[key].totalTime + (t2 - t)
+function Core:ResetBest()
+    for _, v in pairs(Const.BestCategories) do
+        Core.bests[v] = { val = -1, stack = -1, id = nil }
+    end
 end
 
-function Buffet:QueueScan()
-    local t = self:MyGetTime()
+function Core:QueueScan()
+    local t = Utility.GetTime()
     if InCombatLockdown() then
-        dirty = true -- try when out of combat (regen event)
+        self.dirty = true -- try when out of combat (regen event)
     else
         self:EnableDelayedScan()
     end
     self:StatsTimerUpdate("QueueScan", t)
 end
 
-function Buffet:UpdateCallback(...)
-    local t = self:MyGetTime()
-    if nextScan > 0 then
-        if nextScan <= t then
-            if not InCombatLockdown() then
-                self:DisableDelayedScan()
-                self:ScanDynamic()
-            end
-        end
+function Core:EnableDelayedScan()
+    if self.nextScanTimer then
+        self.nextScanTimer:Cancel()
     end
-    self:StatsTimerUpdate("UpdateCallback", t)
+    -- restart timer each time we queue a scan
+    self.nextScanTimer = C_Timer.NewTimer(Core.nextScanDelay, self.OnTimerCallback)
 end
 
-function Buffet:EnableDelayedScan()
-    if nextScan == 0 then
-        -- enable it only once
-        self:SetScript("OnUpdate", self.UpdateCallback)
-    end
-    -- extend delay on consecutive calls
-    nextScan = self:MyGetTime() + nextScanDelay
-end
-
-function Buffet:DisableDelayedScan()
-    nextScan = 0
-    self:SetScript("OnUpdate", nil)
-end
-
-function Buffet:TableCount(t)
-    local c = 0
-    if t then
-        for v in pairs(t) do
-            c = c + 1
-        end
-    end
-    return c
-end
-
-function Buffet:GetTooltip()
-    local tooltip = buffetTooltipFromTemplate or CreateFrame("GameToolTip", "buffetTooltipFromTemplate", nil, "GameTooltipTemplate")
-    tooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
-    tooltip:ClearLines()
-    return tooltip
-end
-
-function Buffet:ScanTooltip(itemLink, itemId, itemLevel)
-    local t = self:MyGetTime()
-    local cached = false
-    local failedAttempt = false
-
-    if tooltipCache[itemId] then
-        cached = true
-        self:StatsTimerUpdate("ScanTooltip", t)
-        return tooltipCache[itemId], cached, false
-    end
-
-    local texts = {}
-    local tooltip = self:GetTooltip()
-    tooltip:SetHyperlink(itemLink)
-
-    local isHealthItem = false
-    local isManaItem = false
-    local isConjuredItem = false
-
-    -- [[
-    local lineCount = 1
-    for i = 2, tooltip:NumLines() do
-        local text = _G["buffetTooltipFromTemplateTextLeft" .. i]:GetText() or ""
-        text = self:Trim(text)
-        if text ~= "" then
-            texts[lineCount] = text
-            lineCount = lineCount + 1
-            if self:StringContains(text:lower(), KeyWords.Health:lower()) then
-                isHealthItem = true
-            end
-            if self:StringContains(text:lower(), KeyWords.Mana:lower()) then
-                isManaItem = true
-            end
-            if self:StringContains(text:lower(), KeyWords.ConjuredItem:lower()) then
-                isConjuredItem = true
-            end
-        end
-    end
-    tooltip:Hide()
-    --]]
-
-    --[[
-    -- not working :(
-    for i=1,select("#",tooltip:GetRegions()) do
-        local region=select(i,tooltip:GetRegions())
-        if region and region:GetObjectType()=="FontString" and region:GetText() then
-            local text = region:GetText()
-            texts[i] = text
-        end
-    end
-    --]]
-
-    -- sometimes tooltips are not properly generated on first pass, all interesting items should have at least 3 lines, 4 for conjured items
-    local neededLines = 3
-    if isConjuredItem then
-        neededLines = 4
-    end
-    -- except low level item which can have only 2 lines..
-    if itemLevel < 10 then
-        neededLines = neededLines - 1
-    end
-
-    neededLines = neededLines - 1
-
-    --local l = self:TableCount(texts)
-    if (lineCount >= neededLines) and (isHealthItem or isManaItem) then
-        tooltipCache[itemId] = texts
-        scanAttempt[itemId] = 0
-        cached = true
+function Core:OnTimerCallback()
+    local t = Utility.GetTime()
+    Core.nextScanTimer = nil
+    if InCombatLockdown() then
+        Core.dirty = true
     else
-        if scanAttempt[itemId] then
-            -- try to scan tooltip only 5 times
-            if scanAttempt[itemId] < 5 then
-                failedAttempt = true
-                scanAttempt[itemId] = scanAttempt[itemId] + 1
-            else
-                tooltipCache[itemId] = texts
-                scanAttempt[itemId] = 0
-                cached = true
-            end
-        else
-            scanAttempt[itemId] = 1
-            failedAttempt = true
-        end
+        Core:Scan()
     end
-
-    self:StatsTimerUpdate("ScanTooltip", t)
-    return texts, cached, failedAttempt
+    Core:StatsTimerUpdate("UpdateCallback", t)
 end
 
-function Buffet:IsValidItemClass(itemClassId)
-    if IsClassic then
-        for k, v in pairs(Classic_ItemClasses) do
-            if itemClassId == v then
-                return true
-            end
-        end
-    else
-        return (itemClassId == ItemClasses.Consumable) or (itemClassId == ItemClasses.Miscellaneous)
+function Core:Scan()
+    if Core.scanning then
+        return
     end
-    return false
-end
+    local currentTime = Utility.GetTime()
 
-function Buffet:IsValidItemSubClass(itemClassId, itemSubClassId)
-    if IsClassic then
-        for k, v in pairs(Classic_ItemSubClasses) do
-            if itemSubClassId == v then
-                return true
-            end
-        end
-    else
-        if itemClassId == ItemClasses.Consumable then
-            for k, v in pairs(ItemConsumableSubClasses) do
-                if itemSubClassId == v then
-                    return true
-                end
-            end
-        elseif itemClassId == ItemClasses.Miscellaneous then
-            for k, v in pairs(ItemMiscellaneousSubClasses) do
-                if itemSubClassId == v then
-                    return true
-                end
-            end
-        end
-    end
-    return false
-end
+    Core.scanning = true
 
-function Buffet:StringContains(s, needle)
-    local f = s:find(needle, 1, true)
-    if f == nil then
-        return false
-    end
-    return true
-end
-
-function Buffet:SetBest(cat, id, value, stack)
-    local best = bests[cat];
-    if best and id then
-        if (value > best.val) or ((value == best.val) and (best.stack > stack)) then
-            best.val = value
-            best.id = id
-            best.stack = stack
-        end
-    end
-end
-
-function Buffet:ScanDynamic()
-    local currentTime = self:MyGetTime()
-
-    self:Debug("Scanning bags...")
+    Utility.Debug("Scanning bags...")
 
     -- clear previous bests
-    for k, t in pairs(bests) do
-        t.val = -1
-        t.id = nil
-        t.stack = -1
-    end
+    self:ResetBest()
 
     local delayedScanRequired = false
-
     local itemIds = {}
 
     -- scan bags and build unique list of item ids
@@ -593,164 +258,99 @@ function Buffet:ScanDynamic()
 
         -- get item info
         local itemName, itemLink, _, itemLevel, itemMinLevel, _, _, _, _, _, _, itemClassId, itemSubClassId = GetItemInfo(itemId)
-        --self:Debug("Debug:", itemId, itemName, itemClassId, itemSubClassId)
+        -- Utility.Debug("Debug:", itemId, itemName, itemClassId, itemSubClassId)
 
         -- ensure itemMinLevel is not nil
         itemMinLevel = itemMinLevel or 0
 
         -- treat only interesting items
-        if itemLink and (itemMinLevel <= mylevel) and self:IsValidItemClass(itemClassId) and self:IsValidItemSubClass(itemClassId, itemSubClassId) then
-
-            local isHealth = false
-            local isMana = false
-            local isConjured = false
-            local isWellFed = false
-            local isPct = false
-            local isPotion = false
-            local isBandage = false
-            local isRestricted = false
-
-            local health = 0
-            local mana = 0
+        if itemLink and (itemMinLevel <= self.playerLevel) and (Engine.IsValidItemClasses(itemClassId, itemSubClassId)) then
+            local itemData = self:MakeNewItemData(itemId, itemClassId, itemSubClassId)
 
             local itemFoundInCache = false
 
             -- check cache for item
-            if itemCache[itemId] then
-                isHealth = itemCache[itemId].isHealth
-                isMana = itemCache[itemId].isMana
-                isConjured = itemCache[itemId].isConjured
-                isWellFed = itemCache[itemId].isWellFed
-                isPct = itemCache[itemId].isPct
-                isPotion = itemCache[itemId].isPotion
-                isBandage = itemCache[itemId].isBandage
-                health = itemCache[itemId].health
-                mana = itemCache[itemId].mana
+            if Core.itemCache[itemId] then
+                itemData = Core.itemCache[itemId]
 
-                local validHealth = not isHealth or (isHealth and (health and (health > 0)))
-                local validMana   = not isMana   or (isMana   and (mana   and (mana   > 0)))
-                itemFoundInCache = isWellFed or validHealth or validMana
+                local validHealth = not itemData.isHealth or (itemData.isHealth and (itemData.health and itemData.health > 0))
+                local validMana   = not itemData.isMana   or (itemData.isMana   and (itemData.mana   and itemData.mana   > 0))
+                itemFoundInCache = itemData.isWellFed or validHealth or validMana
             end
 
             -- if not found, scan and parse tooltip
             if not itemFoundInCache then
                 -- parse tooltip values
-                local texts, cached, failedAttempt = self:ScanTooltip(itemLink, itemId, itemLevel)
-                if failedAttempt then
+                local texts, failedAttempt = Engine.ScanTooltip(itemLink, itemLevel)
+
+                if failedAttempt and (not Core.scanAttempt[itemId] or Core.scanAttempt[itemId] < 5) then
+                    if Core.scanAttempt[itemId] then
+                        Core.scanAttempt[itemId] = Core.scanAttempt[itemId] +1
+                    else
+                        Core.scanAttempt[itemId] = 1
+                    end
                     delayedScanRequired = true
                 else
-                    isHealth, isMana, isConjured, isWellFed, health, mana, isPct, isPotion, isBandage = self:ParseTexts(texts, itemClassId, itemSubClassId)
+                    if Core.scanAttempt[itemId] and (Core.scanAttempt[itemId] >= 5) then
+                        Utility.Debug("5 failed attempt on: ", itemLink)
+                    end
+                    itemData = Engine.ParseTexts(texts, itemData)
 
-                    local canCacheHealth = not isHealth or (isHealth and (health and (health > 0)))
-                    local canCacheMana   = not isMana   or (isMana   and (mana   and (mana   > 0)))
+                    local validHealth = not itemData.isHealth or (itemData.isHealth and (itemData.health and (itemData.health > 0)))
+                    local validMana   = not itemData.isMana   or (itemData.isMana   and (itemData.mana   and (itemData.mana   > 0)))
 
-                    if cached and (isWellFed or canCacheHealth or canCacheMana) then
-                        itemCache[itemId] = {}
-                        itemCache[itemId].isHealth = isHealth
-                        itemCache[itemId].isMana = isMana
-                        itemCache[itemId].isConjured = isConjured
-                        itemCache[itemId].isWellFed = isWellFed
-                        itemCache[itemId].isPct = isPct
-                        itemCache[itemId].isPotion = isPotion
-                        itemCache[itemId].isBandage = isBandage
-                        itemCache[itemId].health = health
-                        itemCache[itemId].mana = mana
+                    if itemData.isWellFed or validHealth or validMana then
+                        Core.itemCache[itemId] = itemData
+                        itemFoundInCache = true
                     end
                 end
             end
 
-            -- check restricted items against rules
-            if Restrictions[itemId] then
-                if not isRestricted and Restrictions[itemId].inInstanceIds then
-                    isRestricted = not self:IsPlayerInInstanceId(Restrictions[itemId].inInstanceIds)
-                end
-                if not isRestricted and Restrictions[itemId].inInstanceTypes then
-                    isRestricted = not self:IsPlayerInInstanceType(Restrictions[itemId].inInstanceTypes)
-                end
-                if not isRestricted and Restrictions[itemId].inSubZones then
-                    isRestricted = not self:IsPlayerInSubZoneName(Restrictions[itemId].inSubZones)
-                end
-            end
+            -- if item is usable
+            if itemFoundInCache and not itemData.isWellFed and ((itemData.health and (itemData.health > 0)) or (itemData.mana and (itemData.mana > 0))) then
+                --Utility.Debug(itemName, itemData)
 
-            -- set found values to best
-            if not isRestricted and not isWellFed and ((health and (health > 0)) or (mana and (mana > 0))) then
+                local isRestricted = Engine.CheckRestriction(itemId)
 
-                -- update pct values
-                if isPct then
-                    if (health and (health > 0)) then
-                        health = health * myhealth
-                    end
-                    if (mana and (mana > 0)) then
-                        mana = mana * mymana
-                    end
-                end
-
-                local cat = nil
-                local fnd = false
-                local pot = false
-                local bdg = false
-                local oth = false
-
-                if IsClassic then
-                    fnd = not isPotion and not isBandage
-                    pot = isPotion
-                    bdg = isBandage
-                    oth = isPotion and not isBandage
-                else
-                    if itemClassId == ItemClasses.Consumable then
-                        fnd = itemSubClassId == ItemConsumableSubClasses.FoodAndDrink
-                        pot = itemSubClassId == ItemConsumableSubClasses.Potion
-                        bdg = itemSubClassId == ItemConsumableSubClasses.Bandage
-                        oth = itemSubClassId == ItemConsumableSubClasses.Other
-                    elseif itemClassId == ItemClasses.Miscellaneous then
-                        fnd = itemSubClassId == ItemMiscellaneousSubClasses.Reagent
-                        pot = false
-                        bdg = false
-                        oth = false
-                    end
-                end
-
-                if fnd then
-                    if isHealth then
-                        if isConjured then
-                            cat = ns.categories.percfood
-                        else
-                            cat = ns.categories.food
+                -- set found values to best
+                if not isRestricted then
+                    local health = 0
+                    local mana = 0
+                    -- update pct values
+                    if itemData.isPct then
+                        if (itemData.health and (itemData.health > 0)) then
+                            health = itemData.health * Core.playerHealth
                         end
-                        self:SetBest(cat, itemId, health, itemCount)
-                    end
-                    if isMana then
-                        if isConjured then
-                            cat = ns.categories.percwater
-                        else
-                            cat = ns.categories.water
+                        if (itemData.mana and (itemData.mana > 0)) then
+                            mana = itemData.mana * Core.playerMana
                         end
-                        self:SetBest(cat, itemId, mana, itemCount)
-                    end
-                elseif pot then
-                    if isHealth then
-                        cat = ns.categories.hppot
-                        self:SetBest(cat, itemId, health, itemCount)
-                    end
-                    if isMana then
-                        cat = ns.categories.mppot
-                        self:SetBest(cat, itemId, mana, itemCount)
-                    end
-                elseif bdg then
-                    if isHealth then
-                        cat = ns.categories.bandage
-                        self:SetBest(cat, itemId, health, itemCount)
-                    end
-                elseif oth then
-                    -- health stone / mana gem
-                    if isConjured then
-                        if isHealth then
-                            cat = ns.categories.healthstone
-                            self:SetBest(cat, itemId, health, itemCount)
+                    else
+                        if (itemData.health and (itemData.health > 0)) then
+                            health = itemData.health
                         end
-                        if isMana then
-                            cat = ns.categories.manastone
-                            self:SetBest(cat, itemId, health, itemCount)
+                        if (itemData.mana and (itemData.mana > 0)) then
+                            mana = itemData.mana
+                        end
+                    end
+                    if itemData.isOverTime and itemData.overTime and (itemData.overTime > 0) then
+                        if (health and (health > 0)) then
+                            health = health * itemData.overTime
+                        end
+                        if (mana and (mana > 0)) then
+                            mana = mana * itemData.overTime
+                        end
+                    end
+
+                    -- set bests
+                    local healthCats, manaCats = Engine.GetCategories(itemData)
+                    if healthCats then
+                        for k, v in pairs(healthCats) do
+                            self:SetBest(v, itemId, health, itemCount)
+                        end
+                    end
+                    if manaCats then
+                        for k, v in pairs(manaCats) do
+                            self:SetBest(v, itemId, mana, itemCount)
                         end
                     end
                 end
@@ -758,317 +358,50 @@ function Buffet:ScanDynamic()
         end
     end
 
-    local food = bests.percfood.id or bests.food.id or bests.healthstone.id or bests.hppot.id
-    local water = bests.percwater.id or bests.water.id or bests.managem.id or bests.mppot.id
+    local food = Core.bests.percfood.id or Core.bests.food.id or Core.bests.healthstone.id or Core.bests.hppot.id
+    local water = Core.bests.percwater.id or Core.bests.water.id or Core.bests.managem.id or Core.bests.mppot.id
 
-    self:Edit("AutoHP", self.db.macroHP, food, bests.healthstone.id or bests.hppot.id, bests.bandage.id)
-    self:Edit("AutoMP", self.db.macroMP, water, bests.managem.id or bests.mppot.id)
+    self:Edit("AutoHP", Core.db.macroHP, food, Core.bests.healthstone.id or Core.bests.hppot.id, Core.bests.bandage.id)
+    self:Edit("AutoMP", Core.db.macroMP, water, Core.bests.managem.id or Core.bests.mppot.id)
 
     -- if we didn't found any food or water, and it is the first run, queue a delayed scan
-    if (not food and not water) and firstRun then
-        firstRun = false
+    if (not food and not water) and Core.firstRun then
+        Core.firstRun = false
         delayedScanRequired = true
     end
 
-    dirty = false
+    Core.scanning = false
+    Core.dirty = false
 
     if delayedScanRequired then
-        self:EnableDelayedScan()
+        self:QueueScan()
     end
 
-    self:StatsTimerUpdate("ScanDynamic", currentTime)
+    self:StatsTimerUpdate("Scan", currentTime)
 end
 
-function Buffet:StripThousandSeparator(text)
-    if type(ThousandSeparator) == "string" then
-        text = text:gsub(ThousandSeparator, "")
-    elseif type(ThousandSeparator) == "table" then
-        for i, v in ipairs(ThousandSeparator) do
-            text = text:gsub(v, "")
-        end
-    end
-    return text
+function Core:MakeNewItemData(itemId, itemClassId, itemSubClassId)
+    local itemData = {}
+    itemData.itemId = itemId
+    itemData.isHealth = false
+    itemData.isMana = false
+    itemData.isConjured = false
+    itemData.isWellFed = false
+    itemData.isPct = false
+    itemData.isFoodAndDrink = false
+    itemData.isPotion = false
+    itemData.isBandage = false
+    itemData.isRestricted = false
+    itemData.isOverTime = false
+    itemData.health = 0
+    itemData.mana = 0
+    itemData.overTime = 0
+    itemData.itemClassId = itemClassId
+    itemData.itemSubClassId = itemSubClassId
+    return itemData
 end
 
-function Buffet:ReplaceFakeSpace(text)
-    local t = ""
-    t = text:gsub(" ", " ") -- WTF Blizzard !
-    return t
-end
-
-function Buffet:ParseTexts(texts, itemClassId, itemSubClassId)
-    local t = self:MyGetTime()
-
-    local isBandage = false
-    local isPotion = false
-    local isHealth = false
-    local isMana = false
-    local isConjured = false
-    local isWellFed = false
-    local isPct = false
-    local isOverTime = false
-
-    local health = 0
-    local mana = 0
-    local overTime = 0
-
-    for i, v in ipairs(texts) do
-        local text = string.lower(v);
-
-        -- Conjured item
-        if self:StringContains(text, KeyWords.ConjuredItem:lower()) then
-            isConjured = true
-        end
-
-        -- Bandage for classic
-        if IsClassic and self:StringContains(text, Classic_KeyWords.Bandage:lower()) then
-            isBandage = true
-        elseif not IsClassic and itemClassId == ItemClasses.Consumable and itemSubClassId == ItemConsumableSubClasses.Bandage then
-            isBandage = true
-        end
-
-        -- well fed
-        if self:StringContains(text, KeyWords.WellFed:lower()) then
-            isWellFed = true
-        end
-
-        -- OverTime
-        if self:StringContains(text, KeyWords.OverTime:lower()) then
-            isOverTime = true
-        end
-
-        -- Usable item
-        local usable = false
-        if IsClassic and  Classic_KeyWords.Use then
-            usable = self:StringContains(text, Classic_KeyWords.Use:lower())
-        else
-            usable = self:StringContains(text, KeyWords.Use:lower())
-        end
-
-        if usable then
-            if IsClassic then
-                 isHealth = isBandage or self:StringContains(text, KeyWords.Health:lower())
-            else
-                if isBandage then
-                    isHealth = self:StringContains(text, KeyWords.Damage:lower())
-                else
-                    isHealth = self:StringContains(text, KeyWords.Health:lower())
-                end
-            end
-            isMana = self:StringContains(text, KeyWords.Mana:lower())
-
-            if isHealth or isMana then
-                -- FU Blizzard
-                text = self:ReplaceFakeSpace(text)
-            end
-
-            if isHealth then
-                if IsClassic then
-                    local value, v1, v2 = nil, nil, nil
-                    if isBandage then
-                        v1, v2 = match(text, Classic_Patterns.Bandage)
-                        if GetLocale() == "deDE" then
-                            value = v2
-                        else
-                            value = v1
-                        end
-                    else
-                        v1, v2 = match(text, Classic_Patterns.Food)
-                        if GetLocale() == "deDE" then
-                            value = v2
-                        else
-                            value = v1
-                        end
-                        if not value then
-                            -- check for potion
-                            v1, v2 = match(text, Classic_Patterns.HealthPotion)
-                            if v1 and v2 then
-                                isPotion = true
-                                v1 = self:StripThousandSeparator(v1)
-                                v2 = self:StripThousandSeparator(v2)
-                                value = (tonumber(v1) + tonumber(v2)) / 2
-                            end
-                        end
-                    end
-                    if value then
-                        if type(value) ~= "number" then
-                            value = self:StripThousandSeparator(value)
-                            health = tonumber(value)
-                        else
-                            health = value
-                        end
-                    end
-                else
-                    if isBandage then
-                        if self:StringContains(text, KeyWords.Heals:lower()) then
-                            local value = match(text, Patterns.FlatDamage);
-                            if value then
-                                value = self:StripThousandSeparator(value)
-                                health = tonumber(value)
-                            end
-                        end
-                    else
-                        if self:StringContains(text, KeyWords.Restores:lower()) then
-                            local value = match(text, Patterns.PctHealth);
-                            if value then
-                                isPct = true
-                                value = self:StripThousandSeparator(value)
-                                health = (tonumber(value) / 100) -- * myhealth;
-                            else
-                                value = match(text, Patterns.FlatHealth);
-                                if value then
-                                    value = self:StripThousandSeparator(value)
-                                    health = tonumber(value)
-                                end
-                            end
-                            if health and (health > 0) and isOverTime then
-                                local overTime = match(text, Patterns.OverTime)
-                                if overTime then
-                                    health = health * tonumber(overTime)
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-
-            if isMana then
-                if IsClassic then
-                    local value, v1, v2 = nil, nil, nil
-                    v1, v2 = match(text, Classic_Patterns.Drink)
-                    if GetLocale() == "deDE" then
-                        value = v2
-                    else
-                        value = v1
-                    end
-                    if not value then
-                        -- check for potion
-                        v1, v2 = match(text, Classic_Patterns.ManaPotion)
-                        if v1 and v2 then
-                            isPotion = true
-                            v1 = self:StripThousandSeparator(v1)
-                            v2 = self:StripThousandSeparator(v2)
-                            value = (tonumber(v1) + tonumber(v2)) / 2
-                        end
-                    end
-                    if value then
-                        if type(value) ~= "number" then
-                            value = self:StripThousandSeparator(value)
-                            mana = tonumber(value)
-                        else
-                            mana = value
-                        end
-                    end
-                else
-                    if self:StringContains(text, KeyWords.Restores:lower()) then
-                        local offsetMana = 1;
-                        if isHealth then
-                            offsetMana = text:find(KeyWords.Health)
-                        end
-
-                        local value = match(text, Patterns.PctMana, offsetMana)
-                        if value then
-                            isPct = true
-                            value = self:StripThousandSeparator(value)
-                            mana = (tonumber(value) / 100) -- * mymana;
-                        else
-                            value = match(text, Patterns.FlatMana, offsetMana);
-                            if value then
-                                value = self:StripThousandSeparator(value)
-                                mana = tonumber(value)
-                            end
-                        end
-
-                        -- in some cases there is only one value for health and mana, so we need to try without the offsetMana
-                        if not value then
-                            value = match(text, Patterns.PctMana);
-                            if value then
-                                isPct = true
-                                value = self:StripThousandSeparator(value)
-                                mana = (tonumber(value) / 100) -- * mymana;
-                            else
-                                value = match(text, Patterns.FlatMana);
-                                if value then
-                                    value = self:StripThousandSeparator(value)
-                                    mana = tonumber(value)
-                                end
-                            end
-                        end
-
-                        if mana and (mana > 0) and isOverTime then
-                            local overTime = match(text, Patterns.OverTime)
-                            if overTime then
-                                mana = mana * tonumber(overTime)
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
-
-    self:StatsTimerUpdate("ParseTexts", t)
-
-    return isHealth, isMana, isConjured, isWellFed, health, mana, isPct, isPotion, isBandage
-end
-
-function Buffet:IsPlayerInInstanceId(ids)
-    local _,instanceType,_,_,_,_,_,instanceId = GetInstanceInfo()
-    if instanceId then
-        for _,v in pairs(ids) do
-            if v == instanceId then
-                return true
-            end
-        end
-    end
-    return false
-end
-
-function Buffet:IsPlayerInInstanceType(types)
-    local _,instanceType, diffId = GetInstanceInfo()
-    instanceType = instanceType or "none"
-    for _,v in pairs(types) do
-        if (v == "none" and diffId == 0 and instanceType ~= "pvp" and instanceType ~= "arena") then
-            return true
-        end
-        if (v == instanceType) then
-            return true
-        end
-    end
-    return false
-end
-
-function Buffet:IsPlayerInZoneId(ids)
-    local mapId = C_Map.GetBestMapForUnit("player");
-    if mapId then
-        repeat
-            for v in ids do
-                if v == mapId then
-                    return true
-                end
-            end
-            local mapInfo = C_Map.GetMapInfo(mapId);
-            mapId = mapInfo and mapInfo.parentMapID or 0;
-        until mapId == 0;
-    end
-    return false
-end
-
-function Buffet:IsPlayerInSubZoneName(names)
-    local currentSubZone = string.lower(GetSubZoneText())
-    if currentSubZone ~= "" then
-        local babbleSubZone = LibStub("LibBabble-SubZone-3.0"):GetUnstrictLookupTable();
-        for k,v in pairs(names) do
-            local subZone = babbleSubZone[v] -- get locale subzone name from LibBabble
-            if subZone and (subZone:lower() == currentSubZone) then
-                return true
-            end
-        end
-    end
-    return false
-end
-
-function Buffet:Edit(name, substring, food, pot, mod)
+function Core:Edit(name, substring, food, pot, mod)
     local macroid = GetMacroIndexByName(name)
     if not macroid then
         return
@@ -1078,7 +411,7 @@ function Buffet:Edit(name, substring, food, pot, mod)
     if mod then
         body = body .. "[mod,target=player] item:" .. mod .. "; "
     end
-    if self.db.combat and pot then
+    if Core.db.combat and pot then
         body = body .. "[combat] item:" .. pot .. "; "
     end
     body = body .. "item:" .. (food or "6948")
@@ -1086,6 +419,174 @@ function Buffet:Edit(name, substring, food, pot, mod)
     EditMacro(macroid, name, "INV_Misc_QuestionMark", substring:gsub("%%MACRO%%", body), 1)
 end
 
-function Buffet:Trim(s)
-    return match(s,'^()%s*$') and '' or match(s,'^%s*(.*%S)')
+function Core:SetBest(cat, id, value, stack)
+    local best = Core.bests[cat];
+    if best and id then
+        if (value > best.val) or ((value == best.val) and (best.stack > stack)) then
+            best.val = value
+            best.id = id
+            best.stack = stack
+        end
+    end
 end
+
+function Core:SlashHandler(message, editbox)
+    local _, _, cmd, args = string.find(message, "%s?(%w+)%s?(.*)")
+
+    if cmd == "combat" then
+        local combat = args or nil
+        if combat ~= nil and combat ~= "" then
+            combat = tonumber(combat)
+            Core.db.combat = (combat == 1)
+            self:QueueScan()
+        end
+        if Core.db.combat then
+            Utility.Print("combat mode: enable")
+        else
+            Utility.Print("combat mode: disable")
+        end
+    elseif cmd == "stats" then
+        Utility.Print("Session Statistics:")
+        Utility.Print("- Functions called:")
+        for k, v in pairs(Core.stats.timers) do
+            local item = v
+            local avgTime = 0
+            if v.count > 0 then
+                avgTime = v.totalTime / v.count
+            end
+            Utility.Print(string_format("  - %s: %d time(s), total time: %.5fs, average time: %.5fs", k, v.count, v.totalTime, avgTime))
+        end
+        Utility.Print("- Events raised:")
+        for k, v in pairs(Core.stats.events) do
+            Utility.Print(string_format("  - %s: %d time(s)", k, v))
+        end
+        Utility.Print("- Caches size:")
+        Utility.Print(string_format("  - %d item(s) cached", Utility.TableCount(Core.itemCache)))
+    elseif cmd == "clear" then
+        Core.scanAttempt = {}
+        Core.itemCache = {}
+        Utility.Print("Cache cleared!")
+        Utility.Print("Rescanning bags...")
+        self:QueueScan()
+    elseif cmd == "scan" then
+        Utility.Print("Scanning bags...")
+        self:QueueScan()
+    elseif cmd == "delay" then
+        local delay = args or nil
+        if delay and delay ~= "" then
+            delay = tonumber(delay)
+            if type(delay) == "number" and delay >= 0.1 and delay <= 10 then
+                Utility.Print("next scan delay set to", delay, "seconds")
+                Core.nextScanDelay = delay
+            else
+                Utility.Print("invalid value, delay must be a number between 0.1 and 10")
+            end
+        else
+            Utility.Print("next scan delay current value is", Core.nextScanDelay)
+        end
+    elseif cmd == "info" then
+        local itemString = args or nil
+        if itemString then
+            local _, itemLink = GetItemInfo(itemString)
+            if itemLink then
+                local itemId = string_match(itemLink, "item:([%d]+)")
+                if itemId then
+                    itemId = tonumber(itemId)
+                    if Core.itemCache[itemId] then
+                        local data = Core.itemCache[itemId]
+                        self:PrintItemData(itemString, data)
+                    else
+                        Utility.Print("Item " .. itemString .. ": Not in cache")
+                    end
+                end
+            end
+        else
+            Utility.Print("Invalid argument")
+        end
+    elseif cmd == "debug" then
+        local itemString = args or nil
+        if itemString then
+            local _, itemLink, _, itemLevel, _, _, _, _, _, _, _, itemClassId, itemSubClassId = GetItemInfo(itemString)
+            if itemLink then
+                local itemId = string_match(itemLink, "item:([%d]+)")
+                if itemId then
+                    itemId = tonumber(itemId)
+
+                    local texts, failedAttempt = Engine.ScanTooltip(itemLink, itemLevel)
+                    if failedAttempt then
+                        Utility.Print("Item " .. itemString .. ": ScanTooltip failed")
+                        return
+                    end
+
+                    local itemData = self:MakeNewItemData(itemId, itemClassId, itemSubClassId)
+                    itemData = Engine.ParseTexts(texts, itemData)
+
+                    self:PrintItemData(itemString, itemData)
+                    Utility.Debug(itemData)
+                end
+            end
+        else
+            Utility.Print("Invalid argument")
+        end
+    else
+        Utility.Print("Usage:")
+        Utility.Print("/buffet combat [0, 1]: 1 to enable, 0 to disable")
+        Utility.Print("/buffet clear: clear all caches")
+        Utility.Print("/buffet delay [<number>]: show or set next scan delay in seconds (default is 1.2)")
+        Utility.Print("/buffet info <itemLink>: display info about <itemLink> (if item is in cache)")
+        Utility.Print("/buffet scan: perform a manual scan of your bags")
+        Utility.Print("/buffet stats: show some internal statistics")
+        Utility.Print("/buffet debug <itemLink>: scan and display info about <itemLink> (bypass caches)")
+    end
+end
+
+function Core:PrintItemData(itemString, itemData)
+    Utility.Print("Item " .. itemString .. ":")
+    Utility.Print("- Is health: " .. Utility.BoolToStr(itemData.isHealth))
+    Utility.Print("- Is mana: " .. Utility.BoolToStr(itemData.isMana))
+    Utility.Print("- Is well fed: " .. Utility.BoolToStr(itemData.isWellFed))
+    Utility.Print("- Is conjured: " .. Utility.BoolToStr(itemData.isConjured))
+    Utility.Print("- Is percent: " .. Utility.BoolToStr(itemData.isPct))
+    if Locales.KeyWords.FoodAndDrink then
+        Utility.Print("- Is food and drink: " .. Utility.BoolToStr(itemData.isFoodAndDrink))
+    end
+    Utility.Print("- Is potion: " .. Utility.BoolToStr(itemData.isPotion))
+    Utility.Print("- Is bandage: " .. Utility.BoolToStr(itemData.isBandage))
+    Utility.Print("- Is over time: " .. Utility.BoolToStr(itemData.isOverTime))
+    local overtimeTotalHealth = ""
+    local overtimeTotalMana = ""
+    if itemData.isOverTime and itemData.overTime and (itemData.overTime > 0) then
+        if itemData.isPct then
+            overtimeTotalHealth = string_format(" per second over %d second for a total of %d%% (%d hp)", itemData.overTime, itemData.overTime * itemData.health * 100, itemData.overTime * itemData.health * Core.playerHealth)
+            overtimeTotalMana   = string_format(" per second over %d second for a total of %d%% (%d mp)", itemData.overTime, itemData.overTime * itemData.mana * 100, itemData.overTime * itemData.mana * Core.playerMana)
+        else
+            overtimeTotalHealth = string_format(" per second over %d second for a total of %d", itemData.overTime, itemData.overTime * itemData.health)
+            overtimeTotalMana = string_format(" per second over %d second for a total of %d", itemData.overTime, itemData.overTime * itemData.mana)
+        end
+    end
+    if itemData.isPct then
+        Utility.Print(string_format("- health value: %d%% (%d hp)", itemData.health * 100, itemData.health * Core.playerHealth) .. overtimeTotalHealth)
+        Utility.Print(string_format("- mana value: %d%% (%d mp)", itemData.mana * 100, itemData.mana * Core.playerMana) .. overtimeTotalMana)
+    else
+        Utility.Print(string_format("- health value: %d", itemData.health) .. overtimeTotalHealth)
+        Utility.Print(string_format("- mana value: %d", itemData.mana) .. overtimeTotalMana)
+    end
+    Utility.Print("- itemClassId: " .. itemData.itemClassId)
+    Utility.Print("- itemSubClassId: " .. itemData.itemSubClassId)
+end
+
+function Core:StatsTimerUpdate(key, t)
+    Core.stats.timers[key].count = Core.stats.timers[key].count + 1
+    local t2 = Utility.GetTime()
+    Core.stats.timers[key].totalTime = Core.stats.timers[key].totalTime + (t2 - t)
+end
+
+Buffet:RegisterEvent("ADDON_LOADED")
+
+SLASH_BUFFET1 = "/buffet"
+SlashCmdList["BUFFET"] = function(message, editbox)
+    Core:SlashHandler(message, editbox)
+end
+
+-- Export
+ns.Core = Core

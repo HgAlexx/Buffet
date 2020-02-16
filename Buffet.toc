@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Title: Buffet
 ## Notes: Food/water macro generator
 ## Author: Tekkub Stoutwrithe, mZHg
@@ -16,14 +16,28 @@ Libs\tekKonfigAboutPanel.lua
 Libs\tekKonfigHeading.lua
 Libs\tekKonfigButton.lua
 
+Utility.lua
 Const.lua
 
-Localization.enUS.lua
-Localization.deDE.lua
-Localization.esES.lua
-Localization.frFR.lua
-Localization.itIT.lua
+Retail\Localization.enUS.lua
+Retail\Localization.deDE.lua
+Retail\Localization.esES.lua
+Retail\Localization.frFR.lua
+Retail\Localization.itIT.lua
 
-DynamicDb.lua
+Classic\Localization.enUS.lua
+Classic\Localization.deDE.lua
+Classic\Localization.esES.lua
+Classic\Localization.frFR.lua
+
+Retail\ConstRetail.lua
+Retail\Retail.lua
+
+Classic\ConstClassic.lua
+Classic\Classic.lua
+
+Engine.lua
+
 Buffet.lua
+
 Config.lua
