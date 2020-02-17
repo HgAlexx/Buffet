@@ -106,7 +106,6 @@ if Utility.IsClassic then
         else
             if itemData.isHealth then
                 if itemData.isBandage then
-                    Utility.Debug(itemDescription)
                     if Utility.StringContains(itemDescription, Locales.KeyWords.Heals:lower()) then
                         -- loop on Bandage pattern here
                         itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.Bandage)
