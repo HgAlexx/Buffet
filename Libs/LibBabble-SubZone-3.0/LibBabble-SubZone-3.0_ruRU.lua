@@ -1,7 +1,7 @@
  --[[
-$Id: LibBabble-SubZone-3.0_ruRU.lua 218 2018-08-12 09:41:21Z arith $
+$Id: LibBabble-SubZone-3.0_ruRU.lua 227 2020-01-17 14:10:05Z arith $
 Name: LibBabble-SubZone-3.0
-Revision: $Rev: 218 $
+Revision: $Rev: 227 $
 Maintainers: arith
 Last updated by: $Author: arith $
 Website: http://www.wowace.com/addons/libbabble-subzone-3-0/
@@ -18,8 +18,6 @@ lib:SetCurrentTranslations
 	["7th Legion Base Camp"] = "Лагерь 7-го легиона",
 	["7th Legion Front"] = "Передовая 7-го легиона",
 	["7th Legion Submarine"] = "Подводная лодка 7-го легиона",
-	--[[Translation missing --]]
-	--[[ ["8.0 Islands - Ship - Player Alliance - Kul'Tiras Medium 01 With Gangplank"] = "8.0 Islands - Ship - Player Alliance - Kul'Tiras Medium 01 With Gangplank",--]] 
 	["A Brewing Storm"] = "Хмельная буря",
 	["A Dark Place"] = "В темноте",
 	["A Hero's Welcome"] = "\"Благодарность за отвагу\"",
@@ -110,14 +108,8 @@ lib:SetCurrentTranslations
 	["Alliance PVP Barracks"] = "Казармы Альянса",
 	["Alliance Shipyard Taxi"] = "",
 	["Alliance Submarine"] = "Подводная лодка Альянса",
-	--[[Translation missing --]]
-	--[[ ["Alliance Submarine (7.1.5 Boat Holiday)"] = "Alliance Submarine (7.1.5 Boat Holiday)",--]] 
-	--[[Translation missing --]]
-	--[[ ["Allied - Dark Iron Dwarf Unlock"] = "Allied - Dark Iron Dwarf Unlock",--]] 
 	["Allied - Highmountain Tauren Unlock"] = "Allied - Highmountain Tauren Unlock",
 	["Allied - Lightforged Draenei Unlock"] = "Allied - Lightforged Draenei Unlock",
-	--[[Translation missing --]]
-	--[[ ["Allied - Mag'har Orc Unlock"] = "Allied - Mag'har Orc Unlock",--]] 
 	["Allied - Nightborne Unlock"] = "Allied - Nightborne Unlock",
 	["Allied - Orgrimmar"] = "Allied - Orgrimmar",
 	["Allied - Stormwind"] = "Allied - Stormwind",
@@ -226,8 +218,6 @@ lib:SetCurrentTranslations
 	["Arathi Basin"] = "Низина Арати",
 	["Arathi Basin Winter"] = "Зима в Низине Арати",
 	["Arathi Highlands"] = "Нагорье Арати",
-	--[[Translation missing --]]
-	--[[ ["Arathi Highlands 2"] = "Arathi Highlands 2",--]] 
 	["Arathor's Embrace"] = "Объятия Аратора",
 	["Arbor Glen"] = "Лесистая лощина",
 	["Arcane Pinnacle"] = "Волшебный замок",
@@ -488,8 +478,6 @@ lib:SetCurrentTranslations
 	["Blackrock Caverns Entrance"] = "Пещеры Черной горы",
 	["Blackrock Depository"] = "Хранилище клана Черной горы",
 	["Blackrock Depths"] = "Глубины Черной горы",
-	--[[Translation missing --]]
-	--[[ ["Blackrock Depths - Dark Iron Dwarf Hub"] = "Blackrock Depths - Dark Iron Dwarf Hub",--]] 
 	["Blackrock Depths - Dark Iron Scenario"] = "Глубины Черной горы",
 	["Blackrock Depths Entrance"] = "Глубины Черной горы",
 	["Blackrock Foundry"] = "Литейная клана Черной горы",
@@ -619,10 +607,6 @@ lib:SetCurrentTranslations
 	["Bonetown Scenario"] = "Сценарий \"Костяной город\"",
 	["Bonetrail Gulch"] = "Костяное ущелье",
 	["Bonfire"] = "Костер",
-	--[[Translation missing --]]
-	--[[ ["Boost Experience - Alliance"] = "Boost Experience - Alliance",--]] 
-	--[[Translation missing --]]
-	--[[ ["Boost Experience - Horde"] = "Boost Experience - Horde",--]] 
 	["Bootlegger Outpost"] = "Стоянка бутлегеров",
 	["Booty Bay"] = "Пиратская Бухта",
 	["Boralus"] = "Боралус",
@@ -785,8 +769,6 @@ lib:SetCurrentTranslations
 	["Cave of the Blood Trial"] = "Пещера Кровавого Испытания",
 	["Cave of the Bloodtotem"] = "Пещера Кровавого Тотема",
 	["Cave of the Crane"] = "Пещера Журавля",
-	--[[Translation missing --]]
-	--[[ ["Cave of the Enduring"] = "Cave of the Enduring",--]] 
 	["Cave of the Undying"] = "Пещера Бессмертного",
 	["Cave of Words"] = "Пещера Слов",
 	["Cavern of Endless Echoes"] = "Пещера Бесконечного Эха",
@@ -984,8 +966,6 @@ lib:SetCurrentTranslations
 	["Cove of Nashal"] = "Залив Нашала",
 	["Covescale Rise"] = "Холм Прибрежной Чешуи",
 	["Crackling Ridge"] = "Потрескивающая гряда",
-	--[[Translation missing --]]
-	--[[ ["Crackling RidgeDELETE JDA"] = "Crackling RidgeDELETE JDA",--]] 
 	["Cradle of Chi-Ji"] = "Колыбель Чи-Цзи",
 	["Cradle of the Ancients"] = "Колыбель Древних",
 	["Craftsmen's Terrace"] = "Терраса Ремесленников",
@@ -1084,8 +1064,6 @@ lib:SetCurrentTranslations
 	["Dalaran Underbelly"] = "Клоака Даларана",
 	["Dalaran Visitor Center"] = "Гостевые покои Даларана",
 	["Dalson's Farm"] = "Ферма Далсона",
-	--[[Translation missing --]]
-	--[[ ["Damarcus_World"] = "Damarcus_World",--]] 
 	["Damp Cave"] = "Сырая пещера",
 	["Damplight Cavern"] = "Грот Затуманенного Света",
 	["Damplight Chamber"] = "Грот Затуманенного Света",
@@ -1182,8 +1160,6 @@ lib:SetCurrentTranslations
 	["Deadwood Village"] = "Деревня Мертвого Леса",
 	["Deal Farmstead"] = "Ферма Дил",
 	["Death Cultist Base Camp"] = "Лагерь сектантов Смерти",
-	--[[Translation missing --]]
-	--[[ ["Death Knight Campaign - Light's Hope Chapel"] = "Death Knight Campaign - Light's Hope Chapel",--]] 
 	["Death Knight Campaign - Scarlet Monastery"] = "Кампания рыцаря смерти – Монастырь Алого ордена",
 	["Death Knight Campaign - Undercity"] = "Кампания рыцаря смерти – Подгород",
 	["Death Knight Campaign Flight Bounds"] = "Летная площадка кампании охотника на демонов",
@@ -1205,8 +1181,6 @@ lib:SetCurrentTranslations
 	["Deathweb Hollow"] = "Лощина Смертоносной Паутины",
 	["Deathwing"] = "Смертокрыл",
 	["Deathwing's Fall"] = "Кратер Смертокрыла",
-	--[[Translation missing --]]
-	--[[ ["Debug Invasion"] = "Debug Invasion",--]] 
 	["Decaying Grotto"] = "Гнилой грот",
 	["Deceiver's Scar"] = "Шрам Искусителя",
 	["Deep Blue Observatory"] = "Глубоководная обсерватория",
@@ -1266,8 +1240,6 @@ lib:SetCurrentTranslations
 	["Destiny Unfulfilled"] = "Неисполненная судьба",
 	["Destructor's Rise"] = "Терраса Разрушителя",
 	["Detention Block"] = "Тюремный блок",
-	--[[Translation missing --]]
-	--[[ ["Dev Map - G"] = "Dev Map - G",--]] 
 	["Development Land"] = "Зона разработчика",
 	["Devoted Sanctuary"] = "Святилище преданных",
 	["Diamond Island"] = "Алмазный остров",
@@ -1426,8 +1398,6 @@ lib:SetCurrentTranslations
 	["Dustquill Ravine"] = "Лощина Пыльного Пера",
 	["Dustwallow Bay"] = "Пылевая бухта",
 	["Dustwallow Marsh"] = "Пылевые топи",
-	--[[Translation missing --]]
-	--[[ ["Dustwallow Marsh UNUSED"] = "Dustwallow Marsh UNUSED",--]] 
 	["Dustwind Cave"] = "Пещера Пыльного Ветра",
 	["Dustwind Dig"] = "Раскопки Пыльного Ветра",
 	["Dustwind Gulch"] = "Лощина Пыльного Ветра",
@@ -1686,8 +1656,6 @@ lib:SetCurrentTranslations
 	["Feltotem Caverns"] = "Пещеры Тотема Скверны",
 	["Felwatch Point"] = "Дозор Скверны",
 	["Felwing Ledge"] = "Утесы сквернокрылов",
-	--[[Translation missing --]]
-	--[[ ["Felwing Ledge - Demon Hunter Class Mount"] = "Felwing Ledge - Demon Hunter Class Mount",--]] 
 	["Felwood"] = "Оскверненный лес",
 	["Fenris Isle"] = "Остров Фенриса",
 	["Fenris Keep"] = "Крепость Фенриса",
@@ -1735,8 +1703,6 @@ lib:SetCurrentTranslations
 	["Firefly Tavern"] = "Таверна \"Светлячок\"",
 	["Firegut Furnace"] = "Очаг Огненного Чрева",
 	["Firelands"] = "Огненные Просторы",
-	--[[Translation missing --]]
-	--[[ ["Firelands - Dark Iron Dwarf"] = "Firelands - Dark Iron Dwarf",--]] 
 	["Firelands Forgeworks"] = "Кузня Огненных Просторов",
 	["Firelands Hatchery"] = "Инкубатор Огненных Просторов",
 	["Firelands Terrain 2"] = "Рельеф Огненных Просторов",
@@ -1848,8 +1814,6 @@ lib:SetCurrentTranslations
 	["Fox Grove"] = "Лисья роща",
 	["Foxhollow Woods"] = "Лисья лощина",
 	["Fractured Front"] = "Разбитая передовая",
-	--[[Translation missing --]]
-	--[[ ["Francesco test - internal only"] = "Francesco test - internal only",--]] 
 	["Fray Island"] = "Остров Битв",
 	["Frayfeather Highlands"] = "Высокогорье Блеклых Перьев",
 	["Frazzlecraz Motherlode"] = "Шахтерский городок Дранфикса",
@@ -2007,8 +1971,6 @@ lib:SetCurrentTranslations
 	["Giant's Fall"] = "Падение Великана",
 	["Giant's Run"] = "Тропа великанов",
 	["Giants' Run"] = "Тропа Великанов",
-	--[[Translation missing --]]
-	--[[ ["Gilded Docks of Zak'rajan DELETE JDA"] = "Gilded Docks of Zak'rajan DELETE JDA",--]] 
 	["Gilded Fan"] = "Золоченый Веер",
 	["Gillijim's Isle"] = "Остров Гиллиджима",
 	["Gilnean Coast"] = "Побережье Гилнеаса",
@@ -2055,8 +2017,6 @@ lib:SetCurrentTranslations
 	["Gnomish Gearworks"] = "Мастерская гномов",
 	["Goblin Foundry"] = "Гоблинский цех",
 	["Goblin Mine"] = "Рудник гоблинов",
-	--[[Translation missing --]]
-	--[[ ["Goblin Ship Final"] = "Goblin Ship Final",--]] 
 	["Goblin Slums"] = "Гоблинские трущобы",
 	["Goblin Workshop"] = "Мастерская гоблинов",
 	["Gobline Mine"] = "Рудник гоблинов",
@@ -2377,7 +2337,7 @@ lib:SetCurrentTranslations
 	["Hellfire Citadel: Ramparts"] = "Цитадель Адского Пламени: бастионы",
 	["Hellfire Citadel: The Blood Furnace"] = "Цитадель Адского Пламени: Кузня Крови",
 	["Hellfire Citadel: The Shattered Halls"] = "Цитадель Адского Пламени: Разрушенные залы",
-	["Hellfire Peninsula"] = "Полуостров Адского Пламени - Темный портал",
+	["Hellfire Peninsula"] = "Полуостров Адского Пламени",
 	["Hellfire Peninsula - Force Camp Beach Head"] = "Полуостров Адского Пламени - Береговой плацдарм Силового Лагеря",
 	["Hellfire Peninsula - Reaver's Fall"] = "Полуостров Адского Пламени - Гибель Сквернобота",
 	["Hellfire Ramparts"] = "Бастионы Адского Пламени",
@@ -2394,8 +2354,6 @@ lib:SetCurrentTranslations
 	["Helya's Throne"] = "Трон Хелии",
 	["Hemet's Happy Hunting Grounds"] = "Охотничьи угодья Хеминга",
 	["Herb Garden"] = "Травяной сад",
-	--[[Translation missing --]]
-	--[[ ["Hero Stage LD Demo Area"] = "Hero Stage LD Demo Area",--]] 
 	["Heroes' Rest"] = "Вечный покой героев",
 	["Heroes' Vigil"] = "Часовые Вечности",
 	["Hero's Rest Inn"] = "Таверна \"Отдых героя\"",
@@ -2415,8 +2373,6 @@ lib:SetCurrentTranslations
 	["Hidey-Hole"] = "Укрытие",
 	["High Bank"] = "Высокий берег",
 	["High Inquisitor's Lair"] = "Обитель верховного инквизитора",
-	--[[Translation missing --]]
-	--[[ ["High Mountain Mesa Scenario"] = "High Mountain Mesa Scenario",--]] 
 	["High Mountain Scenario"] = "Сценарий Крутогорья",
 	["High Perch"] = "Гнездо",
 	["High Wilderness"] = "Высокогорные дебри",
@@ -2673,8 +2629,6 @@ lib:SetCurrentTranslations
 	["Jintha'kalar"] = "Джинта'калар",
 	["Jintha'kalar Passage"] = "Джинта'каларский проход",
 	["Jorundall"] = "Джорундал",
-	--[[Translation missing --]]
-	--[[ ["Jorundall (Islands 7)"] = "Jorundall (Islands 7)",--]] 
 	["Jorune Mine"] = "Иорунская шахта",
 	["Jotunheim"] = "Йотунхейм",
 	["Jotunnwood"] = "Лес йотунов",
@@ -2693,8 +2647,6 @@ lib:SetCurrentTranslations
 	["Karabor Harbor"] = "Гавань Карабора",
 	["Karabor Sewers"] = "Канализация",
 	["K'arani Terrace"] = "Терраса К'арани",
-	--[[Translation missing --]]
-	--[[ ["Karazan Chess"] = "Karazan Chess",--]] 
 	["Karazhan"] = "Каражан",
 	["Karazhan Catacombs"] = "Катакомбы Каражана",
 	["Kargathar Proving Grounds"] = "Каргатар",
@@ -2864,8 +2816,6 @@ lib:SetCurrentTranslations
 	["Lernaean Shore"] = "Лернейский берег",
 	["Lernaen Shore"] = "Лернейский берег",
 	["Lethlor Ravine"] = "Долина Летлор",
-	--[[Translation missing --]]
-	--[[ ["Level Design Land"] = "Level Design Land",--]] 
 	["Level Design Land - Dev Only"] = "Level Design Land - Dev Only",
 	["Ley Station Aethenar"] = "Силовая станция Этенар",
 	["Ley Station Anora"] = "Силовая станция Анора",
@@ -2932,8 +2882,6 @@ lib:SetCurrentTranslations
 	["Lord Admiral's Rest"] = "Мемориал лорда-адмирала",
 	["Lord Ravencrest's Chamber"] = "Комната лорда Гребня Ворона",
 	["Lordaeron"] = "Лордерон",
-	--[[Translation missing --]]
-	--[[ ["Lordaeron Blight"] = "Lordaeron Blight",--]] 
 	["Lordamere Internment Camp"] = "Лордамерские выселки",
 	["Lordamere Lake"] = "Озеро Лордамер",
 	["Lor'danel"] = "Лор'данел",
@@ -3054,8 +3002,6 @@ lib:SetCurrentTranslations
 	["Mardum Treasure Scenario"] = "Сценарий \"Сокровище Мардума\"",
 	["Mardum, the Shattered Abyss"] = "Мардум, Расколотая Бездна",
 	["Mar'gok's Overwatch"] = "Бастион Мар'гока",
-	--[[Translation missing --]]
-	--[[ ["Margoss' Retreat"] = "Margoss' Retreat",--]] 
 	["Margoss's Retreat"] = "Хижина Маргосса",
 	["Mariner's Row"] = "Улица мореходов",
 	["Mariner's Strand"] = "Берег мореходов",
@@ -3143,8 +3089,6 @@ lib:SetCurrentTranslations
 	["Mizjah Ruins"] = "Руины Мизжа",
 	["Moa'ki"] = "Моа'ки",
 	["Moa'ki Harbor"] = "Гавань Моа'ки",
-	--[[Translation missing --]]
-	--[[ ["Model Size Land"] = "Model Size Land",--]] 
 	["Moggle Point"] = "Вершина Моггл",
 	["Mo'grosh Stronghold"] = "Оплот Мо'грош",
 	["Mogu Island Daily Area"] = "Mogu Island Daily Area",
@@ -3520,8 +3464,6 @@ lib:SetCurrentTranslations
 	["Paledoom's Overlook"] = "Дозорный пункт Бледной Смерти",
 	["Palemane Rock"] = "Утес Бледногривов",
 	["Paletide Den"] = "Логово Бледного Прилива",
-	--[[Translation missing --]]
-	--[[ ["Pandaren Farm Dev"] = "Pandaren Farm Dev",--]] 
 	["Pandaren Mine"] = "Рудник пандаренов",
 	["Pandaria"] = "Пандария",
 	["Pandemonium"] = "Черный храм – Legion",
@@ -3688,8 +3630,6 @@ lib:SetCurrentTranslations
 	["Rainspeaker Canopy"] = "Прибежище Гласа Дождя",
 	["Rainspeaker Rapids"] = "Водопады Гласа Дождя",
 	["Rakjan's Peak"] = "Пик Ракжана",
-	--[[Translation missing --]]
-	--[[ ["Rak'jan's Perch DELETE JDA"] = "Rak'jan's Perch DELETE JDA",--]] 
 	["Ramkahen"] = "Рамкахен",
 	["Ramkahen Legion Outpost"] = "Застава рамкахенов",
 	["Rampart of Skulls"] = "Черепной вал",
@@ -3837,8 +3777,6 @@ lib:SetCurrentTranslations
 	["Riverbend"] = "Речной Рог",
 	["River's Heart"] = "Слияние рек",
 	["Riverside Post"] = "Речной лагерь",
-	--[[Translation missing --]]
-	--[[ ["RiverZone_Art"] = "RiverZone_Art",--]] 
 	["Roaring Highland"] = "Ревущее нагорье",
 	["Rock of Durotan"] = "Обелиск Дуротана",
 	["Rock Spire"] = "Каменный шпиль",
@@ -4337,8 +4275,6 @@ lib:SetCurrentTranslations
 	["Shrouded Hollow"] = "Туманная пещера",
 	["Shrouded Shore"] = "Маревый берег",
 	["Shuddering Spires"] = "Дрожащие Вершины",
-	--[[Translation missing --]]
-	--[[ ["ShwayderLand"] = "ShwayderLand",--]] 
 	["SI:7"] = "ШРУ",
 	["Siege of Boralus"] = "Осада Боралуса",
 	["Siege of Niuzao Temple"] = "Осада храма Нюцзао",
@@ -4683,10 +4619,6 @@ lib:SetCurrentTranslations
 	["Stormfeather Outpost"] = "Лагерь Грозового Крыла",
 	["Stormglen Village"] = "Грозовой Перевал",
 	["Stormheim"] = "Штормхейм",
-	--[[Translation missing --]]
-	--[[ ["Stormheim Prescenario Skyfire"] = "Stormheim Prescenario Skyfire",--]] 
-	--[[Translation missing --]]
-	--[[ ["Stormheim Prescenario Windrunner"] = "Stormheim Prescenario Windrunner",--]] 
 	["Stormpike Graveyard"] = "Кладбище Грозовой Вершины",
 	["Stormrage Barrow Dens"] = "Кельи Малфуриона",
 	["Storm's Eye Overlook"] = "Утес Глаза Бури",
@@ -4715,8 +4647,6 @@ lib:SetCurrentTranslations
 	["Stormwind City Cemetery"] = "Городское кладбище Штормграда",
 	["Stormwind City Outskirts"] = "Окраины Штормграда",
 	["Stormwind Embassy"] = "Посольство союзников Альянса",
-	--[[Translation missing --]]
-	--[[ ["Stormwind Escape from Stockades"] = "Stormwind Escape from Stockades",--]] 
 	["Stormwind Gate"] = "Ворота Штормграда",
 	["Stormwind Gunship Pandaria Start Area"] = "Stormwind Gunship Pandaria Start Area",
 	["Stormwind Harbor"] = "Порт Штормграда",
@@ -4918,8 +4848,6 @@ lib:SetCurrentTranslations
 	["Temple of Invention"] = "Храм Изобретений",
 	["Temple of Karabor"] = "Храм Карабор",
 	["Temple of Kimbul"] = "Храм Кимбула",
-	--[[Translation missing --]]
-	--[[ ["Temple of Kimbul - DO NOT USE"] = "Temple of Kimbul - DO NOT USE",--]] 
 	["Temple of Kotmogu"] = "Храм Котмогу",
 	["Temple of Life"] = "Храм Жизни",
 	["Temple of Order"] = "Храм Порядка",
@@ -4980,10 +4908,6 @@ lib:SetCurrentTranslations
 	["Terrorweb Tunnel"] = "Туннель Ужаса",
 	["TEST"] = "ТЕСТ",
 	["Test Dungeon"] = "",
-	--[[Translation missing --]]
-	--[[ ["Test Faction Criteria"] = "Test Faction Criteria",--]] 
-	--[[Translation missing --]]
-	--[[ ["Test Scenario"] = "Test Scenario",--]] 
 	["Tethris Aran"] = "Тефрис-Аран",
 	["Thaelin's Hideout"] = "Укрытие Телина",
 	["Thaelin's Workshop"] = "Мастерская Телина",
@@ -5347,8 +5271,6 @@ lib:SetCurrentTranslations
 	["The Eye"] = "Око",
 	["The Eye of Azshara"] = "Око Азшары",
 	["The Eye of Eternity"] = "Око Вечности",
-	--[[Translation missing --]]
-	--[[ ["The Eye of Eternity - Scenario"] = "The Eye of Eternity - Scenario",--]] 
 	["The Eye of the Vortex"] = "Око Урагана",
 	["The Fall of Shan Bu"] = "Падение Шань-Бу",
 	["The Fallen Outpost"] = "Павшая застава",
@@ -5441,8 +5363,6 @@ lib:SetCurrentTranslations
 	["The Golden Plains"] = "Золотые равнины",
 	["The Golden Road"] = "Золотой Путь",
 	["The Golden Rose"] = "Золотая Роза",
-	--[[Translation missing --]]
-	--[[ ["The Golden Skipper - Zandalari Transport Ship"] = "The Golden Skipper - Zandalari Transport Ship",--]] 
 	["The Golden Stair"] = "Золотая лестница",
 	["The Golden Terrace"] = "Золотая терраса",
 	["The Gong of Hope"] = "Гонг Надежды",
@@ -5463,10 +5383,6 @@ lib:SetCurrentTranslations
 	["The Great Mead Hall"] = "Великий медовый зал",
 	["The Great Ossuary"] = "Главный склеп",
 	["The Great Sea"] = "Великое море",
-	--[[Translation missing --]]
-	--[[ ["The Great Sea Alliance"] = "The Great Sea Alliance",--]] 
-	--[[Translation missing --]]
-	--[[ ["The Great Sea Horde"] = "The Great Sea Horde",--]] 
 	["The Great Seal"] = "Великая Печать",
 	["The Great Tree"] = "Великое Древо",
 	["The Great Wheel"] = "Водяное колесо",
@@ -6367,16 +6283,12 @@ lib:SetCurrentTranslations
 	["Transport: Horde Gunship (IGB)"] = "Транспорт: боевой корабль Орды (IGB)",
 	["Transport: HordeAirshipBG"] = "Transport: HordeAirshipBG",
 	["Transport: Howling Fjord Sister Mercy (Quest)"] = "Перевозка: Сестры милосердия Ревущего фьорда (задание)",
-	--[[Translation missing --]]
-	--[[ ["Transport: Kul Tiras - Bridgeport - The Maiden's Virtue"] = "Transport: Kul Tiras - Bridgeport - The Maiden's Virtue",--]] 
 	["Transport: Menethil to Auberdine"] = "Перевозка: из Менетила в Аубердин",
 	["Transport: Menethil to Theramore"] = "Перевозка: из Менетила на Терамор",
 	["Transport: Menethil to Valgarde"] = "Транспорт: из Менетила к Вангарду",
 	["Transport: Moa'ki to Kamagua"] = "Транспорт: из Моа'ки в Камагуа",
 	["Transport: Moa'ki to Unu'pe"] = "Транспорт: из Моа'ки в Уну'пе",
 	["Transport: Naglfar"] = "Перевозка: Нагльфар",
-	--[[Translation missing --]]
-	--[[ ["Transport: Nazmir Raid Elevator"] = "Transport: Nazmir Raid Elevator",--]] 
 	["Transport: Onyxia/Nefarian Elevator"] = "Транспорт: подъемник от Ониксии к Нефариану",
 	["Transport: Orgrimmar to Grom'Gol"] = "Перевозка: из Оргриммара в Гром'гол",
 	["Transport: Orgrimmar to Thunder Bluff"] = "Транспорт: из Оргриммара в Громовой Утес",
@@ -6396,8 +6308,6 @@ lib:SetCurrentTranslations
 	["Transport: The Skybreaker (Icecrown Citadel Raid)"] = "Транспорт: \"Усмиритель небес\" (рейды в цитадели Ледяной Короны)",
 	["Transport: Tirisfal to Vengeance Landing"] = "Транспорт: из Тирисфаля к Лагерю Возмездия",
 	["Transport: Undercity to Orgrimmar"] = "Перевозка: из Подгорода в Оргриммар",
-	--[[Translation missing --]]
-	--[[ ["Transport: WarfrontBarrensGunship"] = "Transport: WarfrontBarrensGunship",--]] 
 	["Transport: Wavemurder Barge"] = "Transport: Wavemurder Barge",
 	["Transport: Zandalari Ship (Mogu Island)"] = "Transport: Zandalari Ship (Mogu Island)",
 	["Trasnport: The Mighty Wind (Icecrown Citadel Raid)"] = "Транспорт: \"Могучий ветер\" (Цитадель Ледяной Короны, рейд)",
@@ -6423,8 +6333,6 @@ lib:SetCurrentTranslations
 	["Troll War Camp Outskirts"] = "Окраины военного лагеря троллей",
 	["Trollbane Hall"] = "Зал Троллебоя",
 	["Trophy Hall"] = "Зал трофеев",
-	--[[Translation missing --]]
-	--[[ ["Tropical Isle 8.0"] = "Tropical Isle 8.0",--]] 
 	["Troves of the Thunder King"] = "Сокровищница Властелина Грома",
 	["Trueshot Lodge"] = "Приют Стрелка",
 	["Trueshot Point"] = "Лагерь Меткого Выстрела",
@@ -6663,8 +6571,6 @@ lib:SetCurrentTranslations
 	["Verrall River"] = "Река Вералл",
 	["Vestibule of the Faithless"] = "Зал отступников",
 	["Vestibule of the Silver Hand"] = "Зал Серебряной Длани",
-	--[[Translation missing --]]
-	--[[ ["VictorCortisLand"] = "VictorCortisLand",--]] 
 	["Victor's Point"] = "Лагерь Победителя",
 	["Vigil Hill"] = "Дозорный Холм",
 	["Vile Cavern"] = "Пещера Злобы",
@@ -6739,12 +6645,8 @@ lib:SetCurrentTranslations
 	["Warden's Vigil"] = "Пост Стража",
 	["Warder's Hollow"] = "Ложбина Привратника",
 	["Warfang Hold"] = "Крепость Клыка Войны",
-	--[[Translation missing --]]
-	--[[ ["Warfront Barrens"] = "Warfront Barrens",--]] 
 	["Warfronts Arathi - Alliance"] = "Фронт Арати (Альянс)",
 	["Warfronts Arathi - Horde"] = "Фронт Арати (Орда)",
-	--[[Translation missing --]]
-	--[[ ["Warfronts Prototype"] = "Warfronts Prototype",--]] 
 	["Warfronts Prototype Main"] = "Warfronts Prototype Main",
 	["Warlock Area"] = "Warlock Area",
 	["Warmaul Hill"] = "Холм Боевого Молота",
@@ -7016,21 +6918,13 @@ lib:SetCurrentTranslations
 	["Zabra'jin"] = "Забра'джин",
 	["Zaetar's Choice"] = "Выбор Зейтара",
 	["Zaetar's Grave"] = "Могила Зейтара",
-	--[[Translation missing --]]
-	--[[ ["Zak'rajan's Throne Room DELETE JDA"] = "Zak'rajan's Throne Room DELETE JDA",--]] 
 	["Zal'amak"] = "Зал'амак",
 	["Zalamar"] = "Заламар",
 	["Zalashji's Den"] = "Логово Залашьи",
 	["Zalazane's Fall"] = "Падение Залазана",
 	["Zanchul"] = "Занчул",
 	["Zandalar"] = "Зандалар",
-	--[[Translation missing --]]
-	--[[ ["Zandalar Continent Finale"] = "Zandalar Continent Finale",--]] 
-	--[[Translation missing --]]
-	--[[ ["Zandalari Battleship - Gral's Call"] = "Zandalari Battleship - Gral's Call",--]] 
 	["Zandalari Flagship"] = "Зандаларский флагман",
-	--[[Translation missing --]]
-	--[[ ["Zandalari Transport Ship Large"] = "Zandalari Transport Ship Large",--]] 
 	["Zane's Eye Crater"] = "Око Зейна",
 	["Zangar Ridge"] = "Гряда Зангара",
 	["Zangar Sea"] = "Зангарское море",
@@ -7074,8 +6968,6 @@ lib:SetCurrentTranslations
 	["Zul'Ahjin"] = "Зул'Аджин",
 	["Zul'Aman"] = "Зул'Аман",
 	["Zuldazar"] = "Зулдазар",
-	--[[Translation missing --]]
-	--[[ ["Zuldazar Alliance Bombing Run"] = "Zuldazar Alliance Bombing Run",--]] 
 	["Zul'Drak"] = "Зул'Драк",
 	["Zul'Farrak"] = "Зул'Фаррак",
 	["Zul'Farrak Entrance"] = "Вход в Зул'Фаррак",

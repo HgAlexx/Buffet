@@ -25,7 +25,8 @@ ConstRetail.ValidItemClasses = {
     {ConstRetail.ItemClasses.Miscellaneous, ConstRetail.ItemMiscellaneousSubClasses.Reagent},
 }
 
--- https://wow.gamepedia.com/MapID
+-- InstanceId: https://wow.gamepedia.com/InstanceID
+-- uiMapId: https://wow.gamepedia.com/UiMapID
 ConstRetail.Restrictions = {
     [32902] = { -- Bottled Nethergon Energy
         inInstanceIds = { 550, 552, 553, 554, }, -- Tempest Keep instances
@@ -72,6 +73,17 @@ ConstRetail.Restrictions = {
     [140352] = { -- Dreamberries
         inInstanceIds = { 1220, 1669 }, -- Broken Isles, Argus
         inInstanceTypes = { "none" },
+    },
+
+    [174351] = { -- K’Bab:
+        inMapIds = {
+            -- 1379 -- Visions of N'Zoth - TO BE TESTED
+        },
+        inInstanceIds = {
+            -- 2156 -- Visions of N'Zoth - TO BE TESTED
+            -- 2212 -- Horrific Vision of Orgrimmar - TO BE TESTED
+            -- 2213 -- Horrific Vision of Stormwind - TO BE TESTED
+        }
     },
 }
 

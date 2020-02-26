@@ -18,7 +18,8 @@ ConstClassic.ValidItemClasses = {
     {ConstClassic.ItemClasses.Consumable, ConstClassic.ItemConsumableSubClasses.Potion},
 }
 
--- https://wow.gamepedia.com/MapID
+-- InstanceId: https://wow.gamepedia.com/InstanceID
+-- uiMapId: https://wow.gamepedia.com/UiMapID/Classic
 ConstClassic.Restrictions = {
     [19307] = { -- Alterac Heavy Runecloth Bandage
         inInstanceIds = { 30 }, -- Alterac Valley

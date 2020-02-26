@@ -146,6 +146,9 @@ if Utility.IsClassic then
             if not isRestricted and ConstClassic.Restrictions[itemId].inInstanceIds then
                 isRestricted = not Utility.IsPlayerInInstanceId(ConstClassic.Restrictions[itemId].inInstanceIds)
             end
+            if not isRestricted and ConstClassic.Restrictions[itemId].inMapIds then
+                isRestricted = not Utility.IsPlayerInMapId(ConstClassic.Restrictions[itemId].inMapIds)
+            end
             if not isRestricted and ConstClassic.Restrictions[itemId].inInstanceTypes then
                 isRestricted = not Utility.IsPlayerInInstanceType(ConstClassic.Restrictions[itemId].inInstanceTypes)
             end

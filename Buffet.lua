@@ -101,6 +101,8 @@ function Buffet:PLAYER_LOGIN()
     self:RegisterEvent("UNIT_MAXHEALTH")
     self:RegisterEvent("UNIT_MAXPOWER")
     self:RegisterEvent("ZONE_CHANGED")
+    self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+
 
     self.PLAYER_LOGIN = nil
 
@@ -158,6 +160,9 @@ end
 function Buffet:ZONE_CHANGED()
     Core.stats.events["ZONE_CHANGED"] = Core.stats.events["ZONE_CHANGED"] + 1
     Core:QueueScan()
+end
+function Buffet:ZONE_CHANGED_NEW_AREA()
+    Buffet:ZONE_CHANGED()
 end
 
 function Buffet:BAG_UPDATE_DELAYED()
@@ -522,12 +527,20 @@ function Core:SlashHandler(message, editbox)
                     itemData = Engine.ParseTexts(texts, itemData)
 
                     self:PrintItemData(itemString, itemData)
+
+                    local isRestricted = Engine.CheckRestriction(itemId)
+                    Utility.Debug("- IsRestricted:", Utility.BoolToStr(isRestricted))
+
                     Utility.Debug(itemData)
                 end
             end
         else
             Utility.Print("Invalid argument")
         end
+--@debug@
+    elseif cmd == "showzone" then
+        Utility.ShowPlayerZoneInfo()
+--@end-debug@
     else
         Utility.Print("Usage:")
         Utility.Print("/buffet combat [0, 1]: 1 to enable, 0 to disable")

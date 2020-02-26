@@ -1,7 +1,7 @@
  --[[
-$Id: LibBabble-SubZone-3.0_koKR.lua 218 2018-08-12 09:41:21Z arith $
+$Id: LibBabble-SubZone-3.0_koKR.lua 227 2020-01-17 14:10:05Z arith $
 Name: LibBabble-SubZone-3.0
-Revision: $Rev: 218 $
+Revision: $Rev: 227 $
 Maintainers: arith
 Last updated by: $Author: arith $
 Website: http://www.wowace.com/addons/libbabble-subzone-3-0/
@@ -18,8 +18,6 @@ lib:SetCurrentTranslations
 	["7th Legion Base Camp"] = "7군단 주둔지",
 	["7th Legion Front"] = "7군단 전초지",
 	["7th Legion Submarine"] = "7군단 잠수함",
-	--[[Translation missing --]]
-	--[[ ["8.0 Islands - Ship - Player Alliance - Kul'Tiras Medium 01 With Gangplank"] = "8.0 Islands - Ship - Player Alliance - Kul'Tiras Medium 01 With Gangplank",--]] 
 	["A Brewing Storm"] = "양조 폭풍",
 	["A Dark Place"] = "어두운 곳",
 	["A Hero's Welcome"] = "영웅의 쉼터 여관",
@@ -111,12 +109,8 @@ lib:SetCurrentTranslations
 	["Alliance Shipyard Taxi"] = "얼라이언스 조선소 비행 경로",
 	["Alliance Submarine"] = "얼라이언스 잠수함",
 	["Alliance Submarine (7.1.5 Boat Holiday)"] = "얼라이언스 잠수함",
-	--[[Translation missing --]]
-	--[[ ["Allied - Dark Iron Dwarf Unlock"] = "Allied - Dark Iron Dwarf Unlock",--]] 
 	["Allied - Highmountain Tauren Unlock"] = "동맹 - 높은산 타우렌 잠금 해제",
 	["Allied - Lightforged Draenei Unlock"] = "동맹 - 빛벼림 드레나이 잠금 해제",
-	--[[Translation missing --]]
-	--[[ ["Allied - Mag'har Orc Unlock"] = "Allied - Mag'har Orc Unlock",--]] 
 	["Allied - Nightborne Unlock"] = "동먕 - 나이트본 잠금 해제",
 	["Allied - Orgrimmar"] = "동맹 - 오그리마",
 	["Allied - Stormwind"] = "동맹 - 스톰윈드",
@@ -149,7 +143,7 @@ lib:SetCurrentTranslations
 	["Amani Catacombs"] = "아마니 지하묘지",
 	["Amani Mountains"] = "아마니 산맥",
 	["Amani Pass"] = "아마니 고개",
-	["Amber Ledge"] = "호박석 절벽 - 북풍의 땅",
+	["Amber Ledge"] = "호박석 절벽",
 	["Amber Quarry"] = "호박석 채석장",
 	["Amber Research Sanctum"] = "호박석 연구 성소",
 	["Amberfall Mesa"] = "호박석내림 고원",
@@ -616,10 +610,6 @@ lib:SetCurrentTranslations
 	["Bonetown Scenario"] = "뼛조각 마을 시나리오",
 	["Bonetrail Gulch"] = "뼛길 협곡",
 	["Bonfire"] = "화톳불",
-	--[[Translation missing --]]
-	--[[ ["Boost Experience - Alliance"] = "Boost Experience - Alliance",--]] 
-	--[[Translation missing --]]
-	--[[ ["Boost Experience - Horde"] = "Boost Experience - Horde",--]] 
 	["Bootlegger Outpost"] = "밀조장이 전초기지",
 	["Booty Bay"] = "무법항",
 	["Boralus"] = "보랄러스",
@@ -782,8 +772,6 @@ lib:SetCurrentTranslations
 	["Cave of the Blood Trial"] = "핏빛 시험의 동굴",
 	["Cave of the Bloodtotem"] = "핏빛토템의 동굴",
 	["Cave of the Crane"] = "주학의 동굴",
-	--[[Translation missing --]]
-	--[[ ["Cave of the Enduring"] = "Cave of the Enduring",--]] 
 	["Cave of the Undying"] = "죽지 않는 자의 동굴",
 	["Cave of Words"] = "이야기의 동굴",
 	["Cavern of Endless Echoes"] = "끝없는 메아리의 동굴",
@@ -981,8 +969,6 @@ lib:SetCurrentTranslations
 	["Cove of Nashal"] = "나샬의 만",
 	["Covescale Rise"] = "해만비늘 마루",
 	["Crackling Ridge"] = "갈라지는 마루",
-	--[[Translation missing --]]
-	--[[ ["Crackling RidgeDELETE JDA"] = "Crackling RidgeDELETE JDA",--]] 
 	["Cradle of Chi-Ji"] = "츠지의 요람",
 	["Cradle of the Ancients"] = "고대정령의 요람",
 	["Craftsmen's Terrace"] = "장인의 정원",
@@ -1081,8 +1067,6 @@ lib:SetCurrentTranslations
 	["Dalaran Underbelly"] = "달라란 마법의 뒤안길",
 	["Dalaran Visitor Center"] = "달라란 관광 안내소",
 	["Dalson's Farm"] = "달슨 농장",
-	--[[Translation missing --]]
-	--[[ ["Damarcus_World"] = "Damarcus_World",--]] 
 	["Damp Cave"] = "축축한 동굴",
 	["Damplight Cavern"] = "안개빛 동굴",
 	["Damplight Chamber"] = "안개빛 방",
@@ -1420,8 +1404,6 @@ lib:SetCurrentTranslations
 	["Dustquill Ravine"] = "먼지깃 협곡",
 	["Dustwallow Bay"] = "먼지진흙 만",
 	["Dustwallow Marsh"] = "먼지진흙 습지대",
-	--[[Translation missing --]]
-	--[[ ["Dustwallow Marsh UNUSED"] = "Dustwallow Marsh UNUSED",--]] 
 	["Dustwind Cave"] = "먼지바람 동굴",
 	["Dustwind Dig"] = "먼지바람 발굴지",
 	["Dustwind Gulch"] = "먼지바람 협곡",
@@ -1840,8 +1822,6 @@ lib:SetCurrentTranslations
 	["Fox Grove"] = "여우 숲",
 	["Foxhollow Woods"] = "여우굴 숲",
 	["Fractured Front"] = "무너진 전초지",
-	--[[Translation missing --]]
-	--[[ ["Francesco test - internal only"] = "Francesco test - internal only",--]] 
 	["Fray Island"] = "격투의 섬",
 	["Frayfeather Highlands"] = "공작날개 고원",
 	["Frazzlecraz Motherlode"] = "프라즐크라즈 광맥",
@@ -1999,8 +1979,6 @@ lib:SetCurrentTranslations
 	["Giant's Fall"] = "거인의 추락지",
 	["Giant's Run"] = "거인의 터",
 	["Giants' Run"] = "거인의 터",
-	--[[Translation missing --]]
-	--[[ ["Gilded Docks of Zak'rajan DELETE JDA"] = "Gilded Docks of Zak'rajan DELETE JDA",--]] 
 	["Gilded Fan"] = "금빛 선상지",
 	["Gillijim's Isle"] = "길리짐의 섬",
 	["Gilnean Coast"] = "길니아스 해안",
@@ -2368,7 +2346,7 @@ lib:SetCurrentTranslations
 	["Hellfire Citadel: Ramparts"] = "지옥불 성채: 지옥불 성루",
 	["Hellfire Citadel: The Blood Furnace"] = "지옥불 성채: 피의 용광로",
 	["Hellfire Citadel: The Shattered Halls"] = "지옥불 성채: 으스러진 손의 전당",
-	["Hellfire Peninsula"] = "어둠의 문",
+	["Hellfire Peninsula"] = "지옥불 반도",
 	["Hellfire Peninsula - Force Camp Beach Head"] = "교두보 거점",
 	["Hellfire Peninsula - Reaver's Fall"] = "지옥절단기 함락지",
 	["Hellfire Ramparts"] = "지옥불 성루",
@@ -2385,8 +2363,6 @@ lib:SetCurrentTranslations
 	["Helya's Throne"] = "헬리아의 왕좌",
 	["Hemet's Happy Hunting Grounds"] = "헤멧의 신바람 나는 사냥터",
 	["Herb Garden"] = "약초밭",
-	--[[Translation missing --]]
-	--[[ ["Hero Stage LD Demo Area"] = "Hero Stage LD Demo Area",--]] 
 	["Heroes' Rest"] = "영웅의 안식처",
 	["Heroes' Vigil"] = "수호영웅의 안식처",
 	["Hero's Rest Inn"] = "영웅의 쉼터 여관",
@@ -3128,8 +3104,6 @@ lib:SetCurrentTranslations
 	["Mizjah Ruins"] = "미즈자 폐허",
 	["Moa'ki"] = "모아키 항구",
 	["Moa'ki Harbor"] = "모아키 항구",
-	--[[Translation missing --]]
-	--[[ ["Model Size Land"] = "Model Size Land",--]] 
 	["Moggle Point"] = "모글 야영지",
 	["Mo'grosh Stronghold"] = "모그로쉬 소굴",
 	["Mogu Island Daily Area"] = "모구 섬 일일 퀘스트 지역",
@@ -3505,8 +3479,6 @@ lib:SetCurrentTranslations
 	["Paledoom's Overlook"] = "페일둠의 전망대",
 	["Palemane Rock"] = "회색갈기 바위굴",
 	["Paletide Den"] = "창백파도 우리",
-	--[[Translation missing --]]
-	--[[ ["Pandaren Farm Dev"] = "Pandaren Farm Dev",--]] 
 	["Pandaren Mine"] = "판다렌 광산",
 	["Pandaria"] = "판다리아",
 	["Pandemonium"] = "혼돈지",
@@ -3673,8 +3645,6 @@ lib:SetCurrentTranslations
 	["Rainspeaker Canopy"] = "구름몰이 거처",
 	["Rainspeaker Rapids"] = "구름몰이 여울목",
 	["Rakjan's Peak"] = "라크잔의 봉우리",
-	--[[Translation missing --]]
-	--[[ ["Rak'jan's Perch DELETE JDA"] = "Rak'jan's Perch DELETE JDA",--]] 
 	["Ramkahen"] = "람카헨",
 	["Ramkahen Legion Outpost"] = "람카헨 군단 전초기지",
 	["Rampart of Skulls"] = "해골 망루",
@@ -3822,8 +3792,6 @@ lib:SetCurrentTranslations
 	["Riverbend"] = "강굽이",
 	["River's Heart"] = "강의 심장부",
 	["Riverside Post"] = "강기슭 초소",
-	--[[Translation missing --]]
-	--[[ ["RiverZone_Art"] = "RiverZone_Art",--]] 
 	["Roaring Highland"] = "포효하는 고원",
 	["Rock of Durotan"] = "듀로탄 바위",
 	["Rock Spire"] = "바위탑",
@@ -4667,10 +4635,6 @@ lib:SetCurrentTranslations
 	["Stormfeather Outpost"] = "폭풍깃털 전초기지",
 	["Stormglen Village"] = "폭풍협곡 마을",
 	["Stormheim"] = "스톰하임",
-	--[[Translation missing --]]
-	--[[ ["Stormheim Prescenario Skyfire"] = "Stormheim Prescenario Skyfire",--]] 
-	--[[Translation missing --]]
-	--[[ ["Stormheim Prescenario Windrunner"] = "Stormheim Prescenario Windrunner",--]] 
 	["Stormpike Graveyard"] = "스톰파이크 무덤",
 	["Stormrage Barrow Dens"] = "스톰레이지 지하굴",
 	["Storm's Eye Overlook"] = "폭풍의 눈 전망대",
@@ -4901,8 +4865,6 @@ lib:SetCurrentTranslations
 	["Temple of Invention"] = "발명의 신전",
 	["Temple of Karabor"] = "카라보르 사원",
 	["Temple of Kimbul"] = "킴불의 사원",
-	--[[Translation missing --]]
-	--[[ ["Temple of Kimbul - DO NOT USE"] = "Temple of Kimbul - DO NOT USE",--]] 
 	["Temple of Kotmogu"] = "코트모구의 사원",
 	["Temple of Life"] = "생명의 신전",
 	["Temple of Order"] = "질서의 신전",
@@ -6397,8 +6359,6 @@ lib:SetCurrentTranslations
 	["Troll War Camp Outskirts"] = "트롤 전쟁 기지 교외",
 	["Trollbane Hall"] = "트롤베인 전당",
 	["Trophy Hall"] = "전리품 전당",
-	--[[Translation missing --]]
-	--[[ ["Tropical Isle 8.0"] = "Tropical Isle 8.0",--]] 
 	["Troves of the Thunder King"] = "천둥왕의 보물",
 	["Trueshot Lodge"] = "정조준 오두막",
 	["Trueshot Point"] = "정조준 초소",
@@ -6637,8 +6597,6 @@ lib:SetCurrentTranslations
 	["Verrall River"] = "베랄 강",
 	["Vestibule of the Faithless"] = "부정한 자의 회랑",
 	["Vestibule of the Silver Hand"] = "은빛 성기사단의 현관",
-	--[[Translation missing --]]
-	--[[ ["VictorCortisLand"] = "VictorCortisLand",--]] 
 	["Victor's Point"] = "승리자 거점",
 	["Vigil Hill"] = "경계의 언덕",
 	["Vile Cavern"] = "끔찍한 동굴",
@@ -6988,8 +6946,6 @@ lib:SetCurrentTranslations
 	["Zabra'jin"] = "자브라진",
 	["Zaetar's Choice"] = "재타르의 선택",
 	["Zaetar's Grave"] = "재타르의 무덤",
-	--[[Translation missing --]]
-	--[[ ["Zak'rajan's Throne Room DELETE JDA"] = "Zak'rajan's Throne Room DELETE JDA",--]] 
 	["Zal'amak"] = "잘아막",
 	["Zalamar"] = "잘라마르",
 	["Zalashji's Den"] = "잘라쉬지의 굴",

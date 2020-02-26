@@ -1,18 +1,9 @@
 ------------------------------------------------------------------------
-r218 | arith | 2018-08-12 09:41:21 +0000 (Sun, 12 Aug 2018) | 1 line
+r229 | arith | 2020-02-11 15:06:38 +0000 (Tue, 11 Feb 2020) | 1 line
 Changed paths:
-   M /trunk/LibBabble-SubZone-3.0.lua
-   M /trunk/LibBabble-SubZone-3.0_deDE.lua
-   M /trunk/LibBabble-SubZone-3.0_esES.lua
    M /trunk/LibBabble-SubZone-3.0_esMX.lua
-   M /trunk/LibBabble-SubZone-3.0_frFR.lua
-   M /trunk/LibBabble-SubZone-3.0_itIT.lua
-   M /trunk/LibBabble-SubZone-3.0_koKR.lua
-   M /trunk/LibBabble-SubZone-3.0_ptBR.lua
-   M /trunk/LibBabble-SubZone-3.0_ruRU.lua
    M /trunk/LibBabble-SubZone-3.0_zhCN.lua
-   M /trunk/LibBabble-SubZone-3.0_zhTW.lua
 
-added taxi nodes
+zh-CN and es-MX translation update
 ------------------------------------------------------------------------
 

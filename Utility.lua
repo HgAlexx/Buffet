@@ -39,7 +39,6 @@ end
 
 function Utility.Debug(...)
     --@debug@
-    -- [[
     if Utility.Mode == 2 then
         print("|cFF33BB99Buffet|r:", ...)
     else
@@ -56,7 +55,6 @@ function Utility.Debug(...)
         end
         DEFAULT_CHAT_FRAME:AddMessage("|cFF33BB99Buffet|r:" .. t)
     end
-    --]]
     --@end-debug@
 end
 
@@ -128,18 +126,18 @@ function Utility.IsPlayerInInstanceType(types)
     return false
 end
 
-function Utility.IsPlayerInZoneId(ids)
-    local mapId = C_Map.GetBestMapForUnit("player");
-    if mapId then
+function Utility.IsPlayerInMapId(ids)
+    local uiMapId = C_Map.GetBestMapForUnit("player");
+    if uiMapId then
         repeat
-            for v in ids do
-                if v == mapId then
+            for _,v in pairs(ids) do
+                if v == uiMapId then
                     return true
                 end
             end
-            local mapInfo = C_Map.GetMapInfo(mapId);
-            mapId = mapInfo and mapInfo.parentMapID or 0;
-        until mapId == 0;
+            local mapInfo = C_Map.GetMapInfo(uiMapId);
+            uiMapId = mapInfo and mapInfo.parentMapID or 0;
+        until uiMapId == 0;
     end
     return false
 end
@@ -156,6 +154,29 @@ function Utility.IsPlayerInSubZoneName(names)
         end
     end
     return false
+end
+
+function Utility.ShowPlayerZoneInfo()
+    local uiMapId = C_Map.GetBestMapForUnit("player");
+    if uiMapId then
+        repeat
+            Utility.Debug("uiMapId=" .. uiMapId)
+            local mapInfo = C_Map.GetMapInfo(uiMapId);
+            uiMapId = mapInfo and mapInfo.parentMapID or 0;
+        until uiMapId == 0;
+    end
+
+    local currentSubZone = string.lower(GetSubZoneText())
+    if currentSubZone ~= "" then
+        local babbleSubZone = LibStub("LibBabble-SubZone-3.0"):GetUnstrictLookupTable();
+        for k, v in pairs(babbleSubZone) do
+            local subZone = v -- get locale subzone name from LibBabble
+            if subZone and (subZone:lower() == currentSubZone) then
+                Utility.Debug("currentSubZone=" .. currentSubZone .. ", EN=" .. k)
+                return
+            end
+        end
+    end
 end
 
 -- Export

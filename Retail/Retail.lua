@@ -140,6 +140,9 @@ if Utility.IsRetail then
             if not isRestricted and ConstRetail.Restrictions[itemId].inInstanceIds then
                 isRestricted = not Utility.IsPlayerInInstanceId(ConstRetail.Restrictions[itemId].inInstanceIds)
             end
+            if not isRestricted and ConstRetail.Restrictions[itemId].inMapIds then
+                isRestricted = not Utility.IsPlayerInMapId(ConstRetail.Restrictions[itemId].inMapIds)
+            end
             if not isRestricted and ConstRetail.Restrictions[itemId].inInstanceTypes then
                 isRestricted = not Utility.IsPlayerInInstanceType(ConstRetail.Restrictions[itemId].inInstanceTypes)
             end

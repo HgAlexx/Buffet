@@ -1,7 +1,7 @@
 --[[
-$Id: LibBabble-SubZone-3.0_deDE.lua 218 2018-08-12 09:41:21Z arith $
+$Id: LibBabble-SubZone-3.0_deDE.lua 227 2020-01-17 14:10:05Z arith $
 Name: LibBabble-SubZone-3.0
-Revision: $Rev: 218 $
+Revision: $Rev: 227 $
 Maintainers: arith
 Last updated by: $Author: arith $
 Website: http://www.wowace.com/addons/libbabble-subzone-3-0/
@@ -17,8 +17,6 @@ lib:SetCurrentTranslations
 	["7th Legion Base Camp"] = "Basislager der 7. Legion",
 	["7th Legion Front"] = "Front der 7. Legion",
 	["7th Legion Submarine"] = "U-Boot der 7. Legion",
-	--[[Translation missing --]]
-	--[[ ["8.0 Islands - Ship - Player Alliance - Kul'Tiras Medium 01 With Gangplank"] = "8.0 Islands - Ship - Player Alliance - Kul'Tiras Medium 01 With Gangplank",--]] 
 	["A Brewing Storm"] = "Ein Sturm braut sich zusammen",
 	["A Dark Place"] = "Ein Finsterer Ort",
 	["A Hero's Welcome"] = "Zum Gefeierten Helden",
@@ -109,14 +107,8 @@ lib:SetCurrentTranslations
 	["Alliance PVP Barracks"] = "Allianz PvP Kaserne",
 	["Alliance Shipyard Taxi"] = "",
 	["Alliance Submarine"] = "U-Boot der Allianz",
-	--[[Translation missing --]]
-	--[[ ["Alliance Submarine (7.1.5 Boat Holiday)"] = "Alliance Submarine (7.1.5 Boat Holiday)",--]] 
-	--[[Translation missing --]]
-	--[[ ["Allied - Dark Iron Dwarf Unlock"] = "Allied - Dark Iron Dwarf Unlock",--]] 
 	["Allied - Highmountain Tauren Unlock"] = "",
 	["Allied - Lightforged Draenei Unlock"] = "",
-	--[[Translation missing --]]
-	--[[ ["Allied - Mag'har Orc Unlock"] = "Allied - Mag'har Orc Unlock",--]] 
 	["Allied - Nightborne Unlock"] = "",
 	["Allied - Orgrimmar"] = "Verbündet - Orgrimmar",
 	["Allied - Stormwind"] = "Verbündet - Sturmwind",
@@ -616,10 +608,6 @@ lib:SetCurrentTranslations
 	["Bonetown Scenario"] = "Szenario: Knochenstadt",
 	["Bonetrail Gulch"] = "Die Knochensplitterschlucht",
 	["Bonfire"] = "Das Feuer",
-	--[[Translation missing --]]
-	--[[ ["Boost Experience - Alliance"] = "Boost Experience - Alliance",--]] 
-	--[[Translation missing --]]
-	--[[ ["Boost Experience - Horde"] = "Boost Experience - Horde",--]] 
 	["Bootlegger Outpost"] = "Schmugglerposten",
 	["Booty Bay"] = "Beutebucht",
 	["Boralus"] = "Boralus",
@@ -980,8 +968,6 @@ lib:SetCurrentTranslations
 	["Cove of Nashal"] = "Die Bucht von Nashal",
 	["Covescale Rise"] = "Die Buchtflossenhöhe",
 	["Crackling Ridge"] = "Der Knisternde Grat",
-	--[[Translation missing --]]
-	--[[ ["Crackling RidgeDELETE JDA"] = "Crackling RidgeDELETE JDA",--]] 
 	["Cradle of Chi-Ji"] = "Chi-Jis Wiege",
 	["Cradle of the Ancients"] = "Wiege der Uralten",
 	["Craftsmen's Terrace"] = "Die Terrasse der Handwerker",
@@ -1080,8 +1066,6 @@ lib:SetCurrentTranslations
 	["Dalaran Underbelly"] = "Dalarans Schattenseite",
 	["Dalaran Visitor Center"] = "Besucherzentrum von Dalaran",
 	["Dalson's Farm"] = "Dalsons Hof",
-	--[[Translation missing --]]
-	--[[ ["Damarcus_World"] = "Damarcus_World",--]] 
 	["Damp Cave"] = "Feuchte Höhle",
 	["Damplight Cavern"] = "Dunstlichtkammer",
 	["Damplight Chamber"] = "Dunstlichtkammer",
@@ -1178,8 +1162,6 @@ lib:SetCurrentTranslations
 	["Deadwood Village"] = "Lager der Totenwaldfelle",
 	["Deal Farmstead"] = "Deikes Bauernhof",
 	["Death Cultist Base Camp"] = "Basislager der Todeskultisten",
-	--[[Translation missing --]]
-	--[[ ["Death Knight Campaign - Light's Hope Chapel"] = "Death Knight Campaign - Light's Hope Chapel",--]] 
 	["Death Knight Campaign - Scarlet Monastery"] = "Todesritterkampagne - Das Scharlachrote Kloster",
 	["Death Knight Campaign - Undercity"] = "Todesritterkampagne - Unterstadt",
 	["Death Knight Campaign Flight Bounds"] = "Fluggrenze der Todesritterkampagne",
@@ -1261,8 +1243,6 @@ lib:SetCurrentTranslations
 	["Destiny Unfulfilled"] = "Unerfülltes Schicksal",
 	["Destructor's Rise"] = "Die Höhe des Zerstörers",
 	["Detention Block"] = "Gefängnisblock",
-	--[[Translation missing --]]
-	--[[ ["Dev Map - G"] = "Dev Map - G",--]] 
 	["Development Land"] = "Entwicklungsland",
 	["Devoted Sanctuary"] = "Sanktum der Ergebenen",
 	["Diamond Island"] = "Diamantinsel",
@@ -1421,8 +1401,6 @@ lib:SetCurrentTranslations
 	["Dustquill Ravine"] = "Staubstachelschlucht",
 	["Dustwallow Bay"] = "Die Bucht der Düstermarschen",
 	["Dustwallow Marsh"] = "Die Düstermarschen",
-	--[[Translation missing --]]
-	--[[ ["Dustwallow Marsh UNUSED"] = "Dustwallow Marsh UNUSED",--]] 
 	["Dustwind Cave"] = "Staubwindhöhle",
 	["Dustwind Dig"] = "Staubwindausgrabung",
 	["Dustwind Gulch"] = "Staubwindschlucht",
@@ -1681,8 +1659,6 @@ lib:SetCurrentTranslations
 	["Feltotem Caverns"] = "Die Höhlen der Teufelstotems",
 	["Felwatch Point"] = "Posten der Teufelswacht",
 	["Felwing Ledge"] = "Der Teufelsschwingengrat",
-	--[[Translation missing --]]
-	--[[ ["Felwing Ledge - Demon Hunter Class Mount"] = "Felwing Ledge - Demon Hunter Class Mount",--]] 
 	["Felwood"] = "Teufelswald",
 	["Fenris Isle"] = "Insel Fenris",
 	["Fenris Keep"] = "Burg Fenris",
@@ -1842,8 +1818,6 @@ lib:SetCurrentTranslations
 	["Fox Grove"] = "Fuchswäldchen",
 	["Foxhollow Woods"] = "Die Fuchsbauwaldung",
 	["Fractured Front"] = "Zerrissene Front",
-	--[[Translation missing --]]
-	--[[ ["Francesco test - internal only"] = "Francesco test - internal only",--]] 
 	["Fray Island"] = "Das Prügeleiland",
 	["Frayfeather Highlands"] = "Fransenfederhochland",
 	["Frazzlecraz Motherlode"] = "Frazzelcraz' Großfuhre",
@@ -2001,8 +1975,6 @@ lib:SetCurrentTranslations
 	["Giant's Fall"] = "Riesensturz",
 	["Giant's Run"] = "Plateau der Riesen",
 	["Giants' Run"] = "Plateau der Riesen",
-	--[[Translation missing --]]
-	--[[ ["Gilded Docks of Zak'rajan DELETE JDA"] = "Gilded Docks of Zak'rajan DELETE JDA",--]] 
 	["Gilded Fan"] = "Der Goldfächer",
 	["Gillijim's Isle"] = "Gillijims Insel",
 	["Gilnean Coast"] = "Gilnearische Küste",
@@ -2387,8 +2359,6 @@ lib:SetCurrentTranslations
 	["Helya's Throne"] = "Helyas Thron",
 	["Hemet's Happy Hunting Grounds"] = "Hemets Schlaraffenland",
 	["Herb Garden"] = "Kräutergarten",
-	--[[Translation missing --]]
-	--[[ ["Hero Stage LD Demo Area"] = "Hero Stage LD Demo Area",--]] 
 	["Heroes' Rest"] = "Die Heldenrast",
 	["Heroes' Vigil"] = "Heldenwache",
 	["Hero's Rest Inn"] = "Gasthaus \"Zum ruhenden Helden\"",
@@ -2408,8 +2378,6 @@ lib:SetCurrentTranslations
 	["Hidey-Hole"] = "Schlupfloch",
 	["High Bank"] = "Hochstade",
 	["High Inquisitor's Lair"] = "Der Turm des Hochinquisitors",
-	--[[Translation missing --]]
-	--[[ ["High Mountain Mesa Scenario"] = "High Mountain Mesa Scenario",--]] 
 	["High Mountain Scenario"] = "Hochbergszenario",
 	["High Perch"] = "Der Hochstand",
 	["High Wilderness"] = "Die Obere Wildnis",
@@ -2453,7 +2421,7 @@ lib:SetCurrentTranslations
 	["Honeyglow Glade"] = "Die Honigschimmerlichtung",
 	["Honor Hold"] = "Ehrenfeste",
 	["Honor Hold Mine"] = "Mine",
-	["Honor Point"] = "Ehrenposten ",
+	["Honor Point"] = "Ehrenposten",
 	["Honor's Stand"] = "Ehrenwacht",
 	["Honor's Tomb"] = "Ehrengrabmal",
 	["Hook Point"] = "Das Hakenkap",
@@ -3043,8 +3011,6 @@ lib:SetCurrentTranslations
 	["Mardum Treasure Scenario"] = "Schatzszenario: Mardum",
 	["Mardum, the Shattered Abyss"] = "Mardum, der Zerrüttete Abgrund",
 	["Mar'gok's Overwatch"] = "Mar'goks Wacht",
-	--[[Translation missing --]]
-	--[[ ["Margoss' Retreat"] = "Margoss' Retreat",--]] 
 	["Margoss's Retreat"] = "Margoss' Idyll",
 	["Mariner's Row"] = "Seemannsgasse",
 	["Mariner's Strand"] = "Die Seemannsrinne",
@@ -3132,8 +3098,6 @@ lib:SetCurrentTranslations
 	["Mizjah Ruins"] = "Ruinen von Mizjah",
 	["Moa'ki"] = "Moa'ki",
 	["Moa'ki Harbor"] = "Hafen Moa'ki",
-	--[[Translation missing --]]
-	--[[ ["Model Size Land"] = "Model Size Land",--]] 
 	["Moggle Point"] = "Moggelspitze",
 	["Mo'grosh Stronghold"] = "Festung Mo'grosh",
 	["Mogu Island Daily Area"] = "Mogu Island Daily Area",
@@ -3509,8 +3473,6 @@ lib:SetCurrentTranslations
 	["Paledoom's Overlook"] = "Bleichbanns Warte",
 	["Palemane Rock"] = "Bleichmähnenfels",
 	["Paletide Den"] = "Fahlflutversteck",
-	--[[Translation missing --]]
-	--[[ ["Pandaren Farm Dev"] = "Pandaren Farm Dev",--]] 
 	["Pandaren Mine"] = "Pandarenmine",
 	["Pandaria"] = "Pandaria",
 	["Pandemonium"] = "Pandämonium",
@@ -3677,8 +3639,6 @@ lib:SetCurrentTranslations
 	["Rainspeaker Canopy"] = "Baldachin der Regenrufer",
 	["Rainspeaker Rapids"] = "Katarakt der Regenrufer",
 	["Rakjan's Peak"] = "Rakjans Spitze",
-	--[[Translation missing --]]
-	--[[ ["Rak'jan's Perch DELETE JDA"] = "Rak'jan's Perch DELETE JDA",--]] 
 	["Ramkahen"] = "Ramkahen",
 	["Ramkahen Legion Outpost"] = "Außenposten der Legion von Ramkahen",
 	["Rampart of Skulls"] = "Das Schädelbollwerk",
@@ -3826,8 +3786,6 @@ lib:SetCurrentTranslations
 	["Riverbend"] = "Die Flusswindung",
 	["River's Heart"] = "Flussnabel",
 	["Riverside Post"] = "Uferposten",
-	--[[Translation missing --]]
-	--[[ ["RiverZone_Art"] = "RiverZone_Art",--]] 
 	["Roaring Highland"] = "Das Tosende Hochland",
 	["Rock of Durotan"] = "Fels von Durotan",
 	["Rock Spire"] = "Der Felsenturm",
@@ -4052,8 +4010,6 @@ lib:SetCurrentTranslations
 	["Scavenging Site"] = "Die Aasfressergründe",
 	["Scenario - Black Ox Temple"] = "Scenario - Black Ox Temple",
 	["Scenario - Mogu Ruins"] = "Scenario - Mogu Ruins",
-	--[[Translation missing --]]
-	--[[ ["Scenario Template"] = "Scenario Template",--]] 
 	["Scenic Overlook"] = "Idyllischer Aussichtspunkt",
 	["Schnottz's Frigate"] = "Schnottz' Fregatte",
 	["Schnottz's Hostel"] = "Schnottz' Herberge",
@@ -4327,8 +4283,6 @@ lib:SetCurrentTranslations
 	["Shrouded Hollow"] = "Die Schleierhöhle",
 	["Shrouded Shore"] = "Die Schleierküste",
 	["Shuddering Spires"] = "Berstende Säulen",
-	--[[Translation missing --]]
-	--[[ ["ShwayderLand"] = "ShwayderLand",--]] 
 	["SI:7"] = "SI:7",
 	["Siege of Boralus"] = "Die Belagerung von Boralus",
 	["Siege of Niuzao Temple"] = "Die Belagerung des Niuzaotempels",
@@ -4673,10 +4627,6 @@ lib:SetCurrentTranslations
 	["Stormfeather Outpost"] = "Sturmfederposten",
 	["Stormglen Village"] = "Sturmsiel",
 	["Stormheim"] = "Sturmheim",
-	--[[Translation missing --]]
-	--[[ ["Stormheim Prescenario Skyfire"] = "Stormheim Prescenario Skyfire",--]] 
-	--[[Translation missing --]]
-	--[[ ["Stormheim Prescenario Windrunner"] = "Stormheim Prescenario Windrunner",--]] 
 	["Stormpike Graveyard"] = "Friedhof der Sturmlanzen",
 	["Stormrage Barrow Dens"] = "Sturmgrimms Grabhügel",
 	["Storm's Eye Overlook"] = "Die Sturmaugenwarte",
@@ -4907,8 +4857,6 @@ lib:SetCurrentTranslations
 	["Temple of Invention"] = "Tempel des Erfindungsreichtums",
 	["Temple of Karabor"] = "Tempel von Karabor",
 	["Temple of Kimbul"] = "Der Tempel von Kimbul",
-	--[[Translation missing --]]
-	--[[ ["Temple of Kimbul - DO NOT USE"] = "Temple of Kimbul - DO NOT USE",--]] 
 	["Temple of Kotmogu"] = "Tempel von Katmogu",
 	["Temple of Life"] = "Tempel des Lebens",
 	["Temple of Order"] = "Tempel der Ordnung",
@@ -4967,13 +4915,7 @@ lib:SetCurrentTranslations
 	["Terrordale"] = "Schreckenstal",
 	["Terror's Cave"] = "Die Höhle des Schreckens",
 	["Terrorweb Tunnel"] = "Schreckenstunnel",
-	--[[Translation missing --]]
-	--[[ ["TEST"] = "TEST",--]] 
 	["Test Dungeon"] = "",
-	--[[Translation missing --]]
-	--[[ ["Test Faction Criteria"] = "Test Faction Criteria",--]] 
-	--[[Translation missing --]]
-	--[[ ["Test Scenario"] = "Test Scenario",--]] 
 	["Tethris Aran"] = "Tethris Aran",
 	["Thaelin's Hideout"] = "Thaelins Unterschlupf",
 	["Thaelin's Workshop"] = "Thaelins Werkstatt",
@@ -5337,8 +5279,6 @@ lib:SetCurrentTranslations
 	["The Eye"] = "Festung der Stürme",
 	["The Eye of Azshara"] = "Das Auge Azsharas",
 	["The Eye of Eternity"] = "Das Auge der Ewigkeit",
-	--[[Translation missing --]]
-	--[[ ["The Eye of Eternity - Scenario"] = "The Eye of Eternity - Scenario",--]] 
 	["The Eye of the Vortex"] = "Das Auge des Vortex",
 	["The Fall of Shan Bu"] = "Der Sturz von Shan'Bu",
 	["The Fallen Outpost"] = "Der Gefallene Außenposten",
@@ -6407,8 +6347,6 @@ lib:SetCurrentTranslations
 	["Troll War Camp Outskirts"] = "Rand des Kriegslagers der Trolle",
 	["Trollbane Hall"] = "Trollbanns Halle",
 	["Trophy Hall"] = "Trophäenhalle",
-	--[[Translation missing --]]
-	--[[ ["Tropical Isle 8.0"] = "Tropical Isle 8.0",--]] 
 	["Troves of the Thunder King"] = "Schatzkammer des Donnerkönigs",
 	["Trueshot Lodge"] = "Die Volltrefferhütte",
 	["Trueshot Point"] = "Volltrefferposten",
@@ -6647,8 +6585,6 @@ lib:SetCurrentTranslations
 	["Verrall River"] = "Verrall",
 	["Vestibule of the Faithless"] = "Die Vorhalle der Ungläubigen",
 	["Vestibule of the Silver Hand"] = "Das Vestibül der Silbernen Hand",
-	--[[Translation missing --]]
-	--[[ ["VictorCortisLand"] = "VictorCortisLand",--]] 
 	["Victor's Point"] = "Gipfel des Siegers",
 	["Vigil Hill"] = "Die Wachkuppe",
 	["Vile Cavern"] = "Abscheuliche Grube",
@@ -6998,8 +6934,6 @@ lib:SetCurrentTranslations
 	["Zabra'jin"] = "Zabra'jin",
 	["Zaetar's Choice"] = "Zaetars Entscheidung",
 	["Zaetar's Grave"] = "Zaetars Grab",
-	--[[Translation missing --]]
-	--[[ ["Zak'rajan's Throne Room DELETE JDA"] = "Zak'rajan's Throne Room DELETE JDA",--]] 
 	["Zal'amak"] = "Zal'amak",
 	["Zalamar"] = "Zalamar",
 	["Zalashji's Den"] = "Zalashjis Bau",
