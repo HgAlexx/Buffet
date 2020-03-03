@@ -75,15 +75,13 @@ ConstRetail.Restrictions = {
         inInstanceTypes = { "none" },
     },
 
-    [174351] = { -- K’Bab:
-        inMapIds = {
-            -- 1379 -- Visions of N'Zoth - TO BE TESTED
-        },
+    [174351] = { -- K’Bab
         inInstanceIds = {
-            -- 2156 -- Visions of N'Zoth - TO BE TESTED
-            -- 2212 -- Horrific Vision of Orgrimmar - TO BE TESTED
-            -- 2213 -- Horrific Vision of Stormwind - TO BE TESTED
-        }
+            -- 2156, -- Visions of N'Zoth?? - TO BE TESTED
+            -- 2212, -- Horrific Vision of Orgrimmar
+            -- 2213, -- Horrific Vision of Stormwind - TO BE TESTED
+            -- 2275, -- Horrific Vision in Vale of Eternal Blossoms
+        },
     },
 }
 

@@ -166,6 +166,14 @@ function Utility.ShowPlayerZoneInfo()
         until uiMapId == 0;
     end
 
+    local _,instanceType,diffId,_,_,_,_,instanceId = GetInstanceInfo()
+    instanceType = instanceType or "none"
+    if instanceId then
+        Utility.Debug("instanceId=" .. instanceId)
+        Utility.Debug("instanceType=" .. instanceType)
+        Utility.Debug("diffId=" .. diffId)
+    end
+
     local currentSubZone = string.lower(GetSubZoneText())
     if currentSubZone ~= "" then
         local babbleSubZone = LibStub("LibBabble-SubZone-3.0"):GetUnstrictLookupTable();
