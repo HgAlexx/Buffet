@@ -20,7 +20,7 @@ if oldminor < 5 then
 	function lib.new(parent, ...)
 		local butt = CreateFrame("Button", nil, parent)
 		if select("#", ...) > 0 then butt:SetPoint(...) end
-		butt:SetWidth(80) butt:SetHeight(22)
+		butt:SetWidth(95) butt:SetHeight(22)
 
 		-- Fonts --
 		butt:SetDisabledFontObject(GameFontDisable)

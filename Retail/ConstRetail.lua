@@ -80,6 +80,7 @@ ConstRetail.Restrictions = {
             -- 2156, -- Visions of N'Zoth?? - TO BE TESTED
             -- 2212, -- Horrific Vision of Orgrimmar
             -- 2213, -- Horrific Vision of Stormwind - TO BE TESTED
+            -- 2274, -- Horrific Vision in Uldum
             -- 2275, -- Horrific Vision in Vale of Eternal Blossoms
         },
     },

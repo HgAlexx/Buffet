@@ -10,7 +10,7 @@ function lib.new(parent, text, subtext)
 	title:SetPoint("TOPLEFT", 16, -16)
 	title:SetText(text)
 
-	local subtitle = parent:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+	local subtitle = parent:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
 	subtitle:SetHeight(32)
 	subtitle:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
 	subtitle:SetPoint("RIGHT", parent, -32, 0)

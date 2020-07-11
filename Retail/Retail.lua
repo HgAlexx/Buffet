@@ -201,7 +201,7 @@ if Utility.IsRetail then
             end
             return healthCats, manaCats
         end
-        return false
+        return false, false
     end
 
     -- Export

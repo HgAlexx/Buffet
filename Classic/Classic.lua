@@ -161,52 +161,53 @@ if Utility.IsClassic then
 
     function Engine.GetCategories(itemData)
         local Const = ns.Const
-        local cats = {}
+        local healthCats = {}
+        local manaCats= {}
 
         -- food
         --if not itemData.isPotion and not itemData.isBandage then
         if itemData.isFoodAndDrink then
             if itemData.isHealth then
                 if itemData.isConjured then
-                    table.insert(cats, Const.BestCategories.percfood)
+                    table.insert(healthCats, Const.BestCategories.percfood)
                 else
-                    table.insert(cats, Const.BestCategories.food)
+                    table.insert(healthCats, Const.BestCategories.food)
                 end
             end
             if itemData.isMana then
                 if itemData.isConjured then
-                    table.insert(cats, Const.BestCategories.percwater)
+                    table.insert(manaCats, Const.BestCategories.percwater)
                 else
-                    table.insert(cats, Const.BestCategories.water)
+                    table.insert(manaCats, Const.BestCategories.water)
                 end
             end
-            return cats
+            return healthCats, manaCats
         end
         if itemData.isBandage then
             if itemData.isHealth then
-                table.insert(cats, Const.BestCategories.bandage)
+                table.insert(healthCats, Const.BestCategories.bandage)
             end
-            return cats
+            return healthCats, manaCats
         end
         if not itemData.isFoodAndDrink and not itemData.isConjured then
             if itemData.isHealth then
-                table.insert(cats, Const.BestCategories.hppot)
+                table.insert(healthCats, Const.BestCategories.hppot)
             end
             if itemData.isMana then
-                table.insert(cats, Const.BestCategories.hppot)
+                table.insert(manaCats, Const.BestCategories.mppot)
             end
-            return cats
+            return healthCats, manaCats
         end
         if itemData.isConjured then
             if itemData.isHealth then
-                table.insert(cats, Const.BestCategories.healthstone)
+                table.insert(healthCats, Const.BestCategories.healthstone)
             end
             if itemData.isMana then
-                table.insert(cats, Const.BestCategories.managem)
+                table.insert(manaCats, Const.BestCategories.managem)
             end
-            return cats
+            return healthCats, manaCats
         end
-        return false
+        return false, false
     end
 
     -- Export

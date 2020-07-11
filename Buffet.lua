@@ -313,7 +313,7 @@ function Core:Scan()
 
             -- if item is usable
             if itemFoundInCache and not itemData.isWellFed and ((itemData.health and (itemData.health > 0)) or (itemData.mana and (itemData.mana > 0))) then
-                --Utility.Debug(itemName, itemData)
+                -- Utility.Debug(itemName, itemData)
 
                 local isRestricted = Engine.CheckRestriction(itemId)
 
@@ -363,11 +363,30 @@ function Core:Scan()
         end
     end
 
-    local food = Core.bests.percfood.id or Core.bests.food.id or Core.bests.healthstone.id or Core.bests.hppot.id
-    local water = Core.bests.percwater.id or Core.bests.water.id or Core.bests.managem.id or Core.bests.mppot.id
+    -- 12662 demonic rune, 20520 dark rune
+    if itemIds[12662] and (itemIds[12662] > 0) and (50 <= self.playerLevel) then
+        self:SetBest(Const.BestCategories.rune, 12662, 1200, itemIds[12662])
+    end
+    if itemIds[20520] and (itemIds[20520] > 0) and (55 <= self.playerLevel) then
+        self:SetBest(Const.BestCategories.rune, 20520, 1200, itemIds[20520])
+    end
 
-    self:Edit("AutoHP", Core.db.macroHP, food, Core.bests.healthstone.id or Core.bests.hppot.id, Core.bests.bandage.id)
-    self:Edit("AutoMP", Core.db.macroMP, water, Core.bests.managem.id or Core.bests.mppot.id)
+    --local food = Core.bests.percfood.id or Core.bests.food.id or Core.bests.healthstone.id or Core.bests.hppot.id
+    --local water = Core.bests.percwater.id or Core.bests.water.id or Core.bests.managem.id or Core.bests.mppot.id
+    local food = Core.bests.percfood.id or Core.bests.food.id
+    local water = Core.bests.percwater.id or Core.bests.water.id
+
+    --self:Edit("AutoHP", Core.db.macroHP, food, Core.bests.healthstone.id or Core.bests.hppot.id, Core.bests.bandage.id)
+    --self:Edit("AutoMP", Core.db.macroMP, water, Core.bests.managem.id or Core.bests.mppot.id)
+
+    self:EditDefault(Const.MacroNames.defaultHP, Core.db.macroHP, food, Core.bests.healthstone.id, Core.bests.hppot.id, Core.bests.bandage.id)
+    self:EditDefault(Const.MacroNames.defaultMP, Core.db.macroMP, water, Core.bests.managem.id, Core.bests.mppot.id, Core.bests.rune.id)
+
+    self:EditFoodOnly(Const.MacroNames.foodOnlyHP, Core.db.macroHP, food)
+    self:EditFoodOnly(Const.MacroNames.drinkOnlyMP, Core.db.macroMP, water)
+
+    self:EditConsumble(Const.MacroNames.consumableHP, Core.db.macroHP, Core.bests.healthstone.id, Core.bests.hppot.id, Core.bests.bandage.id)
+    self:EditConsumble(Const.MacroNames.consumableMP, Core.db.macroMP, Core.bests.managem.id, Core.bests.mppot.id, Core.bests.rune.id)
 
     -- if we didn't found any food or water, and it is the first run, queue a delayed scan
     if (not food and not water) and Core.firstRun then
@@ -424,7 +443,105 @@ function Core:Edit(name, substring, food, pot, mod)
     EditMacro(macroid, name, "INV_Misc_QuestionMark", substring:gsub("%%MACRO%%", body), 1)
 end
 
+function Core:EditDefault(name, substring, food, conjured, pot, mod)
+    local macroid = GetMacroIndexByName(name)
+    if not macroid then
+        return
+    end
+
+--    Utility.Debug("food: ", food)
+--    Utility.Debug("conjured: ", conjured)
+--    Utility.Debug("pot: ", pot)
+--    Utility.Debug("mod: ", mod)
+
+    local cast = "/cast "
+
+    if mod then -- bandage / rune
+        if Core.db.modSpecial and Core.db.modSpecial ~= "" then
+            cast = cast .. "[" .. Core.db.modSpecial .. ",target=player] item:" .. mod .. "; "
+        end
+    end
+
+    if Core.db.combat and conjured then -- health stone / mana gem
+        if Core.db.modConjured and Core.db.modConjured ~= "" then
+            cast = cast .. "[combat," .. Core.db.modConjured .. "] item:" .. conjured .. "; "
+        end
+    end
+
+    if Core.db.combat and pot then
+        cast = cast .. "[combat] item:" .. pot .. "; "
+    end
+
+    if food then
+        cast = cast .. "item:" .. food
+    else
+        cast = cast .. "item:6948"
+    end
+
+    Utility.Debug("default: ", cast)
+
+    EditMacro(macroid, name, "INV_Misc_QuestionMark", substring:gsub("%%MACRO%%", cast), 1)
+end
+
+function Core:EditFoodOnly(name, substring, food)
+    local macroid = GetMacroIndexByName(name)
+    if not macroid then
+        return
+    end
+
+    --    Utility.Debug("food: ", food)
+
+    local cast = "/cast "
+
+    if food then
+        cast = cast .. "item:" .. food
+    else
+        cast = cast .. "item:6948"
+    end
+
+    Utility.Debug("foodonly: ", cast)
+
+    EditMacro(macroid, name, "INV_Misc_QuestionMark", substring:gsub("%%MACRO%%", cast), 1)
+end
+
+function Core:EditConsumble(name, substring, conjured, pot, mod)
+    local macroid = GetMacroIndexByName(name)
+    if not macroid then
+        return
+    end
+
+    --    Utility.Debug("conjured: ", conjured)
+    --    Utility.Debug("pot: ", pot)
+    --    Utility.Debug("mod: ", mod)
+
+    local cast = "/cast "
+
+    if mod then -- bandage / rune
+        if Core.db.consModSpecial and Core.db.consModSpecial ~= "" then
+            cast = cast .. "[" .. Core.db.consModSpecial .. ",target=player] item:" .. mod .. "; "
+        end
+    end
+
+    if conjured then -- health stone / mana gem
+        if Core.db.consModConjured and Core.db.consModConjured ~= "" then
+            cast = cast .. "[" .. Core.db.consModConjured .. "] item:" .. conjured .. "; "
+        end
+    end
+
+    if pot then
+        cast = cast .. "item:" .. pot
+    else
+        cast = cast .. "item:6948"
+    end
+
+    Utility.Debug("consumable: ", cast)
+
+    EditMacro(macroid, name, "INV_Misc_QuestionMark", substring:gsub("%%MACRO%%", cast), 1)
+end
+
+
 function Core:SetBest(cat, id, value, stack)
+    -- Utility.Debug("SetBest: ", cat, id, value, stack)
     local best = Core.bests[cat];
     if best and id then
         if (value > best.val) or ((value == best.val) and (best.stack > stack)) then
