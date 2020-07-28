@@ -3,7 +3,7 @@ local Core = ns.Core
 local Utility = ns.Utility
 local Const = ns.Const
 
-local MAX_ACCOUNT_MACROS, MAX_CHARACTER_MACROS = MAX_ACCOUNT_MACROS, MAX_CHARACTER_MACROS
+local MAX_ACCOUNT_MACROS, MAX_CHARACTER_MACROS = 120, 18
 
 local EDGEGAP, GAP = 16, 8
 local tekbutt = LibStub("tekKonfig-Button")
@@ -49,8 +49,11 @@ frame:SetScript("OnShow", function()
 
     local function OnClick(self)
         local id = GetMacroIndexByName(self.name)
-        if id and id ~= 0 then PickupMacro(id)
-        elseif GetNumMacros() >= MAX_ACCOUNT_MACROS then Utility.Print("All global macros in use.")
+        local acc, cha = GetNumMacros()
+        if id and id ~= 0 then
+            PickupMacro(id)
+        elseif acc >= MAX_ACCOUNT_MACROS then
+            Utility.Print("Unable to create the macro, you seam to have reach the maximum number of allowed macro per account.")
         else
             local id = CreateMacro(self.name, "INV_Misc_QuestionMark", "")
             Core:Scan()
@@ -174,8 +177,21 @@ frame:SetScript("OnShow", function()
     mpeditbox:SetScript("OnLeave", mpbutt:GetScript("OnLeave"))
 
     frame:SetScript("OnEvent", function(self, event)
-        if event == "PLAYER_REGEN_DISABLED" then hpbutt:Disable() mpbutt:Disable()
-        else hpbutt:Enable() mpbutt:Enable() end
+        if event == "PLAYER_REGEN_DISABLED" then
+            hpbutt:Disable()
+            mpbutt:Disable()
+            hpfoodbutt:Disable()
+            mpfoodbutt:Disable()
+            hppotbutt:Disable()
+            mppotbutt:Disable()
+        else
+            hpbutt:Enable()
+            mpbutt:Enable()
+            hpfoodbutt:Enable()
+            mpfoodbutt:Enable()
+            hppotbutt:Enable()
+            mppotbutt:Enable()
+        end
     end)
     frame:RegisterEvent("PLAYER_REGEN_ENABLED")
     frame:RegisterEvent("PLAYER_REGEN_DISABLED")

@@ -64,7 +64,7 @@ if Utility.IsClassic and GetLocale() == "frFR" then
             pct = false,
         },
         {
-            pattern = "instantanément rend ([%d%.]+) points de vie",
+            pattern = "rend instantanément ([%d%.]+) points de vie",
             healthIndex = 1,
             manaIndex = nil,
             pct = false,

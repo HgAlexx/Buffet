@@ -22,6 +22,7 @@ Core.scanAttempt = {}
 Core.firstRun = true
 Core.scanning = false
 Core.itemCache = {}
+Core.ignoredItemCache = {}
 
 local Buffet = CreateFrame("frame")
 Core.Buffet = Buffet
@@ -249,9 +250,11 @@ function Core:Scan()
             local _, _, _, _, _, _, _, _, _, itemId = GetContainerItemInfo(bag, slot)
             -- slot not empty
             if itemId then
-                if not itemIds[itemId] then
-                    -- get total count for this item id
-                    itemIds[itemId] = GetItemCount(itemId)
+                if not Core.ignoredItemCache[itemId] then
+                    if not itemIds[itemId] then
+                        -- get total count for this item id
+                        itemIds[itemId] = GetItemCount(itemId)
+                    end
                 end
             end
         end
@@ -297,16 +300,18 @@ function Core:Scan()
                     delayedScanRequired = true
                 else
                     if Core.scanAttempt[itemId] and (Core.scanAttempt[itemId] >= 5) then
-                        Utility.Debug("5 failed attempt on: ", itemLink)
-                    end
-                    itemData = Engine.ParseTexts(texts, itemData)
+                        Utility.Debug("5 failed attempt on: ", itemLink, ", item ignored from next scans")
+                        Core.ignoredItemCache[itemId] = itemLink
+                    else
+                        itemData = Engine.ParseTexts(texts, itemData)
 
-                    local validHealth = not itemData.isHealth or (itemData.isHealth and (itemData.health and (itemData.health > 0)))
-                    local validMana   = not itemData.isMana   or (itemData.isMana   and (itemData.mana   and (itemData.mana   > 0)))
+                        local validHealth = not itemData.isHealth or (itemData.isHealth and (itemData.health and (itemData.health > 0)))
+                        local validMana   = not itemData.isMana   or (itemData.isMana   and (itemData.mana   and (itemData.mana   > 0)))
 
-                    if itemData.isWellFed or validHealth or validMana then
-                        Core.itemCache[itemId] = itemData
-                        itemFoundInCache = true
+                        if itemData.isWellFed or validHealth or validMana then
+                            Core.itemCache[itemId] = itemData
+                            itemFoundInCache = true
+                        end
                     end
                 end
             end
@@ -368,7 +373,7 @@ function Core:Scan()
         self:SetBest(Const.BestCategories.rune, 12662, 1200, itemIds[12662])
     end
     if itemIds[20520] and (itemIds[20520] > 0) and (55 <= self.playerLevel) then
-        self:SetBest(Const.BestCategories.rune, 20520, 1200, itemIds[20520])
+        self:SetBest(Const.BestCategories.rune, 20520, 1199, itemIds[20520]) -- health set to 1199 to prioritize demonic rune over dark rune
     end
 
     --local food = Core.bests.percfood.id or Core.bests.food.id or Core.bests.healthstone.id or Core.bests.hppot.id
@@ -478,7 +483,7 @@ function Core:EditDefault(name, substring, food, conjured, pot, mod)
         cast = cast .. "item:6948"
     end
 
-    Utility.Debug("default: ", cast)
+    -- Utility.Debug("default: ", cast)
 
     EditMacro(macroid, name, "INV_Misc_QuestionMark", substring:gsub("%%MACRO%%", cast), 1)
 end
@@ -499,7 +504,7 @@ function Core:EditFoodOnly(name, substring, food)
         cast = cast .. "item:6948"
     end
 
-    Utility.Debug("foodonly: ", cast)
+    -- Utility.Debug("foodonly: ", cast)
 
     EditMacro(macroid, name, "INV_Misc_QuestionMark", substring:gsub("%%MACRO%%", cast), 1)
 end
@@ -534,7 +539,7 @@ function Core:EditConsumble(name, substring, conjured, pot, mod)
         cast = cast .. "item:6948"
     end
 
-    Utility.Debug("consumable: ", cast)
+    -- Utility.Debug("consumable: ", cast)
 
     EditMacro(macroid, name, "INV_Misc_QuestionMark", substring:gsub("%%MACRO%%", cast), 1)
 end
@@ -587,6 +592,7 @@ function Core:SlashHandler(message, editbox)
     elseif cmd == "clear" then
         Core.scanAttempt = {}
         Core.itemCache = {}
+        Core.ignoredItemCache = {}
         Utility.Print("Cache cleared!")
         Utility.Print("Rescanning bags...")
         self:QueueScan()
@@ -625,6 +631,12 @@ function Core:SlashHandler(message, editbox)
         else
             Utility.Print("Invalid argument")
         end
+    elseif cmd == "ignored" then
+        Utility.Print("The following items have been ignored from scans:")
+        for k,v in pairs(Core.ignoredItemCache) do
+            Utility.Print(v)
+        end
+        Utility.Print("If one or more items have been wrongly ignored, please report them to us.")
     elseif cmd == "debug" then
         local itemString = args or nil
         if itemString then
@@ -665,6 +677,7 @@ function Core:SlashHandler(message, editbox)
         Utility.Print("/buffet delay [<number>]: show or set next scan delay in seconds (default is 1.2)")
         Utility.Print("/buffet info <itemLink>: display info about <itemLink> (if item is in cache)")
         Utility.Print("/buffet scan: perform a manual scan of your bags")
+        Utility.Print("/buffet ignored: list all items ignored from scan (session cached)")
         Utility.Print("/buffet stats: show some internal statistics")
         Utility.Print("/buffet debug <itemLink>: scan and display info about <itemLink> (bypass caches)")
     end
