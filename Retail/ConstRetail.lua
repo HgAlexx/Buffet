@@ -84,6 +84,13 @@ ConstRetail.Restrictions = {
             -- 2275, -- Horrific Vision in Vale of Eternal Blossoms
         },
     },
+
+    [12662] = { -- demonic rune
+        inInstanceIds = { }
+    },
+    [20520] = { -- dark rune
+        inInstanceIds = { }
+    },
 }
 
 -- Export

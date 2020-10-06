@@ -40,6 +40,13 @@ ConstClassic.Restrictions = {
     [17348] = { -- Major Healing Draught
         inInstaceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
     },
+
+    [12662] = { -- demonic rune
+        inInstanceIds = { }
+    },
+    [20520] = { -- dark rune
+        inInstanceIds = { }
+    },
 }
 
 -- Export

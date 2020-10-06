@@ -48,6 +48,12 @@ if Utility.IsClassic then
             manaIndex = {3, 4},
             pct = false,
         },
+        {
+            pattern = "([%d%.]+) to ([%d%.]+) mana.- ([%d%.]+) to ([%d%.]+) health",
+            healthIndex = {3, 4},
+            manaIndex = {1, 2},
+            pct = false,
+        },
     }
 
     Locales.Patterns.Health = {

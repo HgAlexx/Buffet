@@ -390,8 +390,8 @@ function Core:Scan()
     self:EditFoodOnly(Const.MacroNames.foodOnlyHP, Core.db.macroHP, food)
     self:EditFoodOnly(Const.MacroNames.drinkOnlyMP, Core.db.macroMP, water)
 
-    self:EditConsumble(Const.MacroNames.consumableHP, Core.db.macroHP, Core.bests.healthstone.id, Core.bests.hppot.id, Core.bests.bandage.id)
-    self:EditConsumble(Const.MacroNames.consumableMP, Core.db.macroMP, Core.bests.managem.id, Core.bests.mppot.id, Core.bests.rune.id)
+    self:EditConsumable(Const.MacroNames.consumableHP, Core.db.macroHP, Core.bests.healthstone.id, Core.bests.hppot.id, Core.bests.bandage.id)
+    self:EditConsumable(Const.MacroNames.consumableMP, Core.db.macroMP, Core.bests.managem.id, Core.bests.mppot.id, Core.bests.rune.id)
 
     -- if we didn't found any food or water, and it is the first run, queue a delayed scan
     if (not food and not water) and Core.firstRun then
@@ -509,7 +509,7 @@ function Core:EditFoodOnly(name, substring, food)
     EditMacro(macroid, name, "INV_Misc_QuestionMark", substring:gsub("%%MACRO%%", cast), 1)
 end
 
-function Core:EditConsumble(name, substring, conjured, pot, mod)
+function Core:EditConsumable(name, substring, conjured, pot, mod)
     local macroid = GetMacroIndexByName(name)
     if not macroid then
         return
@@ -658,6 +658,7 @@ function Core:SlashHandler(message, editbox)
                     self:PrintItemData(itemString, itemData)
 
                     local isRestricted = Engine.CheckRestriction(itemId)
+                    itemData.isRestricted = isRestricted
                     Utility.Debug("- IsRestricted:", Utility.BoolToStr(isRestricted))
 
                     Utility.Debug(itemData)
