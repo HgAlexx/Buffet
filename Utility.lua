@@ -3,12 +3,15 @@ local _, ns = ...
 -- Local namespace
 local Utility = {}
 
+
 -- Localize functions
 local string_match = string.match
 local string_find = string.find
 
 -- Parameters
 do
+    Utility.Debug = false
+
     Utility.buffetTooltip = nil
     Utility.Mode = 1
     Utility.IsClassic = false
@@ -20,7 +23,7 @@ do
         Utility.IsClassic = true
     --elseif interfaceVersion >= 20000 and interfaceVersion < 30000 then
     --    Utility.IsTBC = true
-    elseif interfaceVersion >= 80000 then
+    elseif interfaceVersion >= 90000 then
         Utility.IsRetail = true
     end
 end
@@ -39,6 +42,10 @@ end
 
 function Utility.Debug(...)
     --@debug@
+    if not Utility.Debug then
+        return
+    end
+
     if Utility.Mode == 2 then
         print("|cFF33BB99Buffet|r:", ...)
     else
