@@ -10,7 +10,7 @@ local string_find = string.find
 
 -- Parameters
 do
-    Utility.Debug = false
+    Utility.DebugStatus = false
 
     Utility.buffetTooltip = nil
     Utility.Mode = 1
@@ -42,7 +42,7 @@ end
 
 function Utility.Debug(...)
     --@debug@
-    if not Utility.Debug then
+    if not Utility.DebugStatus then
         return
     end
 
