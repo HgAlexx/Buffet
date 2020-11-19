@@ -84,8 +84,19 @@ function Engine.ParseTexts(texts, itemData)
         end
 
         -- well fed
-        if not itemData.isWellFed and Utility.StringContains(text, Locales.KeyWords.WellFed:lower()) then
-            itemData.isWellFed = true
+        if not itemData.isWellFed then
+            if type(Locales.KeyWords.WellFed) == "table" then
+                for _, s in pairs(Locales.KeyWords.WellFed) do
+                    if Utility.StringContains(text, s:lower()) then
+                        itemData.isWellFed = true
+                        break
+                    end
+                end
+            elseif type(Locales.KeyWords.WellFed) == "string" then
+                if Utility.StringContains(text, Locales.KeyWords.WellFed:lower()) then
+                    itemData.isWellFed = true
+                end
+            end
         end
 
         -- OverTime
@@ -116,6 +127,7 @@ function Engine.ParseTexts(texts, itemData)
         if not itemData.isWellFed and (itemData.isHealth or itemData.isMana) then
             -- FU Blizzard
             itemDescription = Engine.ReplaceFakeSpace(itemDescription)
+            -- Utility.Debug("desc: ", itemDescription)
 
             -- parse for health and/or mana
             itemData = Engine.ParseValues(itemData, itemDescription)
