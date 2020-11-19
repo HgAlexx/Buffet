@@ -54,6 +54,12 @@ if Utility.IsClassic and GetLocale() == "frFR" then
             manaIndex = {1, 2},
             pct = false,
         },
+        {
+            pattern = "rend ([%d%.]+) points de vie.- ([%d%.]+) points de mana en ([%d%.]+) sec",
+            healthIndex = 1,
+            manaIndex = 2,
+            pct = false,
+        },
     }
 
     Locales.Patterns.Health = {

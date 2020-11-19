@@ -54,6 +54,12 @@ if Utility.IsClassic then
             manaIndex = {1, 2},
             pct = false,
         },
+        {
+            pattern = "restores ([%d%.]+) health.- ([%d%.]+) mana over ([%d%.]+) sec",
+            healthIndex = 1,
+            manaIndex = 2,
+            pct = false,
+        },
     }
 
     Locales.Patterns.Health = {

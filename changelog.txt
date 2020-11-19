@@ -1,4 +1,10 @@
-### 9.0.1.64 / 1.13.5.64
+### 1.13.5.65
+
+* Update for Shawdowlands APi changes (backdrop)
+* Fix detection for food with health and mana
+
+
+### 9.0.1.64
 
 * Update for Shawdowlands APi changes (backdrop)
 * Small fixes around dark and demonic rune
