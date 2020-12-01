@@ -5,13 +5,17 @@ local ConstRetail = {}
 
 ConstRetail.ItemClasses = {}
 ConstRetail.ItemClasses.Consumable = 0
+ConstRetail.ItemClasses.Tradeskill = 7
 ConstRetail.ItemClasses.Miscellaneous = 15
 
 ConstRetail.ItemConsumableSubClasses = {}
-ConstRetail.ItemConsumableSubClasses.Bandage = 7
-ConstRetail.ItemConsumableSubClasses.FoodAndDrink = 5
-ConstRetail.ItemConsumableSubClasses.Other = 8
 ConstRetail.ItemConsumableSubClasses.Potion = 1
+ConstRetail.ItemConsumableSubClasses.FoodAndDrink = 5
+ConstRetail.ItemConsumableSubClasses.Bandage = 7
+ConstRetail.ItemConsumableSubClasses.Other = 8
+
+ConstRetail.ItemTradeskillSubClasses = {}
+ConstRetail.ItemTradeskillSubClasses.Cooking = 8
 
 ConstRetail.ItemMiscellaneousSubClasses = {}
 ConstRetail.ItemMiscellaneousSubClasses.Reagent = 1
@@ -21,6 +25,8 @@ ConstRetail.ValidItemClasses = {
     {ConstRetail.ItemClasses.Consumable, ConstRetail.ItemConsumableSubClasses.FoodAndDrink},
     {ConstRetail.ItemClasses.Consumable, ConstRetail.ItemConsumableSubClasses.Other},
     {ConstRetail.ItemClasses.Consumable, ConstRetail.ItemConsumableSubClasses.Potion},
+
+    {ConstRetail.ItemClasses.Tradeskill, ConstRetail.ItemTradeskillSubClasses.Cooking},
 
     {ConstRetail.ItemClasses.Miscellaneous, ConstRetail.ItemMiscellaneousSubClasses.Reagent},
 }

@@ -289,11 +289,11 @@ function Core:Scan()
             -- if not found, scan and parse tooltip
             if not itemFoundInCache then
                 -- parse tooltip values
-                local texts, failedAttempt = Engine.ScanTooltip(itemLink, itemLevel)
+                local texts, failedAttempt = Engine.ScanTooltip(itemLink, itemMinLevel)
 
                 if failedAttempt and (not Core.scanAttempt[itemId] or Core.scanAttempt[itemId] < 5) then
                     if Core.scanAttempt[itemId] then
-                        Core.scanAttempt[itemId] = Core.scanAttempt[itemId] +1
+                        Core.scanAttempt[itemId] = Core.scanAttempt[itemId] + 1
                     else
                         Core.scanAttempt[itemId] = 1
                     end
@@ -304,6 +304,7 @@ function Core:Scan()
                         Core.ignoredItemCache[itemId] = itemLink
                     else
                         itemData = Engine.ParseTexts(texts, itemData)
+                        Utility.Debug(itemData)
 
                         local validHealth = not itemData.isHealth or (itemData.isHealth and (itemData.health and (itemData.health > 0)))
                         local validMana   = not itemData.isMana   or (itemData.isMana   and (itemData.mana   and (itemData.mana   > 0)))
@@ -318,7 +319,7 @@ function Core:Scan()
 
             -- if item is usable
             if itemFoundInCache and not itemData.isWellFed and ((itemData.health and (itemData.health > 0)) or (itemData.mana and (itemData.mana > 0))) then
-                -- Utility.Debug(itemName, itemData)
+                Utility.Debug(itemName, itemData)
 
                 local isRestricted = Engine.CheckRestriction(itemId)
 
@@ -622,7 +623,9 @@ function Core:SlashHandler(message, editbox)
                     itemId = tonumber(itemId)
                     if Core.itemCache[itemId] then
                         local data = Core.itemCache[itemId]
+                        data.isRestricted = Engine.CheckRestriction(itemId)
                         self:PrintItemData(itemString, data)
+                        data.isRestricted = false
                     else
                         Utility.Print("Item " .. itemString .. ": Not in cache")
                     end
@@ -640,26 +643,23 @@ function Core:SlashHandler(message, editbox)
     elseif cmd == "debug" then
         local itemString = args or nil
         if itemString then
-            local _, itemLink, _, itemLevel, _, _, _, _, _, _, _, itemClassId, itemSubClassId = GetItemInfo(itemString)
+            local _, itemLink, _, itemLevel, itemMinLevel, _, _, _, _, _, _, itemClassId, itemSubClassId = GetItemInfo(itemString)
             if itemLink then
                 local itemId = string_match(itemLink, "item:([%d]+)")
                 if itemId then
                     itemId = tonumber(itemId)
 
-                    local texts, failedAttempt = Engine.ScanTooltip(itemLink, itemLevel)
+                    local texts, failedAttempt = Engine.ScanTooltip(itemLink, itemMinLevel)
                     if failedAttempt then
                         Utility.Print("Item " .. itemString .. ": ScanTooltip failed")
+                        Utility.Debug(texts)
                         return
                     end
 
                     local itemData = self:MakeNewItemData(itemId, itemClassId, itemSubClassId)
                     itemData = Engine.ParseTexts(texts, itemData)
-
+                    itemData.isRestricted = Engine.CheckRestriction(itemId)
                     self:PrintItemData(itemString, itemData)
-
-                    local isRestricted = Engine.CheckRestriction(itemId)
-                    itemData.isRestricted = isRestricted
-                    Utility.Debug("- IsRestricted:", Utility.BoolToStr(isRestricted))
 
                     Utility.Debug(itemData)
                 end
@@ -697,6 +697,8 @@ function Core:PrintItemData(itemString, itemData)
     Utility.Print("- Is potion: " .. Utility.BoolToStr(itemData.isPotion))
     Utility.Print("- Is bandage: " .. Utility.BoolToStr(itemData.isBandage))
     Utility.Print("- Is over time: " .. Utility.BoolToStr(itemData.isOverTime))
+    Utility.Print("- Is restricted: ", Utility.BoolToStr(itemData.isRestricted))
+
     local overtimeTotalHealth = ""
     local overtimeTotalMana = ""
     if itemData.isOverTime and itemData.overTime and (itemData.overTime > 0) then

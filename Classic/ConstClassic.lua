@@ -3,7 +3,7 @@ local _, ns = ...
 -- Local namespace
 local ConstClassic = {}
 
--- used for classic, but we keep it here in case class ids are implemented in the future
+-- unused for classic, but we keep it here in case class ids are implemented in the future
 ConstClassic.ItemClasses = {}
 ConstClassic.ItemClasses.Consumable = 0
 

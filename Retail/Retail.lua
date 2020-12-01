@@ -160,6 +160,7 @@ if Utility.IsRetail then
 
         -- food
         if (itemData.itemClassId == ConstRetail.ItemClasses.Consumable and itemData.itemSubClassId == ConstRetail.ItemConsumableSubClasses.FoodAndDrink) or
+           (itemData.itemClassId == ConstRetail.ItemClasses.Tradeskill and itemData.itemSubClassId == ConstRetail.ItemTradeskillSubClasses.Cooking) or
            (itemData.itemClassId == ConstRetail.ItemClasses.Miscellaneous and itemData.itemSubClassId == ConstRetail.ItemMiscellaneousSubClasses.Reagent) then
             if itemData.isHealth then
                 if itemData.isConjured then
@@ -177,6 +178,8 @@ if Utility.IsRetail then
             end
             return healthCats, manaCats
         end
+
+        -- potion
         if itemData.itemClassId == ConstRetail.ItemClasses.Consumable and itemData.itemSubClassId == ConstRetail.ItemConsumableSubClasses.Potion then
             if itemData.isHealth then
                 table.insert(healthCats, Const.BestCategories.hppot)
@@ -186,12 +189,16 @@ if Utility.IsRetail then
             end
             return healthCats, manaCats
         end
+
+        --  bandage
         if itemData.itemClassId == ConstRetail.ItemClasses.Consumable and itemData.itemSubClassId == ConstRetail.ItemConsumableSubClasses.Bandage then
             if itemData.isHealth then
                 table.insert(healthCats, Const.BestCategories.bandage)
             end
             return healthCats, manaCats
         end
+
+        -- conjured
         if itemData.isConjured then
             if itemData.isHealth then
                 table.insert(healthCats, Const.BestCategories.healthstone)

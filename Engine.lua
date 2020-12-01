@@ -16,7 +16,7 @@ function Engine.ScanTooltip(itemLink, itemLevel)
     local tooltip = Utility.GetTooltip()
     tooltip:SetHyperlink(itemLink)
 
-    local isConjured
+    local isConjured = false
     local lineCount = 0
     for i = 2, tooltip:NumLines() do
         local text = _G["buffetTooltipTextLeft" .. i]:GetText() or ""

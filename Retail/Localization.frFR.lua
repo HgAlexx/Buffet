@@ -98,21 +98,3 @@ if Utility.IsRetail and GetLocale() == "frFR" then
     -- Export
     ns.Locales = Locales
 end
-
---if GetLocale() == "frFR" then
---    ThousandSeparator = " "
---
---    Patterns.FlatMana = "([%d%s%.]+) .-mana"
---    Patterns.PctMana = "([%d%.]+)%%.-mana"
---
---    -- Classic stuff
---    Classic_KeyWords.Bandage = "secourisme"
---
---    Classic_Patterns.Bandage = "rend ([%d%.]+) points de vie en ([%d%.]+) sec"
---
---    Classic_Patterns.Food = "rend ([%d%.]+) points de vie en ([%d%.]+) sec"
---    Classic_Patterns.Drink = "rend ([%d%.]+) points de mana en ([%d%.]+) sec"
---
---    Classic_Patterns.HealthPotion = "([%d%.]+) à ([%d%.]+) points de vie"
---    Classic_Patterns.ManaPotion = "([%d%.]+) à ([%d%.]+) points de mana"
---end
