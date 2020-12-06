@@ -1,3 +1,8 @@
+### 9.0.2.67
+
+* Fix issue with some items tooltip parsing
+
+
 ### 9.0.2.66
 
 * Fix issue with edible cooking items not recognized as such
@@ -7,14 +12,14 @@
 
 ### 1.13.5.65
 
-* Update for Shadowlands APi changes (backdrop)
+* Update for Shadowlands API changes (backdrop)
 * Fix detection for food with health and mana
 * Better filter of some buff food
 
 
 ### 9.0.1.64
 
-* Update for Shadowlands APi changes (backdrop)
+* Update for Shadowlands API changes (backdrop)
 * Small fixes around dark and demonic rune
 
 

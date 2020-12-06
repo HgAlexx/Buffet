@@ -304,14 +304,22 @@ function Core:Scan()
                         Core.ignoredItemCache[itemId] = itemLink
                     else
                         itemData = Engine.ParseTexts(texts, itemData)
-                        Utility.Debug(itemData)
+                        -- Utility.Debug(itemData)
 
-                        local validHealth = not itemData.isHealth or (itemData.isHealth and (itemData.health and (itemData.health > 0)))
-                        local validMana   = not itemData.isMana   or (itemData.isMana   and (itemData.mana   and (itemData.mana   > 0)))
+                        local validHealth = (itemData.isHealth and (itemData.health and (itemData.health > 0)))
+                        local validMana   = (itemData.isMana   and (itemData.mana   and (itemData.mana   > 0)))
 
                         if itemData.isWellFed or validHealth or validMana then
                             Core.itemCache[itemId] = itemData
                             itemFoundInCache = true
+                        else
+                            if Core.scanAttempt[itemId] then
+                                Core.scanAttempt[itemId] = Core.scanAttempt[itemId] + 1
+                            else
+                                Core.scanAttempt[itemId] = 1
+                            end
+                            -- Utility.Debug("Need rescan for: ", itemLink)
+                            delayedScanRequired = true
                         end
                     end
                 end
@@ -319,7 +327,7 @@ function Core:Scan()
 
             -- if item is usable
             if itemFoundInCache and not itemData.isWellFed and ((itemData.health and (itemData.health > 0)) or (itemData.mana and (itemData.mana > 0))) then
-                Utility.Debug(itemName, itemData)
+                -- Utility.Debug(itemName, itemData)
 
                 local isRestricted = Engine.CheckRestriction(itemId)
 
