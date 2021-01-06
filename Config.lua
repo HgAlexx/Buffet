@@ -8,15 +8,19 @@ local MAX_ACCOUNT_MACROS, MAX_CHARACTER_MACROS = 120, 18
 local EDGEGAP, GAP = 16, 8
 local tekbutt = LibStub("tekKonfig-Button")
 
+local BACKDROP_TOOLTIP_12_12_4444 = BACKDROP_TOOLTIP_12_12_4444 or {
+    bgFile = "Interface\\ChatFrame\\UI-Tooltip-Background",
+    edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+    tile = true,
+    tileEdge = true,
+    tileSize = 12,
+    edgeSize = 12,
+    insets = { left = 4, right = 4, top = 4, bottom = 4 },
+}
 
 if AddonLoader and AddonLoader.RemoveInterfaceOptions then AddonLoader:RemoveInterfaceOptions("Buffet") end
 
 local modEdit = function(parent, anchor, label, text, tips, onAction)
-    local backdrop = {
-        bgFile = "Interface\\ChatFrame\\ChatFrameBackground", insets = {left = 4, right = 4, top = 4, bottom = 4},
-        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 16
-    }
-
     local modlabel = parent:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     modlabel:SetText(label)
     modlabel:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -5)
@@ -43,9 +47,7 @@ local frame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 frame.name = "Buffet"
 frame:Hide()
 frame:SetScript("OnShow", function()
-    local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Buffet", "This panel allows you to quickly create the base macros for Buffet to edit.  You can also set the macro text to be used.")
-
-
+    local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Buffet", "This panel allows you to quickly create the base macros for Buffet to edit.\nYou can also set the macro text to be used.")
 
     local function OnClick(self)
         local id = GetMacroIndexByName(self.name)
@@ -60,8 +62,6 @@ frame:SetScript("OnShow", function()
             PickupMacro(id)
         end
     end
-
-
 
     local hpbutt = tekbutt.new(frame, "TOPLEFT", subtitle, "BOTTOMLEFT", -2, -GAP)
     hpbutt:SetText("HP Macro")
@@ -116,10 +116,6 @@ frame:SetScript("OnShow", function()
     hpmacrolabel:SetPoint("TOPLEFT", hpbutt, "BOTTOMLEFT", 5, -GAP)
 
     local YOFFSET = (hpmacrolabel:GetTop() - frame:GetBottom() - EDGEGAP/3)/2
-    local backdrop = {
-        bgFile = "Interface\\ChatFrame\\ChatFrameBackground", insets = {left = 4, right = 4, top = 4, bottom = 4},
-        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 16
-    }
 
     local hpeditbox = CreateFrame("EditBox", nil, frame, BackdropTemplateMixin and "BackdropTemplate")
     hpeditbox:SetPoint("TOP", hpmacrolabel, "BOTTOM", 0, -5)
@@ -209,7 +205,7 @@ frame_config:SetScript("OnShow", function()
     local title, subtitle = LibStub("tekKonfig-Heading").new(
         frame_config,
         "Configuration",
-        "This panel allows you to configure all the macros.\nModifiers use macro syntax: nomod | mod:key | mod:key1/key2 | mod:key1,mod:key2"
+        "This panel allows you to configure all the macros.\nModifiers use macro syntax: nomod | mod:key | mod:key1/key2 | mod:key1,mod:key2\nEmpty modifiers to disable them."
     )
 
     local header = frame_config:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
@@ -218,7 +214,7 @@ frame_config:SetScript("OnShow", function()
 
     local combatCheckButton = CreateFrame("CheckButton", "CombatCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
     CombatCheckButtonText:SetText("Enable combat mode")
-    combatCheckButton.tooltip = "Uncheck this to disable in-combat items in macro"
+    combatCheckButton.tooltip = "Check this to enable in-combat items in macro"
     combatCheckButton:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, -5)
     combatCheckButton:SetChecked(Core.db.combat)
     combatCheckButton:SetScript("OnClick",
@@ -232,51 +228,63 @@ frame_config:SetScript("OnShow", function()
         end
     )
 
-    local backdrop = {
-        bgFile = "Interface\\ChatFrame\\ChatFrameBackground", insets = {left = 4, right = 4, top = 4, bottom = 4},
-        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 16
-    }
+    local hearthstoneCheckButton = CreateFrame("CheckButton", "HearthstoneCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
+    HearthstoneCheckButtonText:SetText("Default to hearthstone")
+    hearthstoneCheckButton.tooltip = "Check this to default to hearthstone"
+    hearthstoneCheckButton:SetPoint("TOPLEFT", combatCheckButton, "BOTTOMLEFT", 0, -5)
+    hearthstoneCheckButton:SetChecked(Core.db.hearthstone)
+    hearthstoneCheckButton:SetScript("OnClick",
+        function()
+            if hearthstoneCheckButton:GetChecked() then
+                Core.db.hearthstone = true
+            else
+                Core.db.hearthstone = false
+            end
+            Core:QueueScan()
+        end
+    )
 
     local modConjured = modEdit(
         frame_config,
-        combatCheckButton,
+        hearthstoneCheckButton,
         "In-Combat: conjured items modifier (mana gems, healthstone)",
         Core.db.modConjured,
         "Modifier for in-combat conjured items",
         function(self)
-            local mod = self:GetText()
-            if mod ~= "" then
-                if Core.db.modConjured ~= mod then
-                    Core.db.modConjured = mod
-                    if Core.db.modConjured == Core.db.modSpecial then
-                        Utility.Print("Warning: same modifier use twice!")
-                    end
-                    Core:QueueScan()
-                end
-            else
-                Utility.Print("Warning: empty modifier not allowed!")
+            local mod = self:GetText() or ""
+            if Core.db.modConjured ~= mod then
+                Core.db.modConjured = mod
+                Core:QueueScan()
+            end
+        end
+    )
+
+    local modPotion = modEdit(
+        frame_config,
+        modConjured,
+        "In-Combat: potion items modifier",
+        Core.db.modPotion,
+        "Modifier for in-combat potion items",
+        function(self)
+            local mod = self:GetText() or ""
+            if Core.db.modPotion ~= mod then
+                Core.db.modPotion = mod
+                Core:QueueScan()
             end
         end
     )
 
     local modSpecial = modEdit(
         frame_config,
-        modConjured,
+        modPotion,
         "Special items modifier (bandage, runes)",
         Core.db.modSpecial,
         "Modifier for special items",
         function(self)
-            local mod = self:GetText()
-            if mod ~= "" then
-                if Core.db.modSpecial ~= mod then
-                    Core.db.modSpecial = mod
-                    if Core.db.modConjured == Core.db.modSpecial then
-                        Utility.Print("Warning: same modifier use twice!")
-                    end
-                    Core:QueueScan()
-                end
-            else
-                Utility.Print("Warning: empty modifier not allowed!")
+            local mod = self:GetText() or ""
+            if Core.db.modSpecial ~= mod then
+                Core.db.modSpecial = mod
+                Core:QueueScan()
             end
         end
     )
@@ -292,39 +300,40 @@ frame_config:SetScript("OnShow", function()
         Core.db.consModConjured,
         "Modifier for in-combat conjured items",
         function(self)
-            local mod = self:GetText()
-            if mod ~= "" then
-                if Core.db.consModConjured ~= mod then
-                    Core.db.consModConjured = mod
-                    if Core.db.consModConjured == Core.db.consModSpecial then
-                        Utility.Print("Warning: same modifier use twice!")
-                    end
-                    Core:QueueScan()
-                end
-            else
-                Utility.Print("Warning: empty modifier not allowed!")
+            local mod = self:GetText() or ""
+            if Core.db.consModConjured ~= mod then
+                Core.db.consModConjured = mod
+                Core:QueueScan()
+            end
+        end
+    )
+
+    local consModPotion = modEdit(
+        frame_config,
+        consModConjured,
+        "Potion items modifier",
+        Core.db.consModPotion,
+        "Modifier for in-combat potion items",
+        function(self)
+            local mod = self:GetText() or ""
+            if Core.db.consModPotion ~= mod then
+                Core.db.consModPotion = mod
+                Core:QueueScan()
             end
         end
     )
 
     local consModSpecial = modEdit(
         frame_config,
-        consModConjured,
+        consModPotion,
         "Special items modifier (bandage, runes)",
         Core.db.modSpecial,
         "Modifier for special items",
         function(self)
-            local mod = self:GetText()
-            if mod ~= "" then
-                if Core.db.consModSpecial ~= mod then
-                    Core.db.consModSpecial = mod
-                    if Core.db.consModConjured == Core.db.consModSpecial then
-                        Utility.Print("Warning: same modifier use twice!")
-                    end
-                    Core:QueueScan()
-                end
-            else
-                Utility.Print("Warning: empty modifier not allowed!")
+            local mod = self:GetText() or ""
+            if Core.db.consModSpecial ~= mod then
+                Core.db.consModSpecial = mod
+                Core:QueueScan()
             end
         end
     )

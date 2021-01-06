@@ -53,7 +53,7 @@ if Utility.IsRetail then
     end
 
     function Engine.PostParseUpdate(itemData)
-        -- used for retail (for now)
+        -- unused for retail (for now)
         return itemData
     end
 

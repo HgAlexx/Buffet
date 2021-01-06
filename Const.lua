@@ -7,10 +7,14 @@ Const.DBdefaults = {
     macroHP = "#showtooltip\n%MACRO%",
     macroMP = "#showtooltip\n%MACRO%",
     combat = true,
+    hearthstone = true,
+    modPotion = "",
     modConjured = "mod:shift",
     modSpecial = "mod:ctrl",
+    consModPotion = "",
     consModConjured = "mod:shift",
-    consModSpecial = "mod:ctrl"
+    consModSpecial = "mod:ctrl",
+    customMacros = {}
 }
 
 Const.MacroNames = {

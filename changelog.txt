@@ -1,3 +1,12 @@
+### 9.0.2.68-Beta / 1.13.6.68-Beta
+
++ Add potion modifiers
++ Add option to default to hearthstone (or not)
+* Allow empty modifiers to disable them
+* Small UI adjustments
+* Typos here and there
+
+
 ### 9.0.2.67
 
 * Fix issue with some items tooltip parsing

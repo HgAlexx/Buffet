@@ -23,6 +23,7 @@ Core.firstRun = true
 Core.scanning = false
 Core.itemCache = {}
 Core.ignoredItemCache = {}
+Core.macros = {}
 
 local Buffet = CreateFrame("frame")
 Core.Buffet = Buffet
@@ -473,23 +474,37 @@ function Core:EditDefault(name, substring, food, conjured, pot, mod)
     if mod then -- bandage / rune
         if Core.db.modSpecial and Core.db.modSpecial ~= "" then
             cast = cast .. "[" .. Core.db.modSpecial .. ",target=player] item:" .. mod .. "; "
+        else
+            cast = cast .. "[target=player] item:" .. mod .. "; "
         end
     end
 
     if Core.db.combat and conjured then -- health stone / mana gem
         if Core.db.modConjured and Core.db.modConjured ~= "" then
             cast = cast .. "[combat," .. Core.db.modConjured .. "] item:" .. conjured .. "; "
+        else
+            cast = cast .. "[combat] item:" .. conjured .. "; "
         end
     end
 
     if Core.db.combat and pot then
-        cast = cast .. "[combat] item:" .. pot .. "; "
+        if Core.db.modPotion and Core.db.modPotion ~= "" then
+            cast = cast .. "[combat," .. Core.db.modPotion .. "] item:" .. pot .. "; "
+        else
+            cast = cast .. "[combat] item:" .. pot .. "; "
+        end
     end
 
     if food then
         cast = cast .. "item:" .. food
     else
-        cast = cast .. "item:6948"
+        if Core.db.hearthstone then
+            cast = cast .. "item:6948"
+        end
+    end
+
+    if cast == "/cast " then
+        cast = ""
     end
 
     -- Utility.Debug("default: ", cast)
@@ -510,7 +525,13 @@ function Core:EditFoodOnly(name, substring, food)
     if food then
         cast = cast .. "item:" .. food
     else
-        cast = cast .. "item:6948"
+        if Core.db.hearthstone then
+            cast = cast .. "item:6948"
+        end
+    end
+
+    if cast == "/cast " then
+        cast = ""
     end
 
     -- Utility.Debug("foodonly: ", cast)
@@ -533,19 +554,33 @@ function Core:EditConsumable(name, substring, conjured, pot, mod)
     if mod then -- bandage / rune
         if Core.db.consModSpecial and Core.db.consModSpecial ~= "" then
             cast = cast .. "[" .. Core.db.consModSpecial .. ",target=player] item:" .. mod .. "; "
+        else
+            cast = cast .. "[target=player] item:" .. mod .. "; "
         end
     end
 
     if conjured then -- health stone / mana gem
         if Core.db.consModConjured and Core.db.consModConjured ~= "" then
             cast = cast .. "[" .. Core.db.consModConjured .. "] item:" .. conjured .. "; "
+        else
+            cast = cast .. "item:" .. conjured .. "; "
         end
     end
 
     if pot then
-        cast = cast .. "item:" .. pot
+        if Core.db.consModPotion and Core.db.consModPotion ~= "" then
+            cast = cast .. "[" .. Core.db.consModPotion .. "] item:" .. pot .. "; "
+        else
+            cast = cast .. "item:" .. pot
+        end
     else
-        cast = cast .. "item:6948"
+        if Core.db.hearthstone then
+            cast = cast .. "item:6948"
+        end
+    end
+
+    if cast == "/cast " then
+        cast = ""
     end
 
     -- Utility.Debug("consumable: ", cast)
