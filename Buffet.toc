@@ -1,4 +1,4 @@
-## Interface: 90002
+## Interface: 11306
 ## Title: Buffet
 ## Notes: Food/water macro generator
 ## Author: Tekkub Stoutwrithe, mZHg
