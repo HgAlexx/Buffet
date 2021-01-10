@@ -1,3 +1,8 @@
+### 9.0.2.69-Beta / 1.13.6.69-Beta
+
++ New feature: custom macro
+
+
 ### 9.0.2.68-Beta / 1.13.6.68-Beta
 
 + Add potion modifiers

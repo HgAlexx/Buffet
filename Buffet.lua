@@ -23,7 +23,7 @@ Core.firstRun = true
 Core.scanning = false
 Core.itemCache = {}
 Core.ignoredItemCache = {}
-Core.macros = {}
+Core.customMacros = {}
 
 local Buffet = CreateFrame("frame")
 Core.Buffet = Buffet
@@ -64,6 +64,17 @@ function Buffet:ADDON_LOADED(event, addon)
     BuffetItemDB.itemCache = Core.itemCache
     BuffetItemDB.nextScanDelay = Core.nextScanDelay
     BuffetItemDB.version = Core.Version
+
+    for k, v in pairs(BuffetItemDB.customMacros) do
+        Core.customMacros[k] = {}
+        Core.customMacros[k].key = v.name
+        Core.customMacros[k].name = v.name
+        Core.customMacros[k].source = v.source
+        Core.customMacros[k].chunck = nil
+        Core.customMacros[k].error = false
+        Core.customMacros[k].body = nil
+        Core.customMacros[k].icon = nil
+    end
 
     Core.stats = {}
     Core.stats.events = {}
@@ -140,6 +151,13 @@ function Buffet:PLAYER_LOGOUT()
     -- Save BuffetItemDB
     BuffetItemDB.itemCache = Core.itemCache
     BuffetItemDB.nextScanDelay = Core.nextScanDelay
+    BuffetItemDB.customMacros = {}
+    for k, v in pairs(Core.customMacros) do
+        BuffetItemDB.customMacros[k] = {}
+        BuffetItemDB.customMacros[k].name = v.name
+        BuffetItemDB.customMacros[k].source = v.source
+    end
+
     for i, v in pairs(Const.ItemDBdefaults) do
         if BuffetItemDB[i] == v then
             BuffetItemDB[i] = nil
@@ -192,6 +210,58 @@ function Buffet:UNIT_MAXPOWER(event, arg1, arg2)
         Core.playerMana = UnitPowerMax("player")
         Core:QueueScan()
     end
+end
+
+function Core:LoadSystemMacro()
+--    -- todo
+--    local macro = {}
+--    macro.name = Const.MacroNames.defaultHP
+--    macro.desc = "Default HP macro"
+--
+--    macro.source = nil
+--    macro.chunck = function(...)
+--        -- input: bests, settings
+--        local bests, settings = ...
+--        local cast = "/cast "
+--
+--        if bests.bandage then -- bandage / rune
+--            if settings.modSpecial and settings.modSpecial ~= "" then
+--                cast = cast .. "[" .. settings.modSpecial .. ",target=player] item:" .. bests.bandage .. "; "
+--            else
+--                cast = cast .. "[target=player] item:" .. bests.bandage .. "; "
+--            end
+--        end
+--
+--        if settings.combat and bests.healthstone then -- health stone / mana gem
+--            if settings.modConjured and settings.modConjured ~= "" then
+--                cast = cast .. "[combat," .. settings.modConjured .. "] item:" .. bests.healthstone .. "; "
+--            else
+--                cast = cast .. "[combat] item:" .. bests.healthstone .. "; "
+--            end
+--        end
+--
+--        if settings.combat and bests.healthPotion then
+--            if settings.modPotion and settings.modPotion ~= "" then
+--                cast = cast .. "[combat,".. settings.modPotion .."] item:" .. bests.healthPotion .. "; "
+--            else
+--                cast = cast .. "[combat] item:" .. bests.healthPotion .. "; "
+--            end
+--        end
+--
+--        local food = bests.conjuredFood or bests.food
+--        if food then
+--            cast = cast .. "item:" .. food
+--        else
+--            if settings.hearthstone then
+--                cast = cast .. "item:6948"
+--            end
+--        end
+--
+--        return settings.macroHP:gsub("%%MACRO%%", cast)
+--    end
+--    macro.active = true
+--    Core.macros[Const.MacroNames.defaultHP] = macro
+
 end
 
 function Core:ResetBest()
@@ -403,6 +473,24 @@ function Core:Scan()
     self:EditConsumable(Const.MacroNames.consumableHP, Core.db.macroHP, Core.bests.healthstone.id, Core.bests.hppot.id, Core.bests.bandage.id)
     self:EditConsumable(Const.MacroNames.consumableMP, Core.db.macroMP, Core.bests.managem.id, Core.bests.mppot.id, Core.bests.rune.id)
 
+    -- Update custom macros
+    for _, macro in pairs(Core.customMacros) do
+        if not macro.error then
+            -- check if the macro exists
+            local macroId = GetMacroIndexByName(macro.name)
+            if macroId > 0 then
+                Core:CompileSource(macro)
+                local body, icon = Core:RunChunck(macro)
+                if body and (macro.body ~= body or macro.icon ~= icon) then
+                    macro.body = body
+                    macro.icon = icon
+                    EditMacro(macroId, macro.name, icon or "INV_Misc_QuestionMark", body, 1)
+                    Utility.Debug("Custom Macro: " .. macro.name .. " has been updated successfully")
+                end
+            end
+        end
+    end
+
     -- if we didn't found any food or water, and it is the first run, queue a delayed scan
     if (not food and not water) and Core.firstRun then
         Core.firstRun = false
@@ -417,6 +505,42 @@ function Core:Scan()
     end
 
     self:StatsTimerUpdate("Scan", currentTime)
+end
+
+function Core:RunChunck(macro)
+    if macro.error or macro.chunck == nil then
+        return nil, nil
+    end
+
+    local success, ret1, ret2 = pcall(macro.chunck, Core:BestsBeautifier())
+    if success then
+        return ret1, ret2
+    else
+        macro.error = true
+        macro.chunck = nil
+        macro.icon = nil
+        Utility.Print("Custom Macro: Unable to execute " .. macro.name ..", please check the source")
+        Utility.Print("Error: " .. (ret1 or "unknown"))
+        return nil, nil
+    end
+end
+
+function Core:CompileSource(macro)
+    if macro.error then
+        macro.chunck = nil
+        return
+    end
+
+    local chunck, errorMessage = loadstring(macro.source, macro.name)
+    if chunck then
+        macro.chunck = chunck
+    else
+        macro.chunck = nil
+        macro.error = true
+        macro.icon = nil
+        Utility.Print("Custom Macro: Unable to compile " .. macro.name ..", please check the source")
+        Utility.Print("Error: " .. errorMessage)
+    end
 end
 
 function Core:MakeNewItemData(itemId, itemClassId, itemSubClassId)
@@ -438,6 +562,21 @@ function Core:MakeNewItemData(itemId, itemClassId, itemSubClassId)
     itemData.itemClassId = itemClassId
     itemData.itemSubClassId = itemSubClassId
     return itemData
+end
+
+function Core:BestsBeautifier()
+    local bests = {}
+    bests.bandage = Core.bests.bandage.id
+    bests.rune = Core.bests.rune.id
+    bests.conjuredFood = Core.bests.percfood.id
+    bests.conjuredDrink = Core.bests.percwater.id
+    bests.food = Core.bests.food.id
+    bests.drink = Core.bests.water.id
+    bests.healthstone = Core.bests.healthstone.id
+    bests.manaGem = Core.bests.managem.id
+    bests.healthPotion = Core.bests.hppot.id
+    bests.manaPotion = Core.bests.mppot.id
+    return bests
 end
 
 function Core:Edit(name, substring, food, pot, mod)
@@ -463,11 +602,6 @@ function Core:EditDefault(name, substring, food, conjured, pot, mod)
     if not macroid then
         return
     end
-
---    Utility.Debug("food: ", food)
---    Utility.Debug("conjured: ", conjured)
---    Utility.Debug("pot: ", pot)
---    Utility.Debug("mod: ", mod)
 
     local cast = "/cast "
 
@@ -506,8 +640,6 @@ function Core:EditDefault(name, substring, food, conjured, pot, mod)
     if cast == "/cast " then
         cast = ""
     end
-
-    -- Utility.Debug("default: ", cast)
 
     EditMacro(macroid, name, "INV_Misc_QuestionMark", substring:gsub("%%MACRO%%", cast), 1)
 end
@@ -779,3 +911,22 @@ end
 
 -- Export
 ns.Core = Core
+
+
+--local bests = ... -- Keep this
+--
+--local bestfood = bests.conjuredFood or bests.food
+--local bestdrink = bests.conjuredDrink or bests.drink
+--
+--local content = {}
+--table.insert(content, "#showtooltip")
+--
+--if bestfood then
+--    table.insert(content, "/cast item:" .. bestfood)
+--end
+--
+--if bestdrink and bestfood ~= bestdrink then
+--    table.insert(content, "/cast item:" .. bestdrink)
+--end
+--
+--return table.concat(content, "\n")

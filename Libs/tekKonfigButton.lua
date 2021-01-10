@@ -14,13 +14,12 @@ if oldminor < 5 then
 		end
 	end
 
-
 	-- Create a button.
 	-- All args optional, parent recommended
 	function lib.new(parent, ...)
 		local butt = CreateFrame("Button", nil, parent)
 		if select("#", ...) > 0 then butt:SetPoint(...) end
-		butt:SetWidth(95) butt:SetHeight(22)
+		butt:SetWidth(102) butt:SetHeight(22)
 
 		-- Fonts --
 		butt:SetDisabledFontObject(GameFontDisable)

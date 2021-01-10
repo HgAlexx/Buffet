@@ -14,7 +14,6 @@ Const.DBdefaults = {
     consModPotion = "",
     consModConjured = "mod:shift",
     consModSpecial = "mod:ctrl",
-    customMacros = {}
 }
 
 Const.MacroNames = {
@@ -26,7 +25,7 @@ Const.MacroNames = {
     consumableMP = "ConsumableMP"
 }
 
-Const.ItemDBdefaults = { itemCache = {}, build = 0, nextScanDelay = 1.2, version = 0 }
+Const.ItemDBdefaults = { itemCache = {}, build = 0, nextScanDelay = 1.2, version = 0, customMacros = {} }
 
 Const.BestCategories = {}
 Const.BestCategories.bandage = "bandage"
@@ -39,6 +38,28 @@ Const.BestCategories.water = "water"
 Const.BestCategories.food = "food"
 Const.BestCategories.percfood = "percfood"
 Const.BestCategories.percwater = "percwater"
+
+Const.newMacroSource = [[local bests = ... -- Keep this
+
+-- Available categories: contains the item id or nil
+-- bests.bandage
+-- bests.rune
+-- bests.conjuredFood
+-- bests.conjuredDrink
+-- bests.food
+-- bests.drink
+-- bests.healthstone
+-- bests.manaGem
+-- bests.healthPotion
+-- bests.manaPotion
+
+-- Example for best food with default to hearthstone
+local bestfood = bests.conjuredFood or bests.food or 6948
+
+-- Must return: body [, icon]
+return "#showtooltip\n/cast item:" .. bestfood, "INV_Misc_QuestionMark"
+
+-- If you need help, you can ask here: https://github.com/HgAlexx/Buffet/discussions]]
 
 -- Export
 ns.Const = Const

@@ -2,10 +2,11 @@ local addonName, ns = ...
 local Core = ns.Core
 local Utility = ns.Utility
 local Const = ns.Const
+local Config = {}
 
 local MAX_ACCOUNT_MACROS, MAX_CHARACTER_MACROS = 120, 18
 
-local EDGEGAP, GAP = 16, 8
+local EDGEGAP, GAP = 16, 5
 local tekbutt = LibStub("tekKonfig-Button")
 
 local BACKDROP_TOOLTIP_12_12_4444 = BACKDROP_TOOLTIP_12_12_4444 or {
@@ -20,25 +21,68 @@ local BACKDROP_TOOLTIP_12_12_4444 = BACKDROP_TOOLTIP_12_12_4444 or {
 
 if AddonLoader and AddonLoader.RemoveInterfaceOptions then AddonLoader:RemoveInterfaceOptions("Buffet") end
 
+local GameTooltip = GameTooltip
+local function HideTooltip()
+    GameTooltip:Hide()
+end
+local function ShowTooltip(self)
+    if self.tiptext then
+        GameTooltip:SetOwner(self, "ANCHOR_TOP")
+        GameTooltip:SetText(self.tiptext, nil, nil, nil, nil, true)
+    end
+end
+
+local makeLabel = function(parent, label)
+    local l = parent:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    l:SetText(label)
+    return l
+end
+
+local makeEditbox = function(parent, text, tips, onAction)
+    local e = CreateFrame("EditBox", nil, parent, BackdropTemplateMixin and "BackdropTemplate")
+    e:SetFontObject(GameFontHighlight)
+    e:SetTextInsets(8,8,8,8)
+    e:SetBackdrop(BACKDROP_TOOLTIP_12_12_4444)
+    e:SetBackdropColor(.1,.1,.1,.3)
+    e:SetMultiLine(false)
+    e:SetAutoFocus(false)
+    e:SetText(text)
+    e.tiptext = tips
+    e:SetScript("OnEditFocusLost", onAction)
+    e:SetScript("OnEscapePressed", e.ClearFocus)
+    e:SetScript("OnEnter", ShowTooltip)
+    e:SetScript("OnLeave", HideTooltip)
+    return e
+end
+
 local modEdit = function(parent, anchor, label, text, tips, onAction)
-    local modlabel = parent:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    modlabel:SetText(label)
+    local modlabel = makeLabel(parent, label)
     modlabel:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -5)
-
-    local modeditbox = CreateFrame("EditBox", nil, parent, BackdropTemplateMixin and "BackdropTemplate")
+    local modeditbox = makeEditbox(parent, text, tips, onAction)
+    modeditbox:SetSize(200, 30)
     modeditbox:SetPoint("TOPLEFT", modlabel, "BOTTOMLEFT", 0, -5)
-    modeditbox:SetFontObject(GameFontHighlight)
-    modeditbox:SetTextInsets(8,8,8,8)
-    modeditbox:SetBackdrop(BACKDROP_TOOLTIP_12_12_4444)
-    modeditbox:SetBackdropColor(.1,.1,.1,.3)
-    modeditbox:SetMultiLine(false)
-    modeditbox:SetAutoFocus(false)
-    modeditbox:SetText(text)
-    modeditbox:SetScript("OnEditFocusLost", onAction)
-    modeditbox:SetScript("OnEscapePressed", modeditbox.ClearFocus)
-    modeditbox.tiptext = tips
-    modeditbox:SetSize(200,30)
+    return modeditbox
+end
 
+local largeEdit = function(parent, anchor, label, text, tips, onAction)
+    local modlabel = makeLabel(parent, label)
+    modlabel:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -GAP)
+    local modeditbox = makeEditbox(parent, text, tips, onAction)
+    modeditbox:SetHeight(30)
+    modeditbox:SetPoint("TOP", modlabel, "BOTTOM", 0, -GAP)
+    modeditbox:SetPoint("LEFT", parent, "RIGHT", -EDGEGAP, 0)
+    modeditbox:SetPoint("RIGHT", parent, "LEFT", EDGEGAP, 0)
+    return modeditbox
+end
+
+local largeBottomEdit = function(parent, anchor, label, text, tips, onAction)
+    local modeditbox = makeEditbox(parent, text, tips, onAction)
+    modeditbox:SetHeight(16*3)
+    modeditbox:SetPoint("BOTTOM", anchor, "TOP", 0, GAP)
+    modeditbox:SetPoint("LEFT", parent, "RIGHT", -EDGEGAP, 0)
+    modeditbox:SetPoint("RIGHT", parent, "LEFT", EDGEGAP, 0)
+    local modlabel = makeLabel(parent, label)
+    modlabel:SetPoint("BOTTOMLEFT", modeditbox, "TOPLEFT", 0, GAP)
     return modeditbox
 end
 
@@ -58,19 +102,21 @@ frame:SetScript("OnShow", function()
             Utility.Print("Unable to create the macro, you seam to have reach the maximum number of allowed macro per account.")
         else
             local id = CreateMacro(self.name, "INV_Misc_QuestionMark", "")
-            Core:Scan()
+            if not InCombatLockdown() then
+                Core:Scan()
+            end
             PickupMacro(id)
         end
     end
 
-    local hpbutt = tekbutt.new(frame, "TOPLEFT", subtitle, "BOTTOMLEFT", -2, -GAP)
+    local hpbutt = tekbutt.new(frame, "TOPLEFT", subtitle, "BOTTOMLEFT", -10, -GAP)
     hpbutt:SetText("HP Macro")
     hpbutt.tiptext = "Generate a global macro for food, bandages, health potions and health stones."
     hpbutt.name = Const.MacroNames.defaultHP
     hpbutt:SetScript("OnClick", OnClick)
     if InCombatLockdown() then hpbutt:Disable() end
 
-    local mpbutt = tekbutt.new(frame, "TOPLEFT", hpbutt, "TOPRIGHT", 5, 0)
+    local mpbutt = tekbutt.new(frame, "TOPLEFT", hpbutt, "TOPRIGHT", 0, 0)
     mpbutt:SetText("MP Macro")
     mpbutt.tiptext = "Generate a global macro for water, runes, mana potions and mana stones."
     mpbutt.name = Const.MacroNames.defaultMP
@@ -79,14 +125,14 @@ frame:SetScript("OnShow", function()
 
 
 
-    local hpfoodbutt = tekbutt.new(frame, "TOPLEFT", mpbutt, "TOPRIGHT", 5, 0)
+    local hpfoodbutt = tekbutt.new(frame, "TOPLEFT", mpbutt, "TOPRIGHT", 0, 0)
     hpfoodbutt:SetText("Food Only")
     hpfoodbutt.tiptext = "Generate a global macro for food only."
     hpfoodbutt.name = Const.MacroNames.foodOnlyHP
     hpfoodbutt:SetScript("OnClick", OnClick)
     if InCombatLockdown() then hpfoodbutt:Disable() end
 
-    local mpfoodbutt = tekbutt.new(frame, "TOPLEFT", hpfoodbutt, "TOPRIGHT", 5, 0)
+    local mpfoodbutt = tekbutt.new(frame, "TOPLEFT", hpfoodbutt, "TOPRIGHT", 0, 0)
     mpfoodbutt:SetText("Drink Only")
     mpfoodbutt.tiptext = "Generate a global macro for water only."
     mpfoodbutt.name = Const.MacroNames.drinkOnlyMP
@@ -95,15 +141,15 @@ frame:SetScript("OnShow", function()
 
 
 
-    local hppotbutt = tekbutt.new(frame, "TOPLEFT", mpfoodbutt, "TOPRIGHT", 5, 0)
-    hppotbutt:SetText("Consumables")
+    local hppotbutt = tekbutt.new(frame, "TOPLEFT", mpfoodbutt, "TOPRIGHT", 0, 0)
+    hppotbutt:SetText("HP Cons.")
     hppotbutt.tiptext = "Generate a global macro for health consumable only, bandages, health potions and health stones."
     hppotbutt.name = Const.MacroNames.consumableHP
     hppotbutt:SetScript("OnClick", OnClick)
     if InCombatLockdown() then hppotbutt:Disable() end
 
-    local mppotbutt = tekbutt.new(frame, "TOPLEFT", hppotbutt, "TOPRIGHT", 5, 0)
-    mppotbutt:SetText("Consumables")
+    local mppotbutt = tekbutt.new(frame, "TOPLEFT", hppotbutt, "TOPRIGHT", 0, 0)
+    mppotbutt:SetText("MP Cons.")
     mppotbutt.tiptext = "Generate a global macro for mana consumable only, runes, mana potions and mana stones."
     mppotbutt.name = Const.MacroNames.consumableMP
     mppotbutt:SetScript("OnClick", OnClick)
@@ -197,6 +243,7 @@ end)
 
 InterfaceOptions_AddCategory(frame)
 
+
 local frame_config = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 frame_config.name = "Configuration"
 frame_config.parent = "Buffet"
@@ -208,8 +255,24 @@ frame_config:SetScript("OnShow", function()
         "This panel allows you to configure all the macros.\nModifiers use macro syntax: nomod | mod:key | mod:key1/key2 | mod:key1,mod:key2\nEmpty modifiers to disable them."
     )
 
+    local hearthstoneCheckButton = CreateFrame("CheckButton", "HearthstoneCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
+    HearthstoneCheckButtonText:SetText("Default to hearthstone (all macros)")
+    hearthstoneCheckButton.tooltip = "Check this to default to hearthstone"
+    hearthstoneCheckButton:SetPoint("TOPLEFT", subtitle, "BOTTOMLEFT", 0, -16)
+    hearthstoneCheckButton:SetChecked(Core.db.hearthstone)
+    hearthstoneCheckButton:SetScript("OnClick",
+        function()
+            if hearthstoneCheckButton:GetChecked() then
+                Core.db.hearthstone = true
+            else
+                Core.db.hearthstone = false
+            end
+            Core:QueueScan()
+        end
+    )
+
     local header = frame_config:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-    header:SetPoint("TOPLEFT", subtitle, "BOTTOMLEFT", 0, -16)
+    header:SetPoint("TOPLEFT", hearthstoneCheckButton, "BOTTOMLEFT", 0, -5)
     header:SetText("Main Macros: AutoHP & AutoMP")
 
     local combatCheckButton = CreateFrame("CheckButton", "CombatCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
@@ -228,25 +291,9 @@ frame_config:SetScript("OnShow", function()
         end
     )
 
-    local hearthstoneCheckButton = CreateFrame("CheckButton", "HearthstoneCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
-    HearthstoneCheckButtonText:SetText("Default to hearthstone")
-    hearthstoneCheckButton.tooltip = "Check this to default to hearthstone"
-    hearthstoneCheckButton:SetPoint("TOPLEFT", combatCheckButton, "BOTTOMLEFT", 0, -5)
-    hearthstoneCheckButton:SetChecked(Core.db.hearthstone)
-    hearthstoneCheckButton:SetScript("OnClick",
-        function()
-            if hearthstoneCheckButton:GetChecked() then
-                Core.db.hearthstone = true
-            else
-                Core.db.hearthstone = false
-            end
-            Core:QueueScan()
-        end
-    )
-
     local modConjured = modEdit(
         frame_config,
-        hearthstoneCheckButton,
+        combatCheckButton,
         "In-Combat: conjured items modifier (mana gems, healthstone)",
         Core.db.modConjured,
         "Modifier for in-combat conjured items",
@@ -342,6 +389,572 @@ frame_config:SetScript("OnShow", function()
 end)
 
 InterfaceOptions_AddCategory(frame_config)
+
+
+local customMacro = {}
+customMacro.active = nil
+customMacro.saved = false
+customMacro.valid = false
+
+customMacro.nameEdit = nil
+customMacro.sourceEdit = nil
+customMacro.outputEdit = nil
+
+customMacro.buttonNew = nil
+customMacro.buttonLoad = nil
+customMacro.buttonCheck = nil
+customMacro.buttonDelete = nil
+customMacro.buttonPick = nil
+customMacro.buttonSave = nil
+
+StaticPopupDialogs["BUFFET_DELETE_MACRO_CONFIRM"] = {
+    text = "%s",
+    button1 = ACCEPT,
+    button2 = CANCEL,
+    OnAccept = nil,
+    showAlert = 1,
+    timeout = 0,
+    whileDead = 1,
+    hideOnEscape = 1
+};
+
+function customMacro:ui(lockdown)
+    local combat = lockdown or InCombatLockdown()
+
+    if combat then
+        customMacro.buttonNew:Disable()
+        customMacro.buttonLoad:Disable()
+        customMacro.buttonCheck:Disable()
+        customMacro.buttonDelete:Disable()
+        customMacro.buttonSave:Disable()
+        customMacro.buttonPick:Disable()
+
+        customMacro.nameEdit:Disable()
+        customMacro.sourceEdit:Disable()
+    else
+        customMacro.buttonNew:Enable()
+        customMacro.buttonLoad:Enable()
+        customMacro.nameEdit:Enable()
+        customMacro.sourceEdit:Enable()
+
+        if self.active then
+            customMacro.buttonDelete:Enable()
+
+            if self.active.key then
+                customMacro.buttonDelete:SetText("Delete macro")
+            else
+                customMacro.buttonDelete:SetText("Clear macro")
+            end
+
+            if self.valid then
+                customMacro.buttonCheck:Disable()
+
+                if self.saved then
+                    customMacro.buttonSave:Disable()
+                    customMacro.buttonPick:Enable()
+                else
+                    customMacro.buttonSave:Enable()
+                    customMacro.buttonPick:Disable()
+                end
+            else
+                customMacro.buttonCheck:Enable()
+                customMacro.buttonSave:Disable()
+                customMacro.buttonPick:Disable()
+            end
+        else
+            customMacro.buttonCheck:Disable()
+            customMacro.buttonDelete:Disable()
+            customMacro.buttonSave:Disable()
+            customMacro.buttonPick:Disable()
+        end
+    end
+end
+
+function customMacro:updateStatus()
+    if customMacro.active then
+        if customMacro.active.key then -- from load / save
+            local macro = Core.customMacros[customMacro.active.key]
+            local name = macro.name
+            local source = macro.source
+            customMacro.saved = not (name ~= customMacro.active.name or source ~= customMacro.active.source)
+            customMacro.valid = customMacro.valid or (source == customMacro.active.source)
+        else -- from new
+            customMacro.valid = customMacro.valid or (customMacro.active.source == Const.newMacroSource)
+        end
+    end
+end
+
+function customMacro:menu()
+    local list = {}
+    for k, v in pairs(Core.customMacros) do
+        table.insert(list, k)
+    end
+    table.sort(list)
+
+    local makeItem = function(text, value, isTitle)
+        local info = {}
+        info.text = text
+        info.value = value
+        info.isTitle = isTitle
+        info.notCheckable = true
+        info.func = function(self)
+            customMacro:load(self.value)
+        end
+        return info
+    end
+
+    if #list > 0 then
+        local item = makeItem("Macros", nil, true)
+        UIDropDownMenu_AddButton(item);
+        UIDropDownMenu_AddSeparator()
+        for i = 1, #list do
+            local name = list[i]
+            item = makeItem(name, name, false)
+            UIDropDownMenu_AddButton(item);
+        end
+    else
+        local item = makeItem("Nothing yet", nil, true)
+        UIDropDownMenu_AddButton(item);
+    end
+end
+
+function customMacro:new()
+    if customMacro.active and customMacro.active.key and not customMacro.saved then
+        customMacro:confirm("Unsaved changes, are you sure?", function(self)
+            customMacro.saved = false
+            customMacro.valid = true
+            customMacro.active = {}
+            customMacro.active.key = nil
+            customMacro.active.name = "MacroName"
+            customMacro.active.source = Const.newMacroSource
+
+            customMacro:loadActive()
+            customMacro:ui()
+        end)
+    else
+        customMacro.saved = false
+        customMacro.valid = true
+        customMacro.active = {}
+        customMacro.active.key = nil
+        customMacro.active.name = "MacroName"
+        customMacro.active.source = Const.newMacroSource
+
+        customMacro:loadActive()
+        customMacro:ui()
+    end
+end
+
+function customMacro:load(value)
+    if customMacro.active and customMacro.active.key and not customMacro.saved then
+        customMacro:confirm("Unsaved changes, are you sure?", function(self)
+            local macro = Core.customMacros[value]
+
+            customMacro.saved = true
+            customMacro.valid = true
+            customMacro.active = {}
+            customMacro.active.key = macro.name
+            customMacro.active.name = macro.name
+            customMacro.active.source = macro.source
+
+            customMacro:loadActive()
+            customMacro:ui()
+        end)
+    else
+        local macro = Core.customMacros[value]
+
+        customMacro.saved = true
+        customMacro.valid = true
+        customMacro.active = {}
+        customMacro.active.key = macro.name
+        customMacro.active.name = macro.name
+        customMacro.active.source = macro.source
+
+        customMacro:loadActive()
+        customMacro:ui()
+    end
+end
+
+function customMacro:loadActive()
+    if self.active then
+        if self.active.name then
+            self.nameEdit:SetText(self.active.name)
+        end
+        self.nameEdit:Enable()
+
+        if self.active.source then
+            self.sourceEdit:SetText(self.active.source)
+        end
+        self.sourceEdit:Enable()
+
+        self.outputEdit:SetText("")
+
+        customMacro:checkName()
+    else
+        self.nameEdit:SetText("")
+        self.nameEdit:Disable()
+        self.sourceEdit:SetText("")
+        self.sourceEdit:Disable()
+        self.outputEdit:SetText("")
+    end
+end
+
+function customMacro:confirm(text, onAccept)
+    StaticPopupDialogs["BUFFET_DELETE_MACRO_CONFIRM"].OnAccept = onAccept
+    StaticPopup_Show("BUFFET_DELETE_MACRO_CONFIRM", text);
+end
+
+function customMacro:reset()
+    customMacro.saved = false
+    customMacro.valid = false
+    customMacro.active= nil
+
+    customMacro:loadActive()
+    customMacro:ui()
+end
+
+function customMacro:delete()
+    if customMacro.active and customMacro.active.key and Core.customMacros[customMacro.active.key] then
+        customMacro:confirm("Are you sure you want to delete this macro?", function(self)
+            local macroId = GetMacroIndexByName(customMacro.active.key)
+            if macroId > 0 then
+                DeleteMacro(macroId)
+            end
+            Core.customMacros[customMacro.active.key] = nil
+            customMacro:reset()
+        end)
+    else
+        customMacro:reset()
+    end
+end
+
+function customMacro:save()
+    if self.active then
+        if self.active.name == "" then
+            self.outputEdit:SetText("Error: Empty macro name")
+            return
+        end
+        if self.active.source == "" then
+            self.outputEdit:SetText("Error: Empty macro source")
+            return
+        end
+
+        if self.active.key then
+            if Core.customMacros[self.active.key] then -- update
+                if self.active.key ~= self.active.name then
+                    local macroId = GetMacroIndexByName(customMacro.active.key)
+                    Core.customMacros[self.active.key] = nil -- remove previous key
+                    self.active.key = self.active.name
+                    Core.customMacros[self.active.key] = {}
+                    if macroId > 0 then
+                        EditMacro(macroId, self.active.key)
+                    end
+                end
+                Core.customMacros[self.active.key].name = self.active.name
+                Core.customMacros[self.active.key].source = self.active.source
+                Core.customMacros[self.active.key].chunck = nil
+                Core.customMacros[self.active.key].error = false
+                Core.customMacros[self.active.key].body = nil
+                Core.customMacros[self.active.key].icon = nil
+                self.saved = true
+            else -- insert
+                Core.customMacros[self.active.key] = {}
+                Core.customMacros[self.active.key].name = self.active.name
+                Core.customMacros[self.active.key].source = self.active.source
+                Core.customMacros[self.active.key].chunck = nil
+                Core.customMacros[self.active.key].error = false
+                Core.customMacros[self.active.key].body = nil
+                Core.customMacros[self.active.key].icon = nil
+                self.saved = true
+            end
+            Core:QueueScan()
+        else -- insert
+            self.active.key = self.active.name
+            Core.customMacros[self.active.key] = {}
+            Core.customMacros[self.active.key].name = self.active.name
+            Core.customMacros[self.active.key].source = self.active.source
+            Core.customMacros[self.active.key].chunck = nil
+            Core.customMacros[self.active.key].error = false
+            Core.customMacros[self.active.key].body = nil
+            Core.customMacros[self.active.key].icon = nil
+            self.saved = true
+        end
+    end
+
+    customMacro:ui()
+end
+
+function customMacro:pickup()
+    if customMacro.active and customMacro.active.key and customMacro.valid and customMacro.saved then
+        local macroId = GetMacroIndexByName(customMacro.active.key)
+        local acc, cha = GetNumMacros()
+        if macroId and macroId > 0 then
+            PickupMacro(macroId)
+        elseif acc >= MAX_ACCOUNT_MACROS then
+            Utility.Print("Unable to create the macro, you seam to have reach the maximum number of allowed macro per account.")
+        else
+            local macroId = CreateMacro(customMacro.active.key, "INV_Misc_Food_DimSum", "")
+            if not InCombatLockdown() then
+                Core:Scan()
+            end
+            PickupMacro(macroId)
+        end
+    else
+        customMacro.outputEdit:SetText("Unable to proceed")
+    end
+end
+
+function customMacro:checkName()
+    local content = ""
+
+    if self.active then
+        local name = self.active.name
+        if name ~= "" then
+            if self.active.key then
+                if self.active.key ~= name then --updating the name, check for duplicate
+                    if Core.customMacros[name] or GetMacroIndexByName(name) > 0 then -- exists
+                        content = "Invalid name: macro name already in used"
+                        self.valid = false
+                    end
+                end
+            else
+                if Core.customMacros[name] or GetMacroIndexByName(name) > 0 then -- exists
+                    content = "Invalid name: macro name already in used"
+                    self.valid = false
+                end
+            end
+        else
+            content = "Invalid name: empty"
+            self.valid = false
+        end
+    end
+
+    customMacro.outputEdit:SetText(content)
+    customMacro:ui()
+end
+
+function customMacro:checkSource()
+    local content = ""
+
+    if self.active then
+        local source = self.active.source
+
+        if source and source ~= "" then
+            local chunck, errorMessage = loadstring(source, "customMacroCode")
+
+            if chunck then
+                content = "Compilation: OK"
+                local success, ret = pcall(chunck, Core:BestsBeautifier())
+                if success then
+                    content = (ret or "<nothing>")
+                    self.valid = true
+                else
+                    local error = ret:gsub("%[string \"customMacroCode\"%]:", "line ")
+                    content = content .. ", Execution: FAILED, Error:\n" .. (error or "unknown")
+                    self.valid = false
+                end
+            else
+                local error = errorMessage:gsub("%[string \"customMacroCode\"%]:", "line ")
+                content = "Compilation: FAILED, Error:\n" .. error
+                self.valid = false
+            end
+        else
+            content = "No source code to compile"
+            self.valid = false
+        end
+    else
+        content = "No active macro"
+        self.valid = false
+    end
+
+    customMacro.outputEdit:SetText(content)
+    customMacro:ui()
+end
+
+
+local frame_custom = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
+frame_custom.name = "Custom Macros"
+frame_custom.parent = "Buffet"
+frame_custom.okay = function()
+    customMacro:reset()
+    Core:QueueScan()
+end
+frame_custom.cancel = function()
+    customMacro:reset()
+    Core:QueueScan()
+end
+
+frame_custom:Hide()
+frame_custom:SetScript("OnShow", function()
+    local title, subtitle = LibStub("tekKonfig-Heading").new(
+        frame_custom,
+        "Custom Macros",
+        "This panel allows you to create custom macro using the lua language.\nHelp and macro examples here: https://github.com/HgAlexx/Buffet/wiki"
+    )
+
+    customMacro.buttonNew = tekbutt.new(frame_custom, "TOPLEFT", subtitle, "BOTTOMLEFT", 0, -GAP)
+    customMacro.buttonNew:SetWidth(120)
+    customMacro.buttonNew:SetText("New Macro")
+    customMacro.buttonNew.tiptext = "Create a new macro"
+    customMacro.buttonNew.name = "BuffetButtonNew"
+    customMacro.buttonNew:SetScript("OnClick", function(self)
+        customMacro:new()
+    end)
+
+    local menuMacro = CreateFrame("Frame", "BuffetMacroMenu", frame_custom, "UIDropDownMenuTemplate")
+    customMacro.buttonLoad = tekbutt.new(frame_custom, "TOPRIGHT", subtitle, "BOTTOMRIGHT", -2, -GAP)
+    customMacro.buttonLoad:SetWidth(120)
+    customMacro.buttonLoad:SetText("Load Macro")
+    customMacro.buttonLoad.tiptext = "Load an existing macro"
+    customMacro.buttonLoad.name = "BuffetButtonLoad"
+    customMacro.buttonLoad:SetScript("OnClick", function(self)
+        ToggleDropDownMenu(1, nil, menuMacro, self, 0, 0)
+    end)
+
+    UIDropDownMenu_Initialize(menuMacro, function() customMacro:menu() end, "MENU");
+
+    customMacro.nameEdit = largeEdit(frame_custom,
+        customMacro.buttonNew,
+        "Macro Name",
+        "",
+        "Name used by the macro",
+        function(self)
+            local value = self:GetText() or ""
+            if customMacro.active then
+                customMacro.active.name = Utility.Trim(value)
+                customMacro:checkName()
+                customMacro:updateStatus()
+                customMacro:ui()
+            end
+        end)
+    customMacro.nameEdit:SetScript("OnTextChanged", function(self)
+        local value = self:GetText() or ""
+        if customMacro.active then
+            customMacro.active.name = Utility.Trim(value)
+            customMacro:checkName()
+            customMacro:updateStatus()
+            customMacro:ui()
+        end
+    end)
+    customMacro.nameEdit:Disable()
+
+    customMacro.buttonDelete = tekbutt.new(frame_custom, "BOTTOMLEFT", frame_custom, "BOTTOMLEFT", EDGEGAP, EDGEGAP)
+    customMacro.buttonDelete:SetWidth(120)
+    customMacro.buttonDelete:SetText("Delete Macro")
+    customMacro.buttonDelete.tiptext = "Delete macro"
+    customMacro.buttonDelete.name = "BuffetButtonDelete"
+    customMacro.buttonDelete:SetScript("OnClick", function(self)
+        customMacro:delete()
+    end)
+
+    customMacro.buttonPick = tekbutt.new(frame_custom, "BOTTOMRIGHT", frame_custom, "BOTTOMRIGHT", -EDGEGAP, EDGEGAP)
+    customMacro.buttonPick:SetWidth(120)
+    customMacro.buttonPick:SetText("Pick Up Macro")
+    customMacro.buttonPick.tiptext = "Pick Up macro"
+    customMacro.buttonPick.name = "BuffetButtonPick"
+    customMacro.buttonPick:SetScript("OnClick", function(self)
+        customMacro:pickup()
+    end)
+
+    customMacro.buttonSave = tekbutt.new(frame_custom, "BOTTOMRIGHT", customMacro.buttonPick, "BOTTOMLEFT", -GAP, 0)
+    customMacro.buttonSave:SetWidth(120)
+    customMacro.buttonSave:SetText("Save Macro")
+    customMacro.buttonSave.tiptext = "Save macro"
+    customMacro.buttonSave.name = "BuffetButtonSave"
+    customMacro.buttonSave:SetScript("OnClick", function(self)
+        customMacro:save()
+    end)
+
+
+    customMacro.outputEdit = largeBottomEdit(frame_custom,
+        customMacro.buttonDelete,
+        "Output status",
+        "",
+        "Output status",
+        function(self) end)
+    customMacro.outputEdit:SetPoint("TOP", customMacro.buttonDelete, "TOP", 0, GAP + 3*16)
+    customMacro.outputEdit:SetTextInsets(5, 5, 5, 5)
+    customMacro.outputEdit:SetMultiLine(true)
+    customMacro.outputEdit:SetAutoFocus(false)
+    customMacro.outputEdit:SetText("")
+    customMacro.outputEdit:Disable()
+
+    customMacro.buttonCheck = tekbutt.new(frame_custom, "BOTTOMRIGHT", customMacro.outputEdit, "TOPRIGHT", 0, GAP)
+    customMacro.buttonCheck:SetWidth(120)
+    customMacro.buttonCheck:SetText("Check & Test")
+    customMacro.buttonCheck.tiptext = "Check & Test Source Code"
+    customMacro.buttonCheck.name = "BuffetButtonCheck"
+    customMacro.buttonCheck:SetScript("OnClick", function(self)
+        customMacro:checkSource()
+    end)
+
+    local sourceLabel = frame_custom:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    sourceLabel:SetText("Macro Lua Source Code")
+    sourceLabel:SetPoint("TOPLEFT", customMacro.nameEdit, "BOTTOMLEFT", 0, -GAP)
+
+    local sourceFrame = CreateFrame("Frame", nil, frame_custom, BackdropTemplateMixin and "BackdropTemplate")
+    sourceFrame:SetBackdrop(BACKDROP_TOOLTIP_12_12_4444)
+    sourceFrame:SetBackdropColor(.1,.1,.1,.3)
+    sourceFrame:SetPoint("TOPLEFT", sourceLabel, "BOTTOMLEFT", 0, -GAP)
+    sourceFrame:SetPoint("RIGHT", frame_custom, "RIGHT", -EDGEGAP, 0)
+    sourceFrame:SetPoint("BOTTOM", customMacro.buttonCheck, "TOP", 0, GAP)
+    sourceFrame:EnableMouse(true)
+    sourceFrame:SetScript("OnMouseDown", function (self, button)
+        if button=='LeftButton' then
+            customMacro.sourceEdit:SetFocus()
+        end
+    end)
+
+    local scrollFrame = CreateFrame("ScrollFrame", nil, sourceFrame, "UIPanelScrollFrameTemplate")
+    scrollFrame:SetPoint("TOPLEFT", sourceFrame, "TOPLEFT", 0, -3)
+    scrollFrame:SetPoint("BOTTOMRIGHT", sourceFrame, "BOTTOMRIGHT", -25, 3)
+
+    customMacro.sourceEdit = CreateFrame("EditBox", nil, frame_custom, BackdropTemplateMixin and "BackdropTemplate")
+    customMacro.sourceEdit:SetMultiLine(true)
+    customMacro.sourceEdit:SetMaxLetters(99999)
+    customMacro.sourceEdit:EnableMouse(true)
+    customMacro.sourceEdit:SetAutoFocus(false)
+    customMacro.sourceEdit:SetFontObject(GameFontHighlight)
+    customMacro.sourceEdit:SetTextInsets(5, 5, 5, 5)
+    customMacro.sourceEdit:SetWidth(sourceFrame:GetWidth() - 20)
+    scrollFrame:SetScrollChild(customMacro.sourceEdit)
+    customMacro.sourceEdit:SetScript("OnEscapePressed", customMacro.sourceEdit.ClearFocus)
+    customMacro.sourceEdit:SetScript("OnEditFocusLost", function(self)
+        local value = self:GetText() or ""
+        if customMacro.active then
+            customMacro.active.source = Utility.Trim(value)
+            customMacro:updateStatus()
+            customMacro:ui()
+        end
+    end)
+    customMacro.sourceEdit:SetScript("OnTextChanged", function(self)
+        local value = self:GetText() or ""
+        if customMacro.active then
+            customMacro.active.source = Utility.Trim(value)
+            customMacro.valid = false
+            customMacro:updateStatus()
+            customMacro:ui()
+        end
+    end)
+    customMacro.sourceEdit:Disable()
+
+    customMacro:reset()
+
+    frame_custom:SetScript("OnEvent", function(self, event)
+        if event == "PLAYER_REGEN_DISABLED" then
+            customMacro:ui(true)
+        end
+        if event == "PLAYER_REGEN_ENABLED" then
+            customMacro:ui(false)
+        end
+        Utility.Debug("OnEvent:" .. event)
+    end)
+    frame_custom:RegisterEvent("PLAYER_REGEN_ENABLED")
+    frame_custom:RegisterEvent("PLAYER_REGEN_DISABLED")
+
+    frame_custom:SetScript("OnShow", nil)
+end)
+
+InterfaceOptions_AddCategory(frame_custom)
 
 
 

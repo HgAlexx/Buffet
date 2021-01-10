@@ -27,7 +27,9 @@ end
 function lib.new(parent, text, subtext)
 	local title = parent:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 	title:SetPoint("TOPLEFT", 16, -16)
+	title:SetPoint("RIGHT", -16, 0)
 	title:SetText(text)
+	title:SetJustifyH("LEFT")
 
 	local lines = stringSplit(subtext, "[^\r\n]+")
 	local count = tableCount(lines)
@@ -39,7 +41,7 @@ function lib.new(parent, text, subtext)
 	local subtitle = parent:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
 	subtitle:SetHeight(count * 16)
 	subtitle:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
-	subtitle:SetPoint("RIGHT", parent, -32, 0)
+	subtitle:SetPoint("RIGHT", parent, -16, 0)
 --~ 	nonSpaceWrap="true" maxLines="3"
 	subtitle:SetNonSpaceWrap(true)
 	subtitle:SetJustifyH("LEFT")
