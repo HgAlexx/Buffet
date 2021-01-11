@@ -165,6 +165,8 @@ if Utility.IsRetail then
             if itemData.isHealth then
                 if itemData.isConjured then
                     table.insert(healthCats, Const.BestCategories.percfood)
+                elseif itemData.isWellFed then
+                    table.insert(healthCats, Const.BestCategories.wellfedfood)
                 else
                     table.insert(healthCats, Const.BestCategories.food)
                 end
@@ -172,6 +174,8 @@ if Utility.IsRetail then
             if itemData.isMana then
                 if itemData.isConjured then
                     table.insert(manaCats, Const.BestCategories.percwater)
+                elseif itemData.isWellFed then
+                    table.insert(manaCats, Const.BestCategories.wellfedwater)
                 else
                     table.insert(manaCats, Const.BestCategories.water)
                 end
@@ -208,6 +212,7 @@ if Utility.IsRetail then
             end
             return healthCats, manaCats
         end
+
         return false, false
     end
 

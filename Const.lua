@@ -38,8 +38,10 @@ Const.BestCategories.water = "water"
 Const.BestCategories.food = "food"
 Const.BestCategories.percfood = "percfood"
 Const.BestCategories.percwater = "percwater"
+Const.BestCategories.wellfedfood = "wellfedfood"
+Const.BestCategories.wellfedwater = "wellfedwater"
 
-Const.newMacroSource = [[local bests = ... -- Keep this
+Const.newMacroSource = [[local bests, cache = ... -- Keep this
 
 -- Available categories: contains the item id or nil
 -- bests.bandage
@@ -48,6 +50,8 @@ Const.newMacroSource = [[local bests = ... -- Keep this
 -- bests.conjuredDrink
 -- bests.food
 -- bests.drink
+-- bests.wellFedFood
+-- bests.wellFedDrink
 -- bests.healthstone
 -- bests.manaGem
 -- bests.healthPotion
@@ -57,9 +61,7 @@ Const.newMacroSource = [[local bests = ... -- Keep this
 local bestfood = bests.conjuredFood or bests.food or 6948
 
 -- Must return: body [, icon]
-return "#showtooltip\n/cast item:" .. bestfood, "INV_Misc_QuestionMark"
-
--- If you need help, you can ask here: https://github.com/HgAlexx/Buffet/discussions]]
+return "#showtooltip\n/cast item:" .. bestfood, "INV_Misc_QuestionMark"]]
 
 -- Export
 ns.Const = Const

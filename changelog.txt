@@ -1,3 +1,11 @@
+### 9.0.2.70-Beta / 1.13.6.70-Beta
+
+* Made well fed items available to custom macro
+* Made item cache available to custom macro
+* Few UI tweaks
+* Cleanup
+
+
 ### 9.0.2.69-Beta / 1.13.6.69-Beta
 
 + New feature: custom macro

@@ -418,10 +418,8 @@ StaticPopupDialogs["BUFFET_DELETE_MACRO_CONFIRM"] = {
     hideOnEscape = 1
 };
 
-function customMacro:ui(lockdown)
-    local combat = lockdown or InCombatLockdown()
-
-    if combat then
+function customMacro:ui()
+    if UnitAffectingCombat("player") then
         customMacro.buttonNew:Disable()
         customMacro.buttonLoad:Disable()
         customMacro.buttonCheck:Disable()
@@ -439,16 +437,15 @@ function customMacro:ui(lockdown)
 
         if self.active then
             customMacro.buttonDelete:Enable()
+            customMacro.buttonCheck:Enable()
 
             if self.active.key then
-                customMacro.buttonDelete:SetText("Delete macro")
+                customMacro.buttonDelete:SetText("Delete the macro")
             else
-                customMacro.buttonDelete:SetText("Clear macro")
+                customMacro.buttonDelete:SetText("Clear inputs")
             end
 
             if self.valid then
-                customMacro.buttonCheck:Disable()
-
                 if self.saved then
                     customMacro.buttonSave:Disable()
                     customMacro.buttonPick:Enable()
@@ -457,7 +454,6 @@ function customMacro:ui(lockdown)
                     customMacro.buttonPick:Disable()
                 end
             else
-                customMacro.buttonCheck:Enable()
                 customMacro.buttonSave:Disable()
                 customMacro.buttonPick:Disable()
             end
@@ -743,7 +739,7 @@ function customMacro:checkSource()
 
             if chunck then
                 content = "Compilation: OK"
-                local success, ret = pcall(chunck, Core:BestsBeautifier())
+                local success, ret = pcall(chunck, Core:BestsBeautifier(), Core.itemCache)
                 if success then
                     content = (ret or "<nothing>")
                     self.valid = true
@@ -885,6 +881,7 @@ frame_custom:SetScript("OnShow", function()
     customMacro.buttonCheck.name = "BuffetButtonCheck"
     customMacro.buttonCheck:SetScript("OnClick", function(self)
         customMacro:checkSource()
+        customMacro:checkName()
     end)
 
     local sourceLabel = frame_custom:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
@@ -941,17 +938,25 @@ frame_custom:SetScript("OnShow", function()
 
     frame_custom:SetScript("OnEvent", function(self, event)
         if event == "PLAYER_REGEN_DISABLED" then
-            customMacro:ui(true)
+            customMacro:ui()
         end
         if event == "PLAYER_REGEN_ENABLED" then
-            customMacro:ui(false)
+            customMacro:ui()
         end
-        Utility.Debug("OnEvent:" .. event)
     end)
     frame_custom:RegisterEvent("PLAYER_REGEN_ENABLED")
     frame_custom:RegisterEvent("PLAYER_REGEN_DISABLED")
 
-    frame_custom:SetScript("OnShow", nil)
+    frame_custom:SetScript("OnShow", function(self)
+        frame_custom:RegisterEvent("PLAYER_REGEN_ENABLED")
+        frame_custom:RegisterEvent("PLAYER_REGEN_DISABLED")
+        customMacro:ui()
+    end)
+
+    frame_custom:SetScript("OnHide", function(self)
+        frame_custom:UnregisterEvent("PLAYER_REGEN_ENABLED")
+        frame_custom:UnregisterEvent("PLAYER_REGEN_DISABLED")
+    end)
 end)
 
 InterfaceOptions_AddCategory(frame_custom)

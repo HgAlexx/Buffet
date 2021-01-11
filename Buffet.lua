@@ -212,58 +212,6 @@ function Buffet:UNIT_MAXPOWER(event, arg1, arg2)
     end
 end
 
-function Core:LoadSystemMacro()
---    -- todo
---    local macro = {}
---    macro.name = Const.MacroNames.defaultHP
---    macro.desc = "Default HP macro"
---
---    macro.source = nil
---    macro.chunck = function(...)
---        -- input: bests, settings
---        local bests, settings = ...
---        local cast = "/cast "
---
---        if bests.bandage then -- bandage / rune
---            if settings.modSpecial and settings.modSpecial ~= "" then
---                cast = cast .. "[" .. settings.modSpecial .. ",target=player] item:" .. bests.bandage .. "; "
---            else
---                cast = cast .. "[target=player] item:" .. bests.bandage .. "; "
---            end
---        end
---
---        if settings.combat and bests.healthstone then -- health stone / mana gem
---            if settings.modConjured and settings.modConjured ~= "" then
---                cast = cast .. "[combat," .. settings.modConjured .. "] item:" .. bests.healthstone .. "; "
---            else
---                cast = cast .. "[combat] item:" .. bests.healthstone .. "; "
---            end
---        end
---
---        if settings.combat and bests.healthPotion then
---            if settings.modPotion and settings.modPotion ~= "" then
---                cast = cast .. "[combat,".. settings.modPotion .."] item:" .. bests.healthPotion .. "; "
---            else
---                cast = cast .. "[combat] item:" .. bests.healthPotion .. "; "
---            end
---        end
---
---        local food = bests.conjuredFood or bests.food
---        if food then
---            cast = cast .. "item:" .. food
---        else
---            if settings.hearthstone then
---                cast = cast .. "item:6948"
---            end
---        end
---
---        return settings.macroHP:gsub("%%MACRO%%", cast)
---    end
---    macro.active = true
---    Core.macros[Const.MacroNames.defaultHP] = macro
-
-end
-
 function Core:ResetBest()
     for _, v in pairs(Const.BestCategories) do
         Core.bests[v] = { val = -1, stack = -1, id = nil }
@@ -354,7 +302,7 @@ function Core:Scan()
 
                 local validHealth = not itemData.isHealth or (itemData.isHealth and (itemData.health and itemData.health > 0))
                 local validMana   = not itemData.isMana   or (itemData.isMana   and (itemData.mana   and itemData.mana   > 0))
-                itemFoundInCache = itemData.isWellFed or validHealth or validMana
+                itemFoundInCache = validHealth or validMana
             end
 
             -- if not found, scan and parse tooltip
@@ -380,7 +328,7 @@ function Core:Scan()
                         local validHealth = (itemData.isHealth and (itemData.health and (itemData.health > 0)))
                         local validMana   = (itemData.isMana   and (itemData.mana   and (itemData.mana   > 0)))
 
-                        if itemData.isWellFed or validHealth or validMana then
+                        if validHealth or validMana then
                             Core.itemCache[itemId] = itemData
                             itemFoundInCache = true
                         else
@@ -397,7 +345,7 @@ function Core:Scan()
             end
 
             -- if item is usable
-            if itemFoundInCache and not itemData.isWellFed and ((itemData.health and (itemData.health > 0)) or (itemData.mana and (itemData.mana > 0))) then
+            if itemFoundInCache and ((itemData.health and (itemData.health > 0)) or (itemData.mana and (itemData.mana > 0))) then
                 -- Utility.Debug(itemName, itemData)
 
                 local isRestricted = Engine.CheckRestriction(itemId)
@@ -456,13 +404,8 @@ function Core:Scan()
         self:SetBest(Const.BestCategories.rune, 20520, 1199, itemIds[20520]) -- health set to 1199 to prioritize demonic rune over dark rune
     end
 
-    --local food = Core.bests.percfood.id or Core.bests.food.id or Core.bests.healthstone.id or Core.bests.hppot.id
-    --local water = Core.bests.percwater.id or Core.bests.water.id or Core.bests.managem.id or Core.bests.mppot.id
     local food = Core.bests.percfood.id or Core.bests.food.id
     local water = Core.bests.percwater.id or Core.bests.water.id
-
-    --self:Edit("AutoHP", Core.db.macroHP, food, Core.bests.healthstone.id or Core.bests.hppot.id, Core.bests.bandage.id)
-    --self:Edit("AutoMP", Core.db.macroMP, water, Core.bests.managem.id or Core.bests.mppot.id)
 
     self:EditDefault(Const.MacroNames.defaultHP, Core.db.macroHP, food, Core.bests.healthstone.id, Core.bests.hppot.id, Core.bests.bandage.id)
     self:EditDefault(Const.MacroNames.defaultMP, Core.db.macroMP, water, Core.bests.managem.id, Core.bests.mppot.id, Core.bests.rune.id)
@@ -512,7 +455,7 @@ function Core:RunChunck(macro)
         return nil, nil
     end
 
-    local success, ret1, ret2 = pcall(macro.chunck, Core:BestsBeautifier())
+    local success, ret1, ret2 = pcall(macro.chunck, Core:BestsBeautifier(), Core.itemCache)
     if success then
         return ret1, ret2
     else
@@ -566,16 +509,20 @@ end
 
 function Core:BestsBeautifier()
     local bests = {}
-    bests.bandage = Core.bests.bandage.id
-    bests.rune = Core.bests.rune.id
-    bests.conjuredFood = Core.bests.percfood.id
-    bests.conjuredDrink = Core.bests.percwater.id
-    bests.food = Core.bests.food.id
-    bests.drink = Core.bests.water.id
-    bests.healthstone = Core.bests.healthstone.id
-    bests.manaGem = Core.bests.managem.id
-    bests.healthPotion = Core.bests.hppot.id
-    bests.manaPotion = Core.bests.mppot.id
+    if Core.bests then
+        bests.bandage = Core.bests.bandage.id
+        bests.rune = Core.bests.rune.id
+        bests.conjuredFood = Core.bests.percfood.id
+        bests.conjuredDrink = Core.bests.percwater.id
+        bests.food = Core.bests.food.id
+        bests.drink = Core.bests.water.id
+        bests.healthstone = Core.bests.healthstone.id
+        bests.manaGem = Core.bests.managem.id
+        bests.healthPotion = Core.bests.hppot.id
+        bests.manaPotion = Core.bests.mppot.id
+        bests.wellFedFood = Core.bests.wellfedfood.id
+        bests.wellFedDrink = Core.bests.wellfedwater.id
+    end
     return bests
 end
 
@@ -720,7 +667,6 @@ function Core:EditConsumable(name, substring, conjured, pot, mod)
     EditMacro(macroid, name, "INV_Misc_QuestionMark", substring:gsub("%%MACRO%%", cast), 1)
 end
 
-
 function Core:SetBest(cat, id, value, stack)
     -- Utility.Debug("SetBest: ", cat, id, value, stack)
     local best = Core.bests[cat];
@@ -842,6 +788,12 @@ function Core:SlashHandler(message, editbox)
         else
             Utility.Print("Invalid argument")
         end
+    elseif cmd == "bests" then
+        Utility.Print("Best item ids:")
+        local bests = table.sort(Core:BestsBeautifier())
+        for k,v in pairs(bests) do
+            Utility.Print("bests."  .. k .. "=" .. v)
+        end
 --@debug@
     elseif cmd == "showzone" then
         Utility.ShowPlayerZoneInfo()
@@ -856,6 +808,7 @@ function Core:SlashHandler(message, editbox)
         Utility.Print("/buffet ignored: list all items ignored from scan (session cached)")
         Utility.Print("/buffet stats: show some internal statistics")
         Utility.Print("/buffet debug <itemLink>: scan and display info about <itemLink> (bypass caches)")
+        Utility.Print("/buffet bests: show current best item ids")
     end
 end
 
@@ -911,22 +864,3 @@ end
 
 -- Export
 ns.Core = Core
-
-
---local bests = ... -- Keep this
---
---local bestfood = bests.conjuredFood or bests.food
---local bestdrink = bests.conjuredDrink or bests.drink
---
---local content = {}
---table.insert(content, "#showtooltip")
---
---if bestfood then
---    table.insert(content, "/cast item:" .. bestfood)
---end
---
---if bestdrink and bestfood ~= bestdrink then
---    table.insert(content, "/cast item:" .. bestdrink)
---end
---
---return table.concat(content, "\n")

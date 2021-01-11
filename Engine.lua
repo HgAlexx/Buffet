@@ -123,8 +123,7 @@ function Engine.ParseTexts(texts, itemData)
             itemData.isMana = true
         end
 
-        -- don't parse wellfed
-        if not itemData.isWellFed and (itemData.isHealth or itemData.isMana) then
+        if itemData.isHealth or itemData.isMana then
             -- FU Blizzard
             itemDescription = Engine.ReplaceFakeSpace(itemDescription)
             -- Utility.Debug("desc: ", itemDescription)
