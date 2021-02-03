@@ -1,4 +1,6 @@
 local addonName, ns = ...
+
+-- Imports
 local Core = ns.Core
 local Utility = ns.Utility
 local Const = ns.Const
@@ -271,8 +273,24 @@ frame_config:SetScript("OnShow", function()
         end
     )
 
+    local wellFedCheckButton = CreateFrame("CheckButton", "wellFedCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
+    wellFedCheckButtonText:SetText("Also consider well fed items (all macros)")
+    wellFedCheckButton.tooltip = "Check this to also consider well fed items"
+    wellFedCheckButton:SetPoint("TOPLEFT", hearthstoneCheckButton, "BOTTOMLEFT", 0, -5)
+    wellFedCheckButton:SetChecked(Core.db.wellFed)
+    wellFedCheckButton:SetScript("OnClick",
+        function()
+            if wellFedCheckButton:GetChecked() then
+                Core.db.wellFed = true
+            else
+                Core.db.wellFed = false
+            end
+            Core:QueueScan()
+        end
+    )
+
     local header = frame_config:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-    header:SetPoint("TOPLEFT", hearthstoneCheckButton, "BOTTOMLEFT", 0, -5)
+    header:SetPoint("TOPLEFT", wellFedCheckButton, "BOTTOMLEFT", 0, -5)
     header:SetText("Main Macros: AutoHP & AutoMP")
 
     local combatCheckButton = CreateFrame("CheckButton", "CombatCheckButton", frame_config, "ChatConfigCheckButtonTemplate")

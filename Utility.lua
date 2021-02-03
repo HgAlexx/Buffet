@@ -2,6 +2,9 @@ local _, ns = ...
 
 -- Local namespace
 local Utility = {}
+local addonName = "Buffet"
+local coloredAddonName = "|cFF33FF99" .. addonName .. "|r:"
+local debugColoredAddonName = "|cFF33BB99" .. addonName .. "|r:"
 
 
 -- Localize functions
@@ -34,9 +37,9 @@ end
 
 function Utility.Print(...)
     if Utility.Mode == 2 then
-        print("|cFF33FF99Buffet|r:", ...)
+        print(coloredAddonName, ...)
     else
-        DEFAULT_CHAT_FRAME:AddMessage(string.join(" ", "|cFF33FF99Buffet|r:", ...))
+        DEFAULT_CHAT_FRAME:AddMessage(string.join(" ", coloredAddonName, ...))
     end
 end
 
@@ -47,7 +50,7 @@ function Utility.Debug(...)
     end
 
     if Utility.Mode == 2 then
-        print("|cFF33BB99Buffet|r:", ...)
+        print(debugColoredAddonName, ...)
     else
         local arg = {...}
         local t = ""
@@ -60,7 +63,7 @@ function Utility.Debug(...)
                 t = t .. " " .. tostring(v)
             end
         end
-        DEFAULT_CHAT_FRAME:AddMessage("|cFF33BB99Buffet|r:" .. t)
+        DEFAULT_CHAT_FRAME:AddMessage(debugColoredAddonName .. t)
     end
     --@end-debug@
 end

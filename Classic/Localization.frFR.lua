@@ -30,7 +30,7 @@ if Utility.IsClassic and GetLocale() == "frFR" then
     Locales.KeyWords.FoodAndDrink = "rester assis pendant"
 
     Locales.Patterns = {}
-    Locales.Patterns.OverTime = "pendant (%d+) s%."
+    Locales.Patterns.OverTime = "pendant (%d+) s"
 
     Locales.Patterns.Bandage = {
         {
@@ -74,6 +74,12 @@ if Utility.IsClassic and GetLocale() == "frFR" then
             healthIndex = 1,
             manaIndex = nil,
             pct = false,
+        },
+        {
+            pattern = "rend ([%d%.]+)%% de vos points de vie par seconde pendant ([%d%.]+) sec",
+            healthIndex = 1,
+            manaIndex = nil,
+            pct = true,
         },
         {
             pattern = "rend instantanément ([%d%.]+) points de vie",

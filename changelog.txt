@@ -1,3 +1,8 @@
+### 9.0.2.71-Beta / 1.13.6.71-Beta
+
+* Add option to also consider "well fed" items in macros
+
+
 ### 9.0.2.70-Beta / 1.13.6.70-Beta
 
 * Made well fed items available to custom macro

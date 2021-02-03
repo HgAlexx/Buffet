@@ -8,6 +8,7 @@ Const.DBdefaults = {
     macroMP = "#showtooltip\n%MACRO%",
     combat = true,
     hearthstone = true,
+    wellFed = false,
     modPotion = "",
     modConjured = "mod:shift",
     modSpecial = "mod:ctrl",

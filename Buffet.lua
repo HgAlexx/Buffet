@@ -1,5 +1,7 @@
 local addonName, ns = ...
 
+-- TODO: play with https://wow.gamepedia.com/ItemMixin#Methods
+
 -- Imports
 local Utility = ns.Utility
 local Const = ns.Const
@@ -124,7 +126,7 @@ function Buffet:PLAYER_LOGIN()
     Core.playerHealth = UnitHealthMax("player")
     Core.playerMana = UnitPowerMax("player")
 
-    Utility.Print("Buffet ", Core.Version, " Loaded!")
+    Utility.Print(Core.Version, " Loaded!")
 
     if Utility.IsClassic then
         Utility.Debug("Classic mode enabled")
@@ -143,7 +145,7 @@ function Buffet:PLAYER_LOGOUT()
         end
     end
     for i, v in pairs(Core.db) do
-        if not Const.DBdefaults[i] then
+        if Const.DBdefaults[i] == nil then
             Core.db[i] = nil
         end
     end
@@ -396,16 +398,54 @@ function Core:Scan()
         end
     end
 
-    -- 12662 demonic rune, 20520 dark rune
-    if itemIds[12662] and (itemIds[12662] > 0) and (50 <= self.playerLevel) then
-        self:SetBest(Const.BestCategories.rune, 12662, 1200, itemIds[12662])
-    end
-    if itemIds[20520] and (itemIds[20520] > 0) and (55 <= self.playerLevel) then
-        self:SetBest(Const.BestCategories.rune, 20520, 1199, itemIds[20520]) -- health set to 1199 to prioritize demonic rune over dark rune
+    -- 12662 demonic rune
+    if itemIds[12662] and (itemIds[12662] > 0) then
+        local _, _, _, _, itemMinLevel = GetItemInfo(12662)
+        if itemMinLevel <= self.playerLevel then
+            local runeValue = 0
+            if Utility.IsClassic then
+                runeValue = 1200
+            end
+            if Utility.IsRetail then
+                runeValue = 550
+            end
+            self:SetBest(Const.BestCategories.rune, 12662, runeValue, itemIds[12662])
+        end
     end
 
-    local food = Core.bests.percfood.id or Core.bests.food.id
-    local water = Core.bests.percwater.id or Core.bests.water.id
+    -- 20520 dark rune
+    if itemIds[20520] and (itemIds[20520] > 0) then
+        local _, _, _, _, itemMinLevel = GetItemInfo(20520)
+        if itemMinLevel <= self.playerLevel then
+            local runeValue = 0
+            if Utility.IsClassic then
+                runeValue = 1199 -- health set to 1199 to prioritize demonic rune over dark rune
+            end
+            if Utility.IsRetail then
+                runeValue = 364
+            end
+            self:SetBest(Const.BestCategories.rune, 20520, runeValue, itemIds[20520])
+        end
+    end
+
+    local bestFood = Core.bests.food.id
+    local bestDrink = Core.bests.water.id
+    if Core.db.wellFed then
+        if Core.bests.wellfedfood.id then
+            if not Core.bests.food.id or (Core.bests.wellfedfood.val > Core.bests.food.val) then
+                bestFood = Core.bests.wellfedfood.id
+            end
+        end
+        if Core.bests.wellfedwater.id then
+            if not Core.bests.water.id or (Core.bests.wellfedwater.val > Core.bests.water.val) then
+                bestDrink = Core.bests.wellfedwater.id
+            end
+        end
+    end
+
+    local food = Core.bests.percfood.id or bestFood
+    local water = Core.bests.percwater.id or bestDrink
+
 
     self:EditDefault(Const.MacroNames.defaultHP, Core.db.macroHP, food, Core.bests.healthstone.id, Core.bests.hppot.id, Core.bests.bandage.id)
     self:EditDefault(Const.MacroNames.defaultMP, Core.db.macroMP, water, Core.bests.managem.id, Core.bests.mppot.id, Core.bests.rune.id)
