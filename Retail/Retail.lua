@@ -133,24 +133,20 @@ if Utility.IsRetail then
         return itemData
     end
 
+    -- return true if the item is restricted, false otherwise
     function Engine.CheckRestriction(itemId)
-        local isRestricted = false
         -- check restricted items against rules
-        if ConstRetail.Restrictions[itemId] then
-            if not isRestricted and ConstRetail.Restrictions[itemId].inInstanceIds then
-                isRestricted = not Utility.IsPlayerInInstanceId(ConstRetail.Restrictions[itemId].inInstanceIds)
+        if ConstRetail.Restrictions[itemId] ~= nil then
+            for _, entry in pairs(ConstRetail.Restrictions[itemId]) do
+                local valid = Engine.CheckRestrictionEntry(entry)
+                if valid then
+                    return false -- if one entry is valid, item is not currently restricted
+                end
             end
-            if not isRestricted and ConstRetail.Restrictions[itemId].inMapIds then
-                isRestricted = not Utility.IsPlayerInMapId(ConstRetail.Restrictions[itemId].inMapIds)
-            end
-            if not isRestricted and ConstRetail.Restrictions[itemId].inInstanceTypes then
-                isRestricted = not Utility.IsPlayerInInstanceType(ConstRetail.Restrictions[itemId].inInstanceTypes)
-            end
-            if not isRestricted and ConstRetail.Restrictions[itemId].inSubZones then
-                isRestricted = not Utility.IsPlayerInSubZoneName(ConstRetail.Restrictions[itemId].inSubZones)
-            end
+            return true -- no valid entry
         end
-        return isRestricted
+
+        return false -- no entry
     end
 
     function Engine.GetCategories(itemData)

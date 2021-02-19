@@ -138,6 +138,89 @@ function Engine.ParseTexts(texts, itemData)
     return itemData
 end
 
+function Engine.CheckRestrictionEntry(entry)
+    local matchMode = entry.matchMode or "one"
+    local conditions = 0
+    local matches = 0
+
+    if entry.inInstanceIds ~= nil then
+        conditions = conditions + 1
+        if Utility.IsPlayerInInstanceId(entry.inInstanceIds) then
+            matches = matches + 1
+        end
+    end
+    if entry.inMapIds ~= nil then
+        conditions = conditions + 1
+        if Utility.IsPlayerInMapId(entry.inMapIds) then
+            matches = matches + 1
+        end
+    end
+    if entry.inInstanceTypes ~= nil then
+        conditions = conditions + 1
+        if Utility.IsPlayerInInstanceType(entry.inInstanceTypes) then
+            matches = matches + 1
+        end
+    end
+    if entry.inSubZones ~= nil then
+        conditions = conditions + 1
+        if Utility.IsPlayerInSubZoneName(entry.inSubZones) then
+            matches = matches + 1
+        end
+    end
+
+    if entry.pvp ~= nil then
+        if entry.pvp.bg ~= nil then
+            conditions = conditions + 1
+            if entry.pvp.bg == true and C_PvP.IsBattleground() then
+                matches = matches + 1
+            end
+        end
+
+        if entry.pvp.arena ~= nil then
+            conditions = conditions + 1
+            if entry.pvp.arena == true and C_PvP.IsArena() then
+                matches = matches + 1
+            end
+        end
+
+        if entry.pvp.brawl ~= nil then
+            conditions = conditions + 1
+            if entry.pvp.brawl == true and C_PvP.IsInBrawl() then
+                matches = matches + 1
+            end
+        end
+
+        if entry.pvp.ratedBg ~= nil then
+            conditions = conditions + 1
+            if entry.pvp.ratedBg == true and C_PvP.IsRatedBattleground() then
+                matches = matches + 1
+            end
+        end
+
+        if entry.pvp.ratedArena ~= nil then
+            conditions = conditions + 1
+            if entry.pvp.ratedArena == true and C_PvP.IsRatedArena() then
+                matches = matches + 1
+            end
+        end
+    end
+
+    if matchMode == "none" then
+        return matches == 0
+    end
+    if matchMode == "one" then
+        return matches == 1
+    end
+    if matchMode == "any" then
+        return matches >= 1
+    end
+    if matchMode == "all" then
+        return matches == conditions
+    end
+
+    return false
+end
+
 function Engine.Match(text, pattern)
     local p = {string_match(text, pattern)}
     return p

@@ -139,24 +139,20 @@ if Utility.IsClassic then
         return itemData
     end
 
+    -- return true if the item is restricted, false otherwise
     function Engine.CheckRestriction(itemId)
-        local isRestricted = false
         -- check restricted items against rules
-        if ConstClassic.Restrictions[itemId] then
-            if not isRestricted and ConstClassic.Restrictions[itemId].inInstanceIds then
-                isRestricted = not Utility.IsPlayerInInstanceId(ConstClassic.Restrictions[itemId].inInstanceIds)
+        if ConstClassic.Restrictions[itemId] ~= nil then
+            for _, entry in pairs(ConstClassic.Restrictions[itemId]) do
+                local valid = Engine.CheckRestrictionEntry(entry)
+                if valid then
+                    return false -- if one entry is valid, item is not currently restricted
+                end
             end
-            if not isRestricted and ConstClassic.Restrictions[itemId].inMapIds then
-                isRestricted = not Utility.IsPlayerInMapId(ConstClassic.Restrictions[itemId].inMapIds)
-            end
-            if not isRestricted and ConstClassic.Restrictions[itemId].inInstanceTypes then
-                isRestricted = not Utility.IsPlayerInInstanceType(ConstClassic.Restrictions[itemId].inInstanceTypes)
-            end
-            if not isRestricted and ConstClassic.Restrictions[itemId].inSubZones then
-                isRestricted = not Utility.IsPlayerInSubZoneName(ConstClassic.Restrictions[itemId].inSubZones)
-            end
+            return true -- no valid entry
         end
-        return isRestricted
+
+        return false -- no entry
     end
 
     function Engine.GetCategories(itemData)
