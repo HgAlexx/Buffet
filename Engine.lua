@@ -139,7 +139,7 @@ function Engine.ParseTexts(texts, itemData)
 end
 
 function Engine.CheckRestrictionEntry(entry)
-    local matchMode = entry.matchMode or "one"
+    local matchMode = entry.matchMode or "any"
     local conditions = 0
     local matches = 0
 
@@ -216,6 +216,11 @@ function Engine.CheckRestrictionEntry(entry)
     end
     if matchMode == "all" then
         return matches == conditions
+    end
+
+    -- allow for exact matches
+    if type(matchMode) == "number" then
+        return matches == matchMode
     end
 
     return false

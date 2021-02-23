@@ -103,7 +103,12 @@ ConstRetail.Restrictions = {
     [140352] = { -- Dreamberries
         {
             matchMode = "all",
-            inInstanceIds = { 1220, 1669 }, -- Broken Isles, Argus
+            inInstanceIds = { 1220 }, -- Broken Isles
+            inInstanceTypes = { "none" },
+        },
+        {
+            matchMode = "all",
+            inInstanceIds = { 1669 }, -- Argus
             inInstanceTypes = { "none" },
         },
     },
