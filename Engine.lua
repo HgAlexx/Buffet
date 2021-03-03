@@ -171,36 +171,51 @@ function Engine.CheckRestrictionEntry(entry)
     if entry.pvp ~= nil then
         if entry.pvp.bg ~= nil then
             conditions = conditions + 1
-            if entry.pvp.bg == true and C_PvP.IsBattleground() then
-                matches = matches + 1
+            if Utility.IsClassic then
+                if entry.pvp.bg == true and C_PvP.IsPVPMap() then
+                    matches = matches + 1
+                end
+            end
+            if Utility.IsRetail then -- since version 8.2.0
+                if entry.pvp.bg == true and C_PvP.IsBattleground() then
+                    matches = matches + 1
+                end
             end
         end
 
         if entry.pvp.arena ~= nil then
             conditions = conditions + 1
-            if entry.pvp.arena == true and C_PvP.IsArena() then
-                matches = matches + 1
+            if Utility.IsRetail then -- since version 8.2.0
+                if entry.pvp.arena == true and C_PvP.IsArena() then
+                    matches = matches + 1
+                end
             end
         end
 
         if entry.pvp.brawl ~= nil then
             conditions = conditions + 1
-            if entry.pvp.brawl == true and C_PvP.IsInBrawl() then
-                matches = matches + 1
+            if Utility.IsRetail then -- since version 7.2.0
+                if entry.pvp.brawl == true and C_PvP.IsInBrawl() then
+                    matches = matches + 1
+                end
             end
         end
 
         if entry.pvp.ratedBg ~= nil then
             conditions = conditions + 1
-            if entry.pvp.ratedBg == true and C_PvP.IsRatedBattleground() then
-                matches = matches + 1
+            if Utility.IsRetail then -- since version 8.2.0
+                if entry.pvp.ratedBg == true and C_PvP.IsRatedBattleground() then
+                    matches = matches + 1
+                end
             end
         end
 
         if entry.pvp.ratedArena ~= nil then
             conditions = conditions + 1
-            if entry.pvp.ratedArena == true and C_PvP.IsRatedArena() then
-                matches = matches + 1
+            if Utility.IsRetail then -- since version 8.2.0
+                if entry.pvp.ratedArena == true and C_PvP.IsRatedArena() then
+                    matches = matches + 1
+                end
             end
         end
     end

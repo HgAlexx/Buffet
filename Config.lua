@@ -741,8 +741,9 @@ function customMacro:checkName()
             self.valid = false
         end
     end
-
-    customMacro.outputEdit:SetText(content)
+    if content ~= "" then
+        customMacro.outputEdit:SetText(content)
+    end
     customMacro:ui()
 end
 
@@ -778,6 +779,9 @@ function customMacro:checkSource()
     else
         content = "No active macro"
         self.valid = false
+    end
+    if content ~= "" then
+        customMacro.outputEdit:SetText(content)
     end
 
     customMacro.outputEdit:SetText(content)
