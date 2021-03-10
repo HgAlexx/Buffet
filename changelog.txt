@@ -1,3 +1,11 @@
+### 9.0.2.75 / 1.13.6.75
+
++ New feature: custom macro, using lua scripting language
+* Add option to also consider "well fed" food items in macros
+* Reworks and improvements of the restriction system
+* Various other fixes and improvements
+
+
 ### 9.0.2.74-Beta / 1.13.6.74-Beta
 
 * Fix issue with output status

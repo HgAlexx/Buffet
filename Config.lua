@@ -602,7 +602,7 @@ function customMacro:loadActive()
 
         self.outputEdit:SetText("")
 
-        customMacro:checkName()
+        customMacro:checkAll()
     else
         self.nameEdit:SetText("")
         self.nameEdit:Disable()
@@ -727,24 +727,28 @@ function customMacro:checkName()
                 if self.active.key ~= name then --updating the name, check for duplicate
                     if Core.customMacros[name] or GetMacroIndexByName(name) > 0 then -- exists
                         content = "Invalid name: macro name already in used"
+                        customMacro.outputEdit:SetText(content)
                         self.valid = false
+                        return false
                     end
                 end
             else
                 if Core.customMacros[name] or GetMacroIndexByName(name) > 0 then -- exists
                     content = "Invalid name: macro name already in used"
+                    customMacro.outputEdit:SetText(content)
                     self.valid = false
+                    return false
                 end
             end
         else
             content = "Invalid name: empty"
+            customMacro.outputEdit:SetText(content)
             self.valid = false
+            return false
         end
     end
-    if content ~= "" then
-        customMacro.outputEdit:SetText(content)
-    end
-    customMacro:ui()
+
+    return true
 end
 
 function customMacro:checkSource()
@@ -761,33 +765,48 @@ function customMacro:checkSource()
                 local success, ret = pcall(chunck, Core:BestsBeautifier(), Core.itemCache)
                 if success then
                     content = (ret or "<nothing>")
+                    customMacro.outputEdit:SetText(content)
                     self.valid = true
+                    return true
                 else
                     local error = ret:gsub("%[string \"customMacroCode\"%]:", "line ")
                     content = content .. ", Execution: FAILED, Error:\n" .. (error or "unknown")
+                    customMacro.outputEdit:SetText(content)
                     self.valid = false
+                    return false
                 end
             else
                 local error = errorMessage:gsub("%[string \"customMacroCode\"%]:", "line ")
                 content = "Compilation: FAILED, Error:\n" .. error
+                customMacro.outputEdit:SetText(content)
                 self.valid = false
+                return false
             end
         else
             content = "No source code to compile"
+            customMacro.outputEdit:SetText(content)
             self.valid = false
+            return false
         end
     else
         content = "No active macro"
-        self.valid = false
-    end
-    if content ~= "" then
         customMacro.outputEdit:SetText(content)
+        self.valid = false
+        return false
     end
 
-    customMacro.outputEdit:SetText(content)
-    customMacro:ui()
+    return true
 end
 
+function customMacro:checkAll()
+    customMacro.outputEdit:SetText("")
+
+    if customMacro:checkName() then
+        customMacro:checkSource()
+    end
+
+    customMacro:ui()
+end
 
 local frame_custom = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 frame_custom.name = "Custom Macros"
@@ -839,7 +858,7 @@ frame_custom:SetScript("OnShow", function()
             local value = self:GetText() or ""
             if customMacro.active then
                 customMacro.active.name = Utility.Trim(value)
-                customMacro:checkName()
+                customMacro:checkAll()
                 customMacro:updateStatus()
                 customMacro:ui()
             end
@@ -848,7 +867,7 @@ frame_custom:SetScript("OnShow", function()
         local value = self:GetText() or ""
         if customMacro.active then
             customMacro.active.name = Utility.Trim(value)
-            customMacro:checkName()
+            customMacro:checkAll()
             customMacro:updateStatus()
             customMacro:ui()
         end
@@ -902,8 +921,7 @@ frame_custom:SetScript("OnShow", function()
     customMacro.buttonCheck.tiptext = "Check & Test Source Code"
     customMacro.buttonCheck.name = "BuffetButtonCheck"
     customMacro.buttonCheck:SetScript("OnClick", function(self)
-        customMacro:checkSource()
-        customMacro:checkName()
+        customMacro:checkAll()
     end)
 
     local sourceLabel = frame_custom:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
