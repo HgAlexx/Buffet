@@ -1,14 +1,41 @@
-Buffet is a simple water/food managing addon inspired by
-[BaudConsumables](http://wow.curse.com/downloads/details/5827/) and
-[Munchies](http://www.wowinterface.com/downloads/info8174-Munchies.html).
+**Buffet** is a food/water macro generator originally developed by **[tekkub](https://www.curseforge.com/linkout?remoteUrl=http%253a%252f%252fwww.tekkub.net%252f)** and currently maintained by **mZHg**.
 
-Unlike Baud and Munchies, Buffet does not swap items on the action bar (the
-noise bothered me).  Instead it edits macros on the fly (out of combat) to
-provide you with the best food, water, potions, stones, and bandages.
 
-To make Buffet work, you must provide two macros, "AutoHP" and "AutoMP".  Drop
-these on your action bar like any other macro, Buffet will change the macros as
-needed to provide you with food and drink out of combat, potions and stones in
-combat, and bandages on shift (HP macro only, of course).  Buffet will always
-pick the smaller stack if equal-strength items are found.  Conjured items will
-always be preferred over permanent ones.
+What's new :
+- Custom macros, available now!
+See [here](https://github.com/HgAlexx/Buffet/wiki) for more info.
+
+
+Feel free to report any bug or request any feature [here](https://github.com/HgAlexx/Buffet/issues) :)
+
+
+Features:
+
+- Dynamically scan your bag for usable food, drink, potion, rune, managem and bandage
+- Provide 6 macros auto-magically updated (out of combat)
+  - Consumable and food/drink
+  - Food and Drink only
+  - Consumable only
+- Allow configuration of modifiers used by macros
+- Option to default macros to hearthstone if no item found
+- Option to consider "well fed" food items in macros
+- Support dark and demonic runes
+- Support Classic Wow
+- Custom macro using lua scripting language
+
+
+
+Currently support the following localization:
+
+For retail:
+- English (enUS)
+- Deutsch (deDE)
+- Español (esES)
+- Français (frFR)
+- Italiano (itIT)
+
+For classic:
+- English (enUS)
+- Deutsch (deDE)
+- Español (esES)
+- Français (frFR)
