@@ -12,7 +12,10 @@ if Utility.IsClassic then
     local string_match = string.match
 
     function Engine.IsValidItemClasses(itemClassId, itemSubClassId)
-        -- unusable for now (ids all over the place)
+        -- exclude alchemy recipes
+        if (itemClassId == 9) and (itemSubClassId == 6) then
+            return false
+        end
         return true
     end
 

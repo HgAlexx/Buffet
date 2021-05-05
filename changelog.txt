@@ -1,3 +1,8 @@
+### 1.13.7.76
+
+* Fix Alchemy recipes sometime showing up as potions
+
+
 ### 9.0.2.75 / 1.13.6.75
 
 + New feature: custom macro, using lua scripting language
