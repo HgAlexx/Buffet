@@ -32,11 +32,21 @@ Classic\Localization.esES.lua
 Classic\Localization.frFR.lua
 Classic\Localization.zhCN.lua
 
+TBC\Localization.enUS.lua
+TBC\Localization.deDE.lua
+TBC\Localization.esES.lua
+TBC\Localization.esMX.lua
+TBC\Localization.frFR.lua
+TBC\Localization.zhCN.lua
+
 Retail\ConstRetail.lua
 Retail\Retail.lua
 
 Classic\ConstClassic.lua
 Classic\Classic.lua
+
+TBC\ConstTBC.lua
+TBC\TBC.lua
 
 Engine.lua
 

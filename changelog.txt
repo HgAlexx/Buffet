@@ -1,3 +1,10 @@
+### 1.13.7.77 / 2.5.1.77
+
+* Fix more recipes sometime showing up as potions or food
+* Preparation for TBC and pre-patch
+* Code cleanup
+
+
 ### 1.13.7.76
 
 * Fix Alchemy recipes sometime showing up as potions

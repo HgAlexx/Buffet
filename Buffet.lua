@@ -144,7 +144,7 @@ function Buffet:PLAYER_LOGOUT()
             Core.db[i] = nil
         end
     end
-    for i, v in pairs(Core.db) do
+    for i, _ in pairs(Core.db) do
         if Const.DBdefaults[i] == nil then
             Core.db[i] = nil
         end
@@ -165,7 +165,7 @@ function Buffet:PLAYER_LOGOUT()
             BuffetItemDB[i] = nil
         end
     end
-    for i, v in pairs(BuffetItemDB) do
+    for i, _ in pairs(BuffetItemDB) do
         if not Const.ItemDBdefaults[i] then
             BuffetItemDB[i] = nil
         end
@@ -384,13 +384,13 @@ function Core:Scan()
                     -- set bests
                     local healthCats, manaCats = Engine.GetCategories(itemData)
                     if healthCats then
-                        for k, v in pairs(healthCats) do
-                            self:SetBest(v, itemId, health, itemCount)
+                        for _, v2 in pairs(healthCats) do
+                            self:SetBest(v2, itemId, health, itemCount)
                         end
                     end
                     if manaCats then
-                        for k, v in pairs(manaCats) do
-                            self:SetBest(v, itemId, mana, itemCount)
+                        for _, v2 in pairs(manaCats) do
+                            self:SetBest(v2, itemId, mana, itemCount)
                         end
                     end
                 end

@@ -4,27 +4,20 @@ local _, ns = ...
 local Utility = ns.Utility
 local Locales = ns.Locales
 
-if Utility.IsClassic then
+if Utility.IsTBC then
     -- Imports
-    local ConstClassic = ns.ConstClassic
+    local ConstTBC = ns.ConstTBC
     local Engine = ns.Engine or {}
 
     local string_match = string.match
 
     function Engine.IsValidItemClasses(itemClassId, itemSubClassId)
-        -- exclude cooking recipes
-        if (itemClassId == 9) and (itemSubClassId == 5) then
-            return false
+        for _, v in pairs(ConstTBC.ValidItemClasses) do
+            if itemClassId == v[1] and itemSubClassId == v[2] then
+                return true
+            end
         end
-        -- exclude alchemy recipes
-        if (itemClassId == 9) and (itemSubClassId == 6) then
-            return false
-        end
-        -- exclude bandage book
-        if (itemClassId == 9) and (itemSubClassId == 7) then
-            return false
-        end
-        return true
+        return false
     end
 
     function Engine.CheckUsable(text)
@@ -54,14 +47,11 @@ if Utility.IsClassic then
     end
 
     function Engine.CheckBandage(text, itemClassId, itemSubClassId)
-        local b = Utility.StringContains(text, Locales.KeyWords.Bandage)
-        return b
+        return itemClassId == ConstTBC.ItemClasses.Consumable and itemSubClassId == ConstTBC.ItemConsumableSubClasses.Bandage
     end
 
     function Engine.CheckPotion(text, itemClassId, itemSubClassId)
-        -- no solution for now
-        return false
-        --return Utility.StringContains(text, Locales.KeyWords.Potion)
+        return itemClassId == ConstTBC.ItemClasses.Consumable and itemSubClassId == ConstTBC.ItemConsumableSubClasses.Potion
     end
 
     function Engine.PostParseUpdate(itemData)
@@ -113,6 +103,13 @@ if Utility.IsClassic then
             if Utility.StringContains(itemDescription, Locales.KeyWords.Restores:lower()) then
                 -- loop on mixed Health+Mana pattern here
                 itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.HealthAndMana)
+                if itemData.isOverTime and itemData.health and (itemData.health > 0) and itemData.mana and (itemData.mana > 0) then
+                    local overTime = string_match(itemDescription, Locales.Patterns.OverTime)
+                    if overTime then
+                        itemData.isOverTime = true
+                        itemData.overTime = tonumber(overTime)
+                    end
+                end
             end
         else
             if itemData.isHealth then
@@ -153,8 +150,8 @@ if Utility.IsClassic then
     -- return true if the item is restricted, false otherwise
     function Engine.CheckRestriction(itemId)
         -- check restricted items against rules
-        if ConstClassic.Restrictions[itemId] ~= nil then
-            for _, entry in pairs(ConstClassic.Restrictions[itemId]) do
+        if ConstTBC.Restrictions[itemId] ~= nil then
+            for _, entry in pairs(ConstTBC.Restrictions[itemId]) do
                 local valid = Engine.CheckRestrictionEntry(entry)
                 if valid then
                     return false -- if one entry is valid, item is not currently restricted
