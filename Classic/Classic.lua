@@ -71,85 +71,6 @@ if Utility.IsClassic then
         return itemData
     end
 
-    function Engine.ExtractValue(value, indexes)
-        if indexes then
-            if type(indexes) == "table" then
-                local value1 = Engine.StripThousandSeparator(value[indexes[1]])
-                local value2 = Engine.StripThousandSeparator(value[indexes[2]])
-                return (tonumber(value1) + tonumber(value2)) / 2
-            elseif type(indexes) == "number" then
-                local value = Engine.StripThousandSeparator(value[indexes])
-                return tonumber(value)
-            end
-        end
-        return 0
-    end
-
-    function Engine.LoopPattern(itemData, itemDescription, patterns)
-        for k, v in ipairs(patterns) do
-            local value = Engine.Match(itemDescription, v.pattern)
-            if value and (#value > 0) then
-                if v.healthIndex then
-                    itemData.health = Engine.ExtractValue(value, v.healthIndex)
-                    if v.pct then
-                        itemData.health = itemData.health / 100
-                    end
-                end
-                if v.manaIndex then
-                    itemData.mana = Engine.ExtractValue(value, v.manaIndex)
-                    if v.pct then
-                        itemData.mana = itemData.mana / 100
-                    end
-                end
-                itemData.isPct = v.pct
-                break
-            end
-        end
-        return itemData
-    end
-
-    function Engine.ParseValues(itemData, itemDescription)
-        if itemData.isHealth and itemData.isMana then
-            if Utility.StringContains(itemDescription, Locales.KeyWords.Restores:lower()) then
-                -- loop on mixed Health+Mana pattern here
-                itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.HealthAndMana)
-            end
-        else
-            if itemData.isHealth then
-                if itemData.isBandage then
-                    if Utility.StringContains(itemDescription, Locales.KeyWords.Heals:lower()) then
-                        -- loop on Bandage pattern here
-                        itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.Bandage)
-                    end
-                else
-                    if Utility.StringContains(itemDescription, Locales.KeyWords.Restores:lower()) then
-                        -- loop on Health pattern here
-                        itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.Health)
-                        if itemData.health and (itemData.health > 0) and itemData.isOverTime then
-                            local overTime = string_match(itemDescription, Locales.Patterns.OverTime)
-                            if overTime then
-                                itemData.health = itemData.health * tonumber(overTime)
-                            end
-                        end
-                    end
-                end
-            end
-            if itemData.isMana then
-                if Utility.StringContains(itemDescription, Locales.KeyWords.Restores:lower()) then
-                    -- loop on Mana pattern here
-                    itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.Mana)
-                    if itemData.mana and (itemData.mana > 0) and itemData.isOverTime then
-                        local overTime = string_match(itemDescription, Locales.Patterns.OverTime)
-                        if overTime then
-                            itemData.mana = itemData.mana * tonumber(overTime)
-                        end
-                    end
-                end
-            end
-        end
-        return itemData
-    end
-
     -- return true if the item is restricted, false otherwise
     function Engine.CheckRestriction(itemId)
         -- check restricted items against rules
@@ -172,7 +93,6 @@ if Utility.IsClassic then
         local manaCats= {}
 
         -- food
-        --if not itemData.isPotion and not itemData.isBandage then
         if itemData.isFoodAndDrink then
             if itemData.isHealth then
                 if itemData.isConjured then
@@ -194,12 +114,16 @@ if Utility.IsClassic then
             end
             return healthCats, manaCats
         end
+
+        -- bandage
         if itemData.isBandage then
             if itemData.isHealth then
                 table.insert(healthCats, Const.BestCategories.bandage)
             end
             return healthCats, manaCats
         end
+
+        -- potion
         if not itemData.isFoodAndDrink and not itemData.isConjured then
             if itemData.isHealth then
                 table.insert(healthCats, Const.BestCategories.hppot)
@@ -209,6 +133,8 @@ if Utility.IsClassic then
             end
             return healthCats, manaCats
         end
+
+        --conjured
         if itemData.isConjured then
             if itemData.isHealth then
                 table.insert(healthCats, Const.BestCategories.healthstone)
@@ -218,6 +144,7 @@ if Utility.IsClassic then
             end
             return healthCats, manaCats
         end
+
         return false, false
     end
 

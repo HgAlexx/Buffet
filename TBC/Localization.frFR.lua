@@ -55,7 +55,7 @@ if Utility.IsTBC and GetLocale() == "frFR" then
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+) points de vie.- ([%d%.]+) points de mana en ([%d%.]+) sec",
+            pattern = "rend ([%d%.]+) points de vie.- ([%d%.]+) points de mana en ([%d%.]+) s",
             healthIndex = 1,
             manaIndex = 2,
             pct = false,
@@ -76,7 +76,7 @@ if Utility.IsTBC and GetLocale() == "frFR" then
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+)%% de vos points de vie par seconde pendant ([%d%.]+) sec",
+            pattern = "rend ([%d%.]+)%% de vos points de vie par seconde pendant ([%d%.]+) s",
             healthIndex = 1,
             manaIndex = nil,
             pct = true,

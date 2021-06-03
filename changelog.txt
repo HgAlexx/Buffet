@@ -1,3 +1,10 @@
+### 2.5.1.78
+
+* Fix issue with mana gem
+* Fix some regex issues with French pattern
+* Code refactoring
+
+
 ### 1.13.7.77 / 2.5.1.77
 
 * Fix more recipes sometime showing up as potions or food

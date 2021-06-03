@@ -1,39 +1,39 @@
 local _, ns = ...
 
 -- Local namespace
-local ConstRetail = {}
+local Const = {}
 
-ConstRetail.ItemClasses = {}
-ConstRetail.ItemClasses.Consumable = 0
-ConstRetail.ItemClasses.Tradeskill = 7
-ConstRetail.ItemClasses.Miscellaneous = 15
+Const.ItemClasses = {}
+Const.ItemClasses.Consumable = 0
+Const.ItemClasses.Tradeskill = 7
+Const.ItemClasses.Miscellaneous = 15
 
-ConstRetail.ItemConsumableSubClasses = {}
-ConstRetail.ItemConsumableSubClasses.Potion = 1
-ConstRetail.ItemConsumableSubClasses.FoodAndDrink = 5
-ConstRetail.ItemConsumableSubClasses.Bandage = 7
-ConstRetail.ItemConsumableSubClasses.Other = 8
+Const.ItemConsumableSubClasses = {}
+Const.ItemConsumableSubClasses.Potion = 1
+Const.ItemConsumableSubClasses.FoodAndDrink = 5
+Const.ItemConsumableSubClasses.Bandage = 7
+Const.ItemConsumableSubClasses.Other = 8
 
-ConstRetail.ItemTradeskillSubClasses = {}
-ConstRetail.ItemTradeskillSubClasses.Cooking = 8
+Const.ItemTradeskillSubClasses = {}
+Const.ItemTradeskillSubClasses.Cooking = 8
 
-ConstRetail.ItemMiscellaneousSubClasses = {}
-ConstRetail.ItemMiscellaneousSubClasses.Reagent = 1
+Const.ItemMiscellaneousSubClasses = {}
+Const.ItemMiscellaneousSubClasses.Reagent = 1
 
-ConstRetail.ValidItemClasses = {
-    {ConstRetail.ItemClasses.Consumable, ConstRetail.ItemConsumableSubClasses.Bandage},
-    {ConstRetail.ItemClasses.Consumable, ConstRetail.ItemConsumableSubClasses.FoodAndDrink},
-    {ConstRetail.ItemClasses.Consumable, ConstRetail.ItemConsumableSubClasses.Other},
-    {ConstRetail.ItemClasses.Consumable, ConstRetail.ItemConsumableSubClasses.Potion},
+Const.ValidItemClasses = {
+    { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Bandage},
+    { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.FoodAndDrink},
+    { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Other},
+    { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Potion},
 
-    {ConstRetail.ItemClasses.Tradeskill, ConstRetail.ItemTradeskillSubClasses.Cooking},
+    { Const.ItemClasses.Tradeskill, Const.ItemTradeskillSubClasses.Cooking},
 
-    {ConstRetail.ItemClasses.Miscellaneous, ConstRetail.ItemMiscellaneousSubClasses.Reagent},
+    { Const.ItemClasses.Miscellaneous, Const.ItemMiscellaneousSubClasses.Reagent},
 }
 
 -- InstanceId: https://wow.gamepedia.com/InstanceID
 -- uiMapId: https://wow.gamepedia.com/UiMapID
-ConstRetail.Restrictions = {
+Const.Restrictions = {
     [32902] = { -- Bottled Nethergon Energy
         {
             inInstanceIds = { 550, 552, 553, 554, }, -- Tempest Keep instances
@@ -138,4 +138,4 @@ ConstRetail.Restrictions = {
 }
 
 -- Export
-ns.ConstRetail = ConstRetail
+ns.ConstRetail = Const

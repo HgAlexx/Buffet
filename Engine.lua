@@ -241,6 +241,94 @@ function Engine.CheckRestrictionEntry(entry)
     return false
 end
 
+function Engine.ExtractValue(value, indexes)
+    if indexes then
+        if type(indexes) == "table" then
+            local value1 = Engine.StripThousandSeparator(value[indexes[1]])
+            local value2 = Engine.StripThousandSeparator(value[indexes[2]])
+            return (tonumber(value1) + tonumber(value2)) / 2
+        elseif type(indexes) == "number" then
+            local value = Engine.StripThousandSeparator(value[indexes])
+            return tonumber(value)
+        end
+    end
+    return 0
+end
+
+function Engine.LoopPattern(itemData, itemDescription, patterns)
+    for k, v in ipairs(patterns) do
+        local value = Engine.Match(itemDescription, v.pattern)
+        if value and (#value > 0) then
+            if v.healthIndex then
+                itemData.health = Engine.ExtractValue(value, v.healthIndex)
+                if v.pct then
+                    itemData.health = itemData.health / 100
+                end
+            end
+            if v.manaIndex then
+                itemData.mana = Engine.ExtractValue(value, v.manaIndex)
+                if v.pct then
+                    itemData.mana = itemData.mana / 100
+                end
+            end
+            itemData.isPct = v.pct
+            break
+        end
+    end
+    return itemData
+end
+
+function Engine.ParseValues(itemData, itemDescription)
+    if itemData.isHealth and itemData.isMana then
+        if Utility.StringContains(itemDescription, Locales.KeyWords.Restores:lower()) then
+            -- loop on mixed Health+Mana pattern here
+            itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.HealthAndMana)
+            if itemData.isOverTime and itemData.health and (itemData.health > 0) and itemData.mana and (itemData.mana > 0) then
+                local overTime = string_match(itemDescription, Locales.Patterns.OverTime)
+                if overTime then
+                    itemData.isOverTime = true
+                    itemData.overTime = tonumber(overTime)
+                end
+            end
+        end
+    else
+        if itemData.isHealth then
+            if itemData.isBandage then
+                if Utility.StringContains(itemDescription, Locales.KeyWords.Heals:lower()) then
+                    -- loop on Bandage pattern here
+                    itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.Bandage)
+                end
+            else
+                if Utility.StringContains(itemDescription, Locales.KeyWords.Restores:lower()) then
+                    -- loop on Health pattern here
+                    itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.Health)
+                    if itemData.health and (itemData.health > 0) and itemData.isOverTime then
+                        local overTime = string_match(itemDescription, Locales.Patterns.OverTime)
+                        if overTime then
+                            itemData.isOverTime = true
+                            itemData.overTime = tonumber(overTime)
+                        end
+                    end
+                end
+            end
+        end
+        if itemData.isMana then
+            if Utility.StringContains(itemDescription, Locales.KeyWords.Restores:lower()) then
+                -- loop on Mana pattern here
+                itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.Mana)
+                if itemData.mana and (itemData.mana > 0) and itemData.isOverTime then
+                    local overTime = string_match(itemDescription, Locales.Patterns.OverTime)
+                    if overTime then
+                        itemData.isOverTime = true
+                        itemData.overTime = tonumber(overTime)
+                    end
+                end
+            end
+        end
+    end
+    return itemData
+end
+
 function Engine.Match(text, pattern)
     local p = {string_match(text, pattern)}
     return p

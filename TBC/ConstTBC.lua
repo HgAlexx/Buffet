@@ -1,39 +1,41 @@
 local _, ns = ...
 
 -- Local namespace
-local ConstTBC = {}
+local Const = {}
 
-ConstTBC.ItemClasses = {}
-ConstTBC.ItemClasses.Consumable = 0
-ConstTBC.ItemClasses.Tradeskill = 7
-ConstTBC.ItemClasses.Miscellaneous = 15
+Const.ItemClasses = {}
+Const.ItemClasses.Consumable = 0
+Const.ItemClasses.Tradeskill = 7
+Const.ItemClasses.Miscellaneous = 15
 
-ConstTBC.ItemConsumableSubClasses = {}
-ConstTBC.ItemConsumableSubClasses.Potion = 1
-ConstTBC.ItemConsumableSubClasses.FoodAndDrink = 5
-ConstTBC.ItemConsumableSubClasses.Bandage = 7
-ConstTBC.ItemConsumableSubClasses.Other = 8
+Const.ItemConsumableSubClasses = {}
+Const.ItemConsumableSubClasses.ExplosivesAndDevices = 0
+Const.ItemConsumableSubClasses.Potion = 1
+Const.ItemConsumableSubClasses.FoodAndDrink = 5
+Const.ItemConsumableSubClasses.Bandage = 7
+Const.ItemConsumableSubClasses.Other = 8
 
-ConstTBC.ItemTradeskillSubClasses = {}
-ConstTBC.ItemTradeskillSubClasses.Cooking = 8
+Const.ItemTradeskillSubClasses = {}
+Const.ItemTradeskillSubClasses.Cooking = 8
 
-ConstTBC.ItemMiscellaneousSubClasses = {}
-ConstTBC.ItemMiscellaneousSubClasses.Reagent = 1
+Const.ItemMiscellaneousSubClasses = {}
+Const.ItemMiscellaneousSubClasses.Reagent = 1
 
-ConstTBC.ValidItemClasses = {
-    {ConstTBC.ItemClasses.Consumable, ConstTBC.ItemConsumableSubClasses.Bandage},
-    {ConstTBC.ItemClasses.Consumable, ConstTBC.ItemConsumableSubClasses.FoodAndDrink},
-    {ConstTBC.ItemClasses.Consumable, ConstTBC.ItemConsumableSubClasses.Other},
-    {ConstTBC.ItemClasses.Consumable, ConstTBC.ItemConsumableSubClasses.Potion},
+Const.ValidItemClasses = {
+    { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.ExplosivesAndDevices},
+    { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Bandage},
+    { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.FoodAndDrink},
+    { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Other},
+    { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Potion},
 
-    {ConstTBC.ItemClasses.Tradeskill, ConstTBC.ItemTradeskillSubClasses.Cooking},
+    { Const.ItemClasses.Tradeskill, Const.ItemTradeskillSubClasses.Cooking},
 
-    {ConstTBC.ItemClasses.Miscellaneous, ConstTBC.ItemMiscellaneousSubClasses.Reagent},
+    { Const.ItemClasses.Miscellaneous, Const.ItemMiscellaneousSubClasses.Reagent},
 }
 
 -- InstanceId: https://wow.gamepedia.com/InstanceID
--- uiMapId: https://wow.gamepedia.com/UiMapID/Classic
-ConstTBC.Restrictions = {
+-- uiMapId: https://wow.gamepedia.com/UiMapID
+Const.Restrictions = {
     [19307] = { -- Alterac Heavy Runecloth Bandage
         {
             inInstanceIds = { 30 }, -- Alterac Valley
@@ -110,6 +112,53 @@ ConstTBC.Restrictions = {
         },
     },
 
+    [63144] = { -- Baradin's Wardens Healing Potion
+        {
+            inInstanceIds = { 1630 }, -- Tol Barad
+        },
+    },
+    [63145] = { -- Baradin's Wardens Mana Potion
+        {
+            inInstanceIds = { 1630 }, -- Tol Barad
+        },
+    },
+
+    [64993] = { -- Hellscream's Reach Mana Potion
+        {
+            inInstanceIds = { 1630 }, -- Tol Barad
+        },
+    },
+    [64994] = { -- Hellscream's Reach Healing Potion
+        {
+            inInstanceIds = { 1630 }, -- Tol Barad
+        },
+    },
+
+    [140352] = { -- Dreamberries
+        {
+            matchMode = "all",
+            inInstanceIds = { 1220 }, -- Broken Isles
+            inInstanceTypes = { "none" },
+        },
+        {
+            matchMode = "all",
+            inInstanceIds = { 1669 }, -- Argus
+            inInstanceTypes = { "none" },
+        },
+    },
+
+    [174351] = { -- K’Bab
+        {
+            inInstanceIds = { },
+        },
+    },
+
+    [138486] = { -- Third wind potion
+        {
+            pvp = { bg = true, brawl = true }
+        },
+    },
+
     [12662] = { -- demonic rune
         {
             inInstanceIds = { }
@@ -123,4 +172,4 @@ ConstTBC.Restrictions = {
 }
 
 -- Export
-ns.ConstTBC = ConstTBC
+ns.ConstTBC = Const

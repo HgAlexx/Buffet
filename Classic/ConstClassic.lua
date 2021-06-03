@@ -1,26 +1,26 @@
 local _, ns = ...
 
 -- Local namespace
-local ConstClassic = {}
+local Const = {}
 
 -- unused for classic, but we keep it here in case class ids are implemented in the future
-ConstClassic.ItemClasses = {}
-ConstClassic.ItemClasses.Consumable = 0
+Const.ItemClasses = {}
+Const.ItemClasses.Consumable = 0
 
-ConstClassic.ItemConsumableSubClasses = {}
-ConstClassic.ItemConsumableSubClasses.Bandage = 0
-ConstClassic.ItemConsumableSubClasses.FoodAndDrink = 0
-ConstClassic.ItemConsumableSubClasses.Potion = 0
+Const.ItemConsumableSubClasses = {}
+Const.ItemConsumableSubClasses.Bandage = 0
+Const.ItemConsumableSubClasses.FoodAndDrink = 0
+Const.ItemConsumableSubClasses.Potion = 0
 
-ConstClassic.ValidItemClasses = {
-    {ConstClassic.ItemClasses.Consumable, ConstClassic.ItemConsumableSubClasses.Bandage},
-    {ConstClassic.ItemClasses.Consumable, ConstClassic.ItemConsumableSubClasses.FoodAndDrink},
-    {ConstClassic.ItemClasses.Consumable, ConstClassic.ItemConsumableSubClasses.Potion},
+Const.ValidItemClasses = {
+    { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Bandage},
+    { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.FoodAndDrink},
+    { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Potion},
 }
 
 -- InstanceId: https://wow.gamepedia.com/InstanceID
 -- uiMapId: https://wow.gamepedia.com/UiMapID/Classic
-ConstClassic.Restrictions = {
+Const.Restrictions = {
     [19307] = { -- Alterac Heavy Runecloth Bandage
         {
             inInstanceIds = { 30 }, -- Alterac Valley
@@ -66,4 +66,4 @@ ConstClassic.Restrictions = {
 }
 
 -- Export
-ns.ConstClassic = ConstClassic
+ns.ConstClassic = Const
