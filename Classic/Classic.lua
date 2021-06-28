@@ -71,10 +71,14 @@ if Utility.IsClassic then
         return itemData
     end
 
+    function Engine.HasRestriction(itemId)
+        return ConstClassic.Restrictions[itemId] ~= nil
+    end
+
     -- return true if the item is restricted, false otherwise
     function Engine.CheckRestriction(itemId)
         -- check restricted items against rules
-        if ConstClassic.Restrictions[itemId] ~= nil then
+        if Engine.HasRestriction(itemId) then
             for _, entry in pairs(ConstClassic.Restrictions[itemId]) do
                 local valid = Engine.CheckRestrictionEntry(entry)
                 if valid then

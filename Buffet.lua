@@ -383,14 +383,16 @@ function Core:Scan()
 
                     -- set bests
                     local healthCats, manaCats = Engine.GetCategories(itemData)
+                    local hasRestriction = Engine.HasRestriction(itemId)
+
                     if healthCats then
                         for _, v2 in pairs(healthCats) do
-                            self:SetBest(v2, itemId, health, itemCount)
+                            self:SetBest(v2, itemId, health, itemCount, hasRestriction)
                         end
                     end
                     if manaCats then
                         for _, v2 in pairs(manaCats) do
-                            self:SetBest(v2, itemId, mana, itemCount)
+                            self:SetBest(v2, itemId, mana, itemCount, hasRestriction)
                         end
                     end
                 end
@@ -707,11 +709,14 @@ function Core:EditConsumable(name, substring, conjured, pot, mod)
     EditMacro(macroid, name, "INV_Misc_QuestionMark", substring:gsub("%%MACRO%%", cast), 1)
 end
 
-function Core:SetBest(cat, id, value, stack)
-    -- Utility.Debug("SetBest: ", cat, id, value, stack)
+function Core:SetBest(cat, id, value, stack, hasRestriction)
     local best = Core.bests[cat];
     if best and id then
-        if (value > best.val) or ((value == best.val) and (best.stack > stack)) then
+        -- Utility.Debug("SetBest: ", cat, id, value, stack, " vs ", best.val, best.stack, ", has restriction:", hasRestriction)
+        if (value > best.val -- straight better value
+            or ((value == best.val) and (best.stack > stack)) -- less of these items than the current best item
+            or (value == best.val and hasRestriction)) -- new item has a restriction that is currently met
+        then
             best.val = value
             best.id = id
             best.stack = stack

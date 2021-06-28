@@ -57,10 +57,14 @@ if Utility.IsRetail then
         return itemData
     end
 
+    function Engine.HasRestriction(itemId)
+        return ConstRetail.Restrictions[itemId] ~= nil
+    end
+
     -- return true if the item is restricted, false otherwise
     function Engine.CheckRestriction(itemId)
         -- check restricted items against rules
-        if ConstRetail.Restrictions[itemId] ~= nil then
+        if Engine.HasRestriction(itemId) then
             for _, entry in pairs(ConstRetail.Restrictions[itemId]) do
                 local valid = Engine.CheckRestrictionEntry(entry)
                 if valid then
