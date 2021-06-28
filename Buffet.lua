@@ -830,8 +830,7 @@ function Core:SlashHandler(message, editbox)
         end
     elseif cmd == "bests" then
         Utility.Print("Best item ids:")
-        local bests = table.sort(Core:BestsBeautifier())
-        for k,v in pairs(bests) do
+        for k,v in pairs(Core:BestsBeautifier()) do
             Utility.Print("bests."  .. k .. "=" .. v)
         end
 --@debug@
