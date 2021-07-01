@@ -310,9 +310,9 @@ function Core:Scan()
             -- if not found, scan and parse tooltip
             if not itemFoundInCache then
                 -- parse tooltip values
-                local texts, failedAttempt = Engine.ScanTooltip(itemLink, itemMinLevel)
+                local texts = Engine.ScanTooltip(itemLink)
 
-                if failedAttempt and (not Core.scanAttempt[itemId] or Core.scanAttempt[itemId] < 5) then
+                if (Utility.TableCount(texts) <= 0) and (not Core.scanAttempt[itemId] or Core.scanAttempt[itemId] < 5) then
                     if Core.scanAttempt[itemId] then
                         Core.scanAttempt[itemId] = Core.scanAttempt[itemId] + 1
                     else
@@ -339,7 +339,6 @@ function Core:Scan()
                             else
                                 Core.scanAttempt[itemId] = 1
                             end
-                            -- Utility.Debug("Need rescan for: ", itemLink)
                             delayedScanRequired = true
                         end
                     end
@@ -804,16 +803,15 @@ function Core:SlashHandler(message, editbox)
     elseif cmd == "debug" then
         local itemString = args or nil
         if itemString then
-            local _, itemLink, _, itemLevel, itemMinLevel, _, _, _, _, _, _, itemClassId, itemSubClassId = GetItemInfo(itemString)
+            local _, itemLink, _, _, _, _, _, _, _, _, _, itemClassId, itemSubClassId = GetItemInfo(itemString)
             if itemLink then
                 local itemId = string_match(itemLink, "item:([%d]+)")
                 if itemId then
                     itemId = tonumber(itemId)
 
-                    local texts, failedAttempt = Engine.ScanTooltip(itemLink, itemMinLevel)
-                    if failedAttempt then
-                        Utility.Print("Item " .. itemString .. ": ScanTooltip failed")
-                        Utility.Debug(texts)
+                    local texts = Engine.ScanTooltip(itemLink)
+                    if Utility.TableCount(texts) <= 0 then
+                        Utility.Print("Item " .. itemString .. ": ScanTooltip failed, please retry.")
                         return
                     end
 

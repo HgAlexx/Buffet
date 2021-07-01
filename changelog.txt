@@ -1,3 +1,15 @@
+### 9.1.0.80_Beta
+
+* Fix tooltip scanning no longer working due to new tooltip format for most items
+
+
+### 2.5.1.79_Beta
+
+* Fix issue with "Skullfish Soup"
+* Made restricted items have priority over other items of same value
+* Code refactoring
+
+
 ### 2.5.1.78
 
 * Fix issue with mana gem

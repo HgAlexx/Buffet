@@ -11,48 +11,23 @@ local ActiveConst = ns.ActiveConst
 local string_gsub = string.gsub
 local string_match = string.match
 
-function Engine.ScanTooltip(itemLink, itemLevel)
-    local failedAttempt
+function Engine.ScanTooltip(itemLink)
     local texts = {}
     local tooltip = Utility.GetTooltip()
     tooltip:SetHyperlink(itemLink)
 
-    local isConjured = false
     local lineCount = 0
     for i = 2, tooltip:NumLines() do
         local text = _G["buffetTooltipTextLeft" .. i]:GetText() or ""
         text = Utility.Trim(text)
         if text ~= "" then
             texts[lineCount] = text
-            local lowerText = text:lower()
             lineCount = lineCount + 1
-            if Utility.StringContains(lowerText, Locales.KeyWords.ConjuredItem:lower()) then
-                isConjured = true
-            end
         end
     end
     tooltip:Hide()
 
-    -- sometimes tooltips are not properly generated on first pass, all interesting items should have at least 3 lines, 4 for conjured items
-    local neededLines = 3
-    if isConjured then
-        neededLines = 4
-    end
-    -- except low level item which can have only 2 lines..
-    if itemLevel and itemLevel < 10 then
-        neededLines = neededLines - 1
-    end
-
-    -- for item name (skipped in loop above)
-    neededLines = neededLines - 1
-
-    if (lineCount >= neededLines) then
-        failedAttempt = false
-    else
-        failedAttempt = true
-    end
-
-    return  texts, failedAttempt
+    return  texts
 end
 
 function Engine.ParseTexts(texts, itemData)
