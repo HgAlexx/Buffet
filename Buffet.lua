@@ -351,6 +351,7 @@ function Core:Scan()
                 -- Utility.Debug(itemName, itemData)
 
                 local isRestricted = Engine.CheckRestriction(itemId)
+                local isRestricted, hasRestriction = Engine.CheckRestriction(itemId)
 
                 -- set found values to best
                 if not isRestricted then
@@ -386,11 +387,13 @@ function Core:Scan()
                     if healthCats then
                         for _, v2 in pairs(healthCats) do
                             self:SetBest(v2, itemId, health, itemCount)
+                            self:SetBest(v2, itemId, health, itemCount, hasRestriction)
                         end
                     end
                     if manaCats then
                         for _, v2 in pairs(manaCats) do
                             self:SetBest(v2, itemId, mana, itemCount)
+                            self:SetBest(v2, itemId, mana, itemCount, hasRestriction)
                         end
                     end
                 end
@@ -709,9 +712,12 @@ end
 
 function Core:SetBest(cat, id, value, stack)
     -- Utility.Debug("SetBest: ", cat, id, value, stack)
+function Core:SetBest(cat, id, value, stack, hasRestriction)
+    -- Utility.Debug("SetBest: ", cat, id, value, stack, hasRestriction)
     local best = Core.bests[cat];
     if best and id then
         if (value > best.val) or ((value == best.val) and (best.stack > stack)) then
+        if (hasRestriction and (value >= best.val)) or ((value > best.val) or ((value == best.val) and (best.stack > stack))) then
             best.val = value
             best.id = id
             best.stack = stack

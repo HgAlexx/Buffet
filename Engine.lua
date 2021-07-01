@@ -6,6 +6,7 @@ local Locales = ns.Locales
 
 -- Local namespace
 local Engine = ns.Engine or {}
+local ActiveConst = ns.ActiveConst
 
 local string_gsub = string.gsub
 local string_match = string.match
@@ -239,6 +240,21 @@ function Engine.CheckRestrictionEntry(entry)
     end
 
     return false
+end
+
+-- return true if the item is restricted, false otherwise
+function Engine.CheckRestriction(itemId)
+    -- check restricted items against rules
+    if ActiveConst.Restrictions[itemId] ~= nil then
+        for _, entry in pairs(ActiveConst.Restrictions[itemId]) do
+            local valid = Engine.CheckRestrictionEntry(entry)
+            if valid then
+                return false, true -- if one entry is valid, item is not currently restricted
+            end
+        end
+        return true, true -- no valid entry
+    end
+    return false, false -- no entry
 end
 
 function Engine.ExtractValue(value, indexes)

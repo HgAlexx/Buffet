@@ -6,13 +6,13 @@ local Locales = ns.Locales
 
 if Utility.IsTBC then
     -- Imports
-    local ConstTBC = ns.ConstTBC
+    local ActiveConst = ns.ActiveConst
     local Engine = ns.Engine or {}
 
     local string_match = string.match
 
     function Engine.IsValidItemClasses(itemClassId, itemSubClassId)
-        for _, v in pairs(ConstTBC.ValidItemClasses) do
+        for _, v in pairs(ActiveConst.ValidItemClasses) do
             if itemClassId == v[1] and itemSubClassId == v[2] then
                 return true
             end
@@ -46,32 +46,16 @@ if Utility.IsTBC then
     end
 
     function Engine.CheckBandage(text, itemClassId, itemSubClassId)
-        return itemClassId == ConstTBC.ItemClasses.Consumable and itemSubClassId == ConstTBC.ItemConsumableSubClasses.Bandage
+        return itemClassId == ActiveConst.ItemClasses.Consumable and itemSubClassId == ActiveConst.ItemConsumableSubClasses.Bandage
     end
 
     function Engine.CheckPotion(text, itemClassId, itemSubClassId)
-        return itemClassId == ConstTBC.ItemClasses.Consumable and itemSubClassId == ConstTBC.ItemConsumableSubClasses.Potion
+        return itemClassId == ActiveConst.ItemClasses.Consumable and itemSubClassId == ActiveConst.ItemConsumableSubClasses.Potion
     end
 
     function Engine.PostParseUpdate(itemData)
         -- unused for TBC (for now)
         return itemData
-    end
-
-    -- return true if the item is restricted, false otherwise
-    function Engine.CheckRestriction(itemId)
-        -- check restricted items against rules
-        if ConstTBC.Restrictions[itemId] ~= nil then
-            for _, entry in pairs(ConstTBC.Restrictions[itemId]) do
-                local valid = Engine.CheckRestrictionEntry(entry)
-                if valid then
-                    return false -- if one entry is valid, item is not currently restricted
-                end
-            end
-            return true -- no valid entry
-        end
-
-        return false -- no entry
     end
 
     function Engine.GetCategories(itemData)
@@ -80,9 +64,9 @@ if Utility.IsTBC then
         local manaCats = {}
 
         -- food
-        if (itemData.itemClassId == ConstTBC.ItemClasses.Consumable and itemData.itemSubClassId == ConstTBC.ItemConsumableSubClasses.FoodAndDrink) or
-                (itemData.itemClassId == ConstTBC.ItemClasses.Tradeskill and itemData.itemSubClassId == ConstTBC.ItemTradeskillSubClasses.Cooking) or
-                (itemData.itemClassId == ConstTBC.ItemClasses.Miscellaneous and itemData.itemSubClassId == ConstTBC.ItemMiscellaneousSubClasses.Reagent) then
+        if (itemData.itemClassId == ActiveConst.ItemClasses.Consumable and itemData.itemSubClassId == ActiveConst.ItemConsumableSubClasses.FoodAndDrink) or
+                (itemData.itemClassId == ActiveConst.ItemClasses.Tradeskill and itemData.itemSubClassId == ActiveConst.ItemTradeskillSubClasses.Cooking) or
+                (itemData.itemClassId == ActiveConst.ItemClasses.Miscellaneous and itemData.itemSubClassId == ActiveConst.ItemMiscellaneousSubClasses.Reagent) then
             if itemData.isHealth then
                 if itemData.isConjured then
                     table.insert(healthCats, Const.BestCategories.percfood)
@@ -105,7 +89,7 @@ if Utility.IsTBC then
         end
 
         -- potion
-        if itemData.itemClassId == ConstTBC.ItemClasses.Consumable and itemData.itemSubClassId == ConstTBC.ItemConsumableSubClasses.Potion then
+        if itemData.itemClassId == ActiveConst.ItemClasses.Consumable and itemData.itemSubClassId == ActiveConst.ItemConsumableSubClasses.Potion then
             if itemData.isHealth then
                 table.insert(healthCats, Const.BestCategories.hppot)
             end
@@ -116,7 +100,7 @@ if Utility.IsTBC then
         end
 
         --  bandage
-        if itemData.itemClassId == ConstTBC.ItemClasses.Consumable and itemData.itemSubClassId == ConstTBC.ItemConsumableSubClasses.Bandage then
+        if itemData.itemClassId == ActiveConst.ItemClasses.Consumable and itemData.itemSubClassId == ActiveConst.ItemConsumableSubClasses.Bandage then
             if itemData.isHealth then
                 table.insert(healthCats, Const.BestCategories.bandage)
             end

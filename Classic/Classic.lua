@@ -6,7 +6,7 @@ local Locales = ns.Locales
 
 if Utility.IsClassic then
     -- Imports
-    local ConstClassic = ns.ConstClassic
+    local ActiveConst = ns.ActiveConst
     local Engine = ns.Engine or {}
 
     local string_match = string.match
@@ -69,22 +69,6 @@ if Utility.IsClassic then
             itemData.isPotion = true
         end
         return itemData
-    end
-
-    -- return true if the item is restricted, false otherwise
-    function Engine.CheckRestriction(itemId)
-        -- check restricted items against rules
-        if ConstClassic.Restrictions[itemId] ~= nil then
-            for _, entry in pairs(ConstClassic.Restrictions[itemId]) do
-                local valid = Engine.CheckRestrictionEntry(entry)
-                if valid then
-                    return false -- if one entry is valid, item is not currently restricted
-                end
-            end
-            return true -- no valid entry
-        end
-
-        return false -- no entry
     end
 
     function Engine.GetCategories(itemData)

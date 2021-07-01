@@ -1,69 +1,74 @@
 local _, ns = ...
 
--- Local namespace
-local Const = {}
+-- Imports
+local Utility = ns.Utility
 
--- unused for classic, but we keep it here in case class ids are implemented in the future
-Const.ItemClasses = {}
-Const.ItemClasses.Consumable = 0
+if Utility.IsClassic then
+    -- Local namespace
+    local Const = {}
 
-Const.ItemConsumableSubClasses = {}
-Const.ItemConsumableSubClasses.Bandage = 0
-Const.ItemConsumableSubClasses.FoodAndDrink = 0
-Const.ItemConsumableSubClasses.Potion = 0
+    -- unused for classic, but we keep it here in case class ids are implemented in the future
+    Const.ItemClasses = {}
+    Const.ItemClasses.Consumable = 0
 
-Const.ValidItemClasses = {
-    { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Bandage},
-    { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.FoodAndDrink},
-    { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Potion},
-}
+    Const.ItemConsumableSubClasses = {}
+    Const.ItemConsumableSubClasses.Bandage = 0
+    Const.ItemConsumableSubClasses.FoodAndDrink = 0
+    Const.ItemConsumableSubClasses.Potion = 0
 
--- InstanceId: https://wow.gamepedia.com/InstanceID
--- uiMapId: https://wow.gamepedia.com/UiMapID/Classic
-Const.Restrictions = {
-    [19307] = { -- Alterac Heavy Runecloth Bandage
-        {
-            inInstanceIds = { 30 }, -- Alterac Valley
-        },
-    },
-    [19066] = { -- Warsong Gulch Runecloth Bandage
-        {
-            inInstaceIds = { 489 }, -- Warsong Gulch
-        },
-    },
+    Const.ValidItemClasses = {
+        { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Bandage},
+        { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.FoodAndDrink},
+        { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Potion},
+    }
 
-    [17349] = { -- Superior Healing Draught
-        {
-            inInstaceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+    -- InstanceId: https://wow.gamepedia.com/InstanceID
+    -- uiMapId: https://wow.gamepedia.com/UiMapID/Classic
+    Const.Restrictions = {
+        [19307] = { -- Alterac Heavy Runecloth Bandage
+            {
+                inInstanceIds = { 30 }, -- Alterac Valley
+            },
         },
-    },
-    [17352] = { -- Superior Mana Draught
-        {
-            inInstaceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+        [19066] = { -- Warsong Gulch Runecloth Bandage
+            {
+                inInstaceIds = { 489 }, -- Warsong Gulch
+            },
         },
-    },
-    [17351] = { -- Major Mana Draught
-        {
-            inInstaceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
-        }
-    },
-    [17348] = { -- Major Healing Draught
-        {
-            inInstaceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
-        },
-    },
 
-    [12662] = { -- demonic rune
-        {
-            inInstanceIds = { }
+        [17349] = { -- Superior Healing Draught
+            {
+                inInstaceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+            },
         },
-    },
-    [20520] = { -- dark rune
-        {
-            inInstanceIds = { }
+        [17352] = { -- Superior Mana Draught
+            {
+                inInstaceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+            },
         },
-    },
-}
+        [17351] = { -- Major Mana Draught
+            {
+                inInstaceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+            }
+        },
+        [17348] = { -- Major Healing Draught
+            {
+                inInstaceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+            },
+        },
 
--- Export
-ns.ConstClassic = Const
+        [12662] = { -- demonic rune
+            {
+                inInstanceIds = { }
+            },
+        },
+        [20520] = { -- dark rune
+            {
+                inInstanceIds = { }
+            },
+        },
+    }
+
+    -- Export
+    ns.ActiveConst = Const
+end

@@ -6,13 +6,13 @@ local Locales = ns.Locales
 
 if Utility.IsRetail then
     -- Imports
-    local ConstRetail = ns.ConstRetail
+    local ActiveConst = ns.ActiveConst
     local Engine = ns.Engine or {}
 
     local string_match = string.match
 
     function Engine.IsValidItemClasses(itemClassId, itemSubClassId)
-        for _, v in pairs(ConstRetail.ValidItemClasses) do
+        for _, v in pairs(ActiveConst.ValidItemClasses) do
             if itemClassId == v[1] and itemSubClassId == v[2] then
                 return true
             end
@@ -45,32 +45,16 @@ if Utility.IsRetail then
     end
 
     function Engine.CheckBandage(text, itemClassId, itemSubClassId)
-        return itemClassId == ConstRetail.ItemClasses.Consumable and itemSubClassId == ConstRetail.ItemConsumableSubClasses.Bandage
+        return itemClassId == ActiveConst.ItemClasses.Consumable and itemSubClassId == ActiveConst.ItemConsumableSubClasses.Bandage
     end
 
     function Engine.CheckPotion(text, itemClassId, itemSubClassId)
-        return itemClassId == ConstRetail.ItemClasses.Consumable and itemSubClassId == ConstRetail.ItemConsumableSubClasses.Potion
+        return itemClassId == ActiveConst.ItemClasses.Consumable and itemSubClassId == ActiveConst.ItemConsumableSubClasses.Potion
     end
 
     function Engine.PostParseUpdate(itemData)
         -- unused for retail (for now)
         return itemData
-    end
-
-    -- return true if the item is restricted, false otherwise
-    function Engine.CheckRestriction(itemId)
-        -- check restricted items against rules
-        if ConstRetail.Restrictions[itemId] ~= nil then
-            for _, entry in pairs(ConstRetail.Restrictions[itemId]) do
-                local valid = Engine.CheckRestrictionEntry(entry)
-                if valid then
-                    return false -- if one entry is valid, item is not currently restricted
-                end
-            end
-            return true -- no valid entry
-        end
-
-        return false -- no entry
     end
 
     function Engine.GetCategories(itemData)
@@ -79,9 +63,9 @@ if Utility.IsRetail then
         local manaCats = {}
 
         -- food
-        if (itemData.itemClassId == ConstRetail.ItemClasses.Consumable and itemData.itemSubClassId == ConstRetail.ItemConsumableSubClasses.FoodAndDrink) or
-           (itemData.itemClassId == ConstRetail.ItemClasses.Tradeskill and itemData.itemSubClassId == ConstRetail.ItemTradeskillSubClasses.Cooking) or
-           (itemData.itemClassId == ConstRetail.ItemClasses.Miscellaneous and itemData.itemSubClassId == ConstRetail.ItemMiscellaneousSubClasses.Reagent) then
+        if (itemData.itemClassId == ActiveConst.ItemClasses.Consumable and itemData.itemSubClassId == ActiveConst.ItemConsumableSubClasses.FoodAndDrink) or
+           (itemData.itemClassId == ActiveConst.ItemClasses.Tradeskill and itemData.itemSubClassId == ActiveConst.ItemTradeskillSubClasses.Cooking) or
+           (itemData.itemClassId == ActiveConst.ItemClasses.Miscellaneous and itemData.itemSubClassId == ActiveConst.ItemMiscellaneousSubClasses.Reagent) then
             if itemData.isHealth then
                 if itemData.isConjured then
                     table.insert(healthCats, Const.BestCategories.percfood)
@@ -104,7 +88,7 @@ if Utility.IsRetail then
         end
 
         -- potion
-        if itemData.itemClassId == ConstRetail.ItemClasses.Consumable and itemData.itemSubClassId == ConstRetail.ItemConsumableSubClasses.Potion then
+        if itemData.itemClassId == ActiveConst.ItemClasses.Consumable and itemData.itemSubClassId == ActiveConst.ItemConsumableSubClasses.Potion then
             if itemData.isHealth then
                 table.insert(healthCats, Const.BestCategories.hppot)
             end
@@ -115,7 +99,7 @@ if Utility.IsRetail then
         end
 
         --  bandage
-        if itemData.itemClassId == ConstRetail.ItemClasses.Consumable and itemData.itemSubClassId == ConstRetail.ItemConsumableSubClasses.Bandage then
+        if itemData.itemClassId == ActiveConst.ItemClasses.Consumable and itemData.itemSubClassId == ActiveConst.ItemConsumableSubClasses.Bandage then
             if itemData.isHealth then
                 table.insert(healthCats, Const.BestCategories.bandage)
             end
