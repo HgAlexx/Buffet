@@ -24,7 +24,7 @@ if Utility.IsTBC and GetLocale() == "frFR" then
     Locales.KeyWords.Life = "vie"
     Locales.KeyWords.Damage = "vie"
     Locales.KeyWords.Mana = "mana"
-    Locales.KeyWords.WellFed = {"bien nourri", "augmente", "rend aussi"}
+    Locales.KeyWords.WellFed = {"bien nourri", "augmente", "rend aussi", "passez au moins"}
     Locales.KeyWords.OverTime = "par seconde pendant"
     Locales.KeyWords.Bandage = "secourisme"
     Locales.KeyWords.FoodAndDrink = "rester assis pendant"
