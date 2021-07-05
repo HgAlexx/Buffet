@@ -72,7 +72,7 @@ function Buffet:ADDON_LOADED(event, addon)
         Core.customMacros[k].key = v.name
         Core.customMacros[k].name = v.name
         Core.customMacros[k].source = v.source
-        Core.customMacros[k].chunck = nil
+        Core.customMacros[k].chunk = nil
         Core.customMacros[k].error = false
         Core.customMacros[k].body = nil
         Core.customMacros[k].icon = nil
@@ -462,7 +462,7 @@ function Core:Scan()
             local macroId = GetMacroIndexByName(macro.name)
             if macroId > 0 then
                 Core:CompileSource(macro)
-                local body, icon = Core:RunChunck(macro)
+                local body, icon = Core:RunChunk(macro)
                 if body and (macro.body ~= body or macro.icon ~= icon) then
                     macro.body = body
                     macro.icon = icon
@@ -489,17 +489,17 @@ function Core:Scan()
     self:StatsTimerUpdate("Scan", currentTime)
 end
 
-function Core:RunChunck(macro)
-    if macro.error or macro.chunck == nil then
+function Core:RunChunk(macro)
+    if macro.error or macro.chunk == nil then
         return nil, nil
     end
 
-    local success, ret1, ret2 = pcall(macro.chunck, Core:BestsBeautifier(), Core.itemCache)
+    local success, ret1, ret2 = pcall(macro.chunk, Core:BestsBeautifier(), Core.itemCache)
     if success then
         return ret1, ret2
     else
         macro.error = true
-        macro.chunck = nil
+        macro.chunk = nil
         macro.icon = nil
         Utility.Print("Custom Macro: Unable to execute " .. macro.name ..", please check the source")
         Utility.Print("Error: " .. (ret1 or "unknown"))
@@ -509,15 +509,15 @@ end
 
 function Core:CompileSource(macro)
     if macro.error then
-        macro.chunck = nil
+        macro.chunk = nil
         return
     end
 
-    local chunck, errorMessage = loadstring(macro.source, macro.name)
-    if chunck then
-        macro.chunck = chunck
+    local chunk, errorMessage = loadstring(macro.source, macro.name)
+    if chunk then
+        macro.chunk = chunk
     else
-        macro.chunck = nil
+        macro.chunk = nil
         macro.error = true
         macro.icon = nil
         Utility.Print("Custom Macro: Unable to compile " .. macro.name ..", please check the source")

@@ -10,6 +10,7 @@ local ActiveConst = ns.ActiveConst
 
 local string_gsub = string.gsub
 local string_match = string.match
+local string_lower = string.lower
 
 function Engine.ScanTooltip(itemLink)
     local texts = {}
@@ -35,7 +36,7 @@ function Engine.ParseTexts(texts, itemData)
     local usable = false
 
     for i, v in pairs(texts) do
-        local text = string.lower(v);
+        local text = string_lower(v);
 
         -- Food and Drink
         if Locales.KeyWords.FoodAndDrink then
@@ -110,6 +111,8 @@ function Engine.ParseTexts(texts, itemData)
     end
 
     itemData = Engine.PostParseUpdate(itemData)
+
+    itemData = Engine.CheckStaticData(itemData)
 
     return itemData
 end
@@ -215,6 +218,30 @@ function Engine.CheckRestrictionEntry(entry)
     end
 
     return false
+end
+
+function Engine.CheckStaticData(itemData)
+    if ActiveConst.StaticItemData then
+        if ActiveConst.StaticItemData[itemData.itemId] ~= nil then
+            local staticData = ActiveConst.StaticItemData[itemData.itemId]
+            if staticData.isHealth ~= nil then
+                itemData.isHealth = staticData.isHealth
+            end
+            if staticData.isMana ~= nil then
+                itemData.isMana = staticData.isMana
+            end
+            if staticData.isFoodAndDrink ~= nil then
+                itemData.isFoodAndDrink = staticData.isFoodAndDrink
+            end
+            if staticData.isPotion ~= nil then
+                itemData.isPotion = staticData.isPotion
+            end
+            if staticData.isBandage ~= nil then
+                itemData.isBandage = staticData.isBandage
+            end
+        end
+    end
+    return itemData
 end
 
 -- return true if the item is restricted, false otherwise

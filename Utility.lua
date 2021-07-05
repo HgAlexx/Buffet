@@ -10,6 +10,7 @@ local debugColoredAddonName = "|cFF33BB99" .. addonName .. "|r:"
 -- Localize functions
 local string_match = string.match
 local string_find = string.find
+local string_lower = string.lower
 
 -- Parameters
 do
@@ -154,7 +155,7 @@ function Utility.IsPlayerInMapId(ids)
 end
 
 function Utility.IsPlayerInSubZoneName(names)
-    local currentSubZone = string.lower(GetSubZoneText())
+    local currentSubZone = string_lower(GetSubZoneText())
     if currentSubZone ~= "" then
         local babbleSubZone = LibStub("LibBabble-SubZone-3.0"):GetUnstrictLookupTable();
         for k,v in pairs(names) do
@@ -185,7 +186,7 @@ function Utility.ShowPlayerZoneInfo()
         Utility.Debug("diffId=" .. diffId)
     end
 
-    local currentSubZone = string.lower(GetSubZoneText())
+    local currentSubZone = string_lower(GetSubZoneText())
     if currentSubZone ~= "" then
         local babbleSubZone = LibStub("LibBabble-SubZone-3.0"):GetUnstrictLookupTable();
         for k, v in pairs(babbleSubZone) do

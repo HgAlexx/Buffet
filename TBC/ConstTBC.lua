@@ -37,6 +37,15 @@ if Utility.IsTBC then
         { Const.ItemClasses.Miscellaneous, Const.ItemMiscellaneousSubClasses.Reagent},
     }
 
+    Const.StaticItemData = {
+        [33092] = {
+            isPotion = true
+        },
+        [33093] = {
+            isPotion = true
+        }
+    }
+
     -- InstanceId: https://wow.gamepedia.com/InstanceID
     -- uiMapId: https://wow.gamepedia.com/UiMapID
     Const.Restrictions = {

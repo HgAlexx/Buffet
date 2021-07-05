@@ -665,7 +665,7 @@ function customMacro:save()
                 end
                 Core.customMacros[self.active.key].name = self.active.name
                 Core.customMacros[self.active.key].source = self.active.source
-                Core.customMacros[self.active.key].chunck = nil
+                Core.customMacros[self.active.key].chunk = nil
                 Core.customMacros[self.active.key].error = false
                 Core.customMacros[self.active.key].body = nil
                 Core.customMacros[self.active.key].icon = nil
@@ -674,7 +674,7 @@ function customMacro:save()
                 Core.customMacros[self.active.key] = {}
                 Core.customMacros[self.active.key].name = self.active.name
                 Core.customMacros[self.active.key].source = self.active.source
-                Core.customMacros[self.active.key].chunck = nil
+                Core.customMacros[self.active.key].chunk = nil
                 Core.customMacros[self.active.key].error = false
                 Core.customMacros[self.active.key].body = nil
                 Core.customMacros[self.active.key].icon = nil
@@ -686,7 +686,7 @@ function customMacro:save()
             Core.customMacros[self.active.key] = {}
             Core.customMacros[self.active.key].name = self.active.name
             Core.customMacros[self.active.key].source = self.active.source
-            Core.customMacros[self.active.key].chunck = nil
+            Core.customMacros[self.active.key].chunk = nil
             Core.customMacros[self.active.key].error = false
             Core.customMacros[self.active.key].body = nil
             Core.customMacros[self.active.key].icon = nil
@@ -758,11 +758,11 @@ function customMacro:checkSource()
         local source = self.active.source
 
         if source and source ~= "" then
-            local chunck, errorMessage = loadstring(source, "customMacroCode")
+            local chunk, errorMessage = loadstring(source, "customMacroCode")
 
-            if chunck then
+            if chunk then
                 content = "Compilation: OK"
-                local success, ret = pcall(chunck, Core:BestsBeautifier(), Core.itemCache)
+                local success, ret = pcall(chunk, Core:BestsBeautifier(), Core.itemCache)
                 if success then
                     content = (ret or "<nothing>")
                     customMacro.outputEdit:SetText(content)
