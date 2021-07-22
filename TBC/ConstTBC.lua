@@ -38,11 +38,21 @@ if Utility.IsTBC then
     }
 
     Const.StaticItemData = {
-        [33092] = {
-            isPotion = true
+        [32903] = { -- Cenarion Mana Salve
+            isPotion = true,
+            isMana = true
         },
-        [33093] = {
-            isPotion = true
+        [32904] = { -- Cenarion Healing Salve
+            isPotion = true,
+            isHealth = true
+        },
+        [33092] = { -- Healing Potion Injector
+            isPotion = true,
+            isHealth = true
+        },
+        [33093] = { -- Mana Potion Injector
+            isPotion = true,
+            isMana = true
         }
     }
 
