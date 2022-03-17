@@ -2,42 +2,43 @@ local _, ns = ...
 
 -- Imports
 local Utility = ns.Utility
+local Const = ns.Const
 
 if Utility.IsTBC then
     -- Local namespace
-    local Const = {}
+    local ActiveConst = {}
 
-    Const.ItemClasses = {}
-    Const.ItemClasses.Consumable = 0
-    Const.ItemClasses.Tradeskill = 7
-    Const.ItemClasses.Miscellaneous = 15
+    ActiveConst.ItemClasses = {}
+    ActiveConst.ItemClasses.Consumable = 0
+    ActiveConst.ItemClasses.Tradeskill = 7
+    ActiveConst.ItemClasses.Miscellaneous = 15
 
-    Const.ItemConsumableSubClasses = {}
-    Const.ItemConsumableSubClasses.ExplosivesAndDevices = 0
-    Const.ItemConsumableSubClasses.Potion = 1
-    Const.ItemConsumableSubClasses.FoodAndDrink = 5
-    Const.ItemConsumableSubClasses.Bandage = 7
-    Const.ItemConsumableSubClasses.Other = 8
+    ActiveConst.ItemConsumableSubClasses = {}
+    ActiveConst.ItemConsumableSubClasses.ExplosivesAndDevices = 0
+    ActiveConst.ItemConsumableSubClasses.Potion = 1
+    ActiveConst.ItemConsumableSubClasses.FoodAndDrink = 5
+    ActiveConst.ItemConsumableSubClasses.Bandage = 7
+    ActiveConst.ItemConsumableSubClasses.Other = 8
 
-    Const.ItemTradeskillSubClasses = {}
-    Const.ItemTradeskillSubClasses.Cooking = 8
+    ActiveConst.ItemTradeskillSubClasses = {}
+    ActiveConst.ItemTradeskillSubClasses.Cooking = 8
 
-    Const.ItemMiscellaneousSubClasses = {}
-    Const.ItemMiscellaneousSubClasses.Reagent = 1
+    ActiveConst.ItemMiscellaneousSubClasses = {}
+    ActiveConst.ItemMiscellaneousSubClasses.Reagent = 1
 
-    Const.ValidItemClasses = {
-        { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.ExplosivesAndDevices},
-        { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Bandage},
-        { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.FoodAndDrink},
-        { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Other},
-        { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Potion},
+    ActiveConst.ValidItemClasses = {
+        { ActiveConst.ItemClasses.Consumable, ActiveConst.ItemConsumableSubClasses.ExplosivesAndDevices},
+        { ActiveConst.ItemClasses.Consumable, ActiveConst.ItemConsumableSubClasses.Bandage},
+        { ActiveConst.ItemClasses.Consumable, ActiveConst.ItemConsumableSubClasses.FoodAndDrink},
+        { ActiveConst.ItemClasses.Consumable, ActiveConst.ItemConsumableSubClasses.Other},
+        { ActiveConst.ItemClasses.Consumable, ActiveConst.ItemConsumableSubClasses.Potion},
 
-        { Const.ItemClasses.Tradeskill, Const.ItemTradeskillSubClasses.Cooking},
+        { ActiveConst.ItemClasses.Tradeskill, ActiveConst.ItemTradeskillSubClasses.Cooking},
 
-        { Const.ItemClasses.Miscellaneous, Const.ItemMiscellaneousSubClasses.Reagent},
+        { ActiveConst.ItemClasses.Miscellaneous, ActiveConst.ItemMiscellaneousSubClasses.Reagent},
     }
 
-    Const.StaticItemData = {
+    ActiveConst.StaticItemData = {
         [32903] = { -- Cenarion Mana Salve
             isPotion = true,
             isMana = true
@@ -58,7 +59,7 @@ if Utility.IsTBC then
 
     -- InstanceId: https://wow.gamepedia.com/InstanceID
     -- uiMapId: https://wow.gamepedia.com/UiMapID
-    Const.Restrictions = {
+    ActiveConst.Restrictions = {
         [19307] = { -- Alterac Heavy Runecloth Bandage
             {
                 inInstanceIds = { 30 }, -- Alterac Valley
@@ -157,25 +158,6 @@ if Utility.IsTBC then
             },
         },
 
-        [140352] = { -- Dreamberries
-            {
-                matchMode = "all",
-                inInstanceIds = { 1220 }, -- Broken Isles
-                inInstanceTypes = { "none" },
-            },
-            {
-                matchMode = "all",
-                inInstanceIds = { 1669 }, -- Argus
-                inInstanceTypes = { "none" },
-            },
-        },
-
-        [174351] = { -- K’Bab
-            {
-                inInstanceIds = { },
-            },
-        },
-
         [138486] = { -- Third wind potion
             {
                 pvp = { bg = true, brawl = true }
@@ -195,5 +177,5 @@ if Utility.IsTBC then
     }
 
     -- Export
-    ns.ActiveConst = Const
+    ns.ActiveConst = ActiveConst
 end

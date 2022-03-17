@@ -1,3 +1,9 @@
+### 9.2.0.82
+
+* Few fixes
+* Code cleanup & refactoring
+
+
 ### 9.1.0.80_Beta
 
 * Fix tooltip scanning no longer working due to new tooltip format for most items

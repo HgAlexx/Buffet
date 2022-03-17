@@ -28,7 +28,7 @@ function Engine.ScanTooltip(itemLink)
     end
     tooltip:Hide()
 
-    return  texts
+    return texts
 end
 
 function Engine.ParseTexts(texts, itemData)
@@ -42,6 +42,7 @@ function Engine.ParseTexts(texts, itemData)
         if Locales.KeyWords.FoodAndDrink then
             if not itemData.isFoodAndDrink and Utility.StringContains(text, Locales.KeyWords.FoodAndDrink:lower()) then
                 itemData.isFoodAndDrink = true
+                -- TODO: extract function
             end
         end
 
@@ -117,6 +118,32 @@ function Engine.ParseTexts(texts, itemData)
     return itemData
 end
 
+function Engine.GetPvpStatus()
+    -- all off by default
+    local inBg, inRatedBg, inArena, inRatedArena, inBrawl = false, false, false, false, false
+
+    if Utility.IsClassic then
+        local r = UnitInBattleground("player")
+        inBg = (r ~= nil)
+    end
+
+    if Utility.IsTBC then
+        local r = UnitInBattleground("player")
+        inBg = (r ~= nil)
+        inArena, inRatedArena = IsActiveBattlefieldArena()
+    end
+
+    if Utility.IsRetail then
+        inBg = C_PvP.IsBattleground() -- since version 8.2.0
+        inRatedBg = C_PvP.IsRatedBattleground() -- since version 8.2.0
+        inArena = C_PvP.IsArena() -- since version 8.2.0
+        inRatedArena = C_PvP.IsRatedArena() -- since version 8.2.0
+        inBrawl = C_PvP.IsInBrawl() -- since version 7.2.0
+    end
+
+    return inBg, inRatedBg, inArena, inRatedArena, inBrawl
+end
+
 function Engine.CheckRestrictionEntry(entry)
     local matchMode = entry.matchMode or "any"
     local conditions = 0
@@ -148,53 +175,40 @@ function Engine.CheckRestrictionEntry(entry)
     end
 
     if entry.pvp ~= nil then
+        local inBg, inRatedBg, inArena, inRatedArena, inBrawl = Engine.GetPvpStatus()
+
         if entry.pvp.bg ~= nil then
             conditions = conditions + 1
-            if Utility.IsClassic then
-                if entry.pvp.bg == true and C_PvP.IsPVPMap() then
-                    matches = matches + 1
-                end
-            end
-            if Utility.IsRetail then -- since version 8.2.0
-                if entry.pvp.bg == true and C_PvP.IsBattleground() then
-                    matches = matches + 1
-                end
+            if entry.pvp.bg == true and inBg then
+                matches = matches + 1
             end
         end
 
         if entry.pvp.arena ~= nil then
             conditions = conditions + 1
-            if Utility.IsRetail then -- since version 8.2.0
-                if entry.pvp.arena == true and C_PvP.IsArena() then
-                    matches = matches + 1
-                end
+            if entry.pvp.arena == true and inArena then
+                matches = matches + 1
             end
         end
 
         if entry.pvp.brawl ~= nil then
             conditions = conditions + 1
-            if Utility.IsRetail then -- since version 7.2.0
-                if entry.pvp.brawl == true and C_PvP.IsInBrawl() then
-                    matches = matches + 1
-                end
+            if entry.pvp.brawl == true and inBrawl then
+                matches = matches + 1
             end
         end
 
         if entry.pvp.ratedBg ~= nil then
             conditions = conditions + 1
-            if Utility.IsRetail then -- since version 8.2.0
-                if entry.pvp.ratedBg == true and C_PvP.IsRatedBattleground() then
-                    matches = matches + 1
-                end
+            if entry.pvp.ratedBg == true and inRatedBg then
+                matches = matches + 1
             end
         end
 
         if entry.pvp.ratedArena ~= nil then
             conditions = conditions + 1
-            if Utility.IsRetail then -- since version 8.2.0
-                if entry.pvp.ratedArena == true and C_PvP.IsRatedArena() then
-                    matches = matches + 1
-                end
+            if entry.pvp.ratedArena == true and inRatedArena then
+                matches = matches + 1
             end
         end
     end

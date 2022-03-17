@@ -9,8 +9,6 @@ if Utility.IsTBC then
     local ActiveConst = ns.ActiveConst
     local Engine = ns.Engine or {}
 
-    local string_match = string.match
-
     function Engine.IsValidItemClasses(itemClassId, itemSubClassId)
         for _, v in pairs(ActiveConst.ValidItemClasses) do
             if itemClassId == v[1] and itemSubClassId == v[2] then
