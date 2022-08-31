@@ -1,3 +1,10 @@
+### 9.2.7.83_Beta
+
+* Added support for Wrath (untested)
+* Added support for multi-toc
+* Added lib to repo and removed from curse auto-build
+
+
 ### 9.2.0.82
 
 * Few fixes

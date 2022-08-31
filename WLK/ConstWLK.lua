@@ -4,7 +4,7 @@ local _, ns = ...
 local Utility = ns.Utility
 local Const = ns.Const
 
-if Utility.IsTBC then
+if Utility.IsWLK then
     -- Local namespace
     local ActiveConst = {}
 

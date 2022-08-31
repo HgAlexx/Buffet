@@ -14,13 +14,14 @@ local string_lower = string.lower
 
 -- Parameters
 do
-    Utility.DebugStatus = false
+    Utility.DebugStatus = true
 
     Utility.buffetTooltip = nil
     Utility.Mode = 1
 
     Utility.IsClassic = false
     Utility.IsTBC = false
+    Utility.IsWLK = false
     Utility.IsRetail = false
 
     local _, _, _, interfaceVersion = GetBuildInfo()
@@ -28,6 +29,8 @@ do
         Utility.IsClassic = true
     elseif interfaceVersion >= 20500 and interfaceVersion < 30000 then
         Utility.IsTBC = true
+    elseif interfaceVersion >= 30000 and interfaceVersion < 40000 then
+        Utility.IsWLK = true
     elseif interfaceVersion >= 90000 then
         Utility.IsRetail = true
     end
