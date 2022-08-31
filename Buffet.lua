@@ -788,10 +788,6 @@ function Core:SlashHandler(message, editbox)
         for k,v in pairs(Core:BestsBeautifier()) do
             Utility.Print("bests."  .. k .. "=" .. v)
         end
---@debug@
-    elseif cmd == "showzone" then
-        Utility.ShowPlayerZoneInfo()
---@end-debug@
     else
         Utility.Print("Usage:")
         Utility.Print("/buffet combat [0, 1]: 1 to enable, 0 to disable")

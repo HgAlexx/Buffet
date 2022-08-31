@@ -14,7 +14,7 @@ local string_lower = string.lower
 
 -- Parameters
 do
-    Utility.DebugStatus = true
+    Utility.DebugStatus = false
 
     Utility.buffetTooltip = nil
     Utility.Mode = 1
