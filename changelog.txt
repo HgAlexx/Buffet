@@ -1,3 +1,8 @@
+### 9.2.7.85_Beta
+
+* Fix issue with CurseForge packaging
+
+
 ### 9.2.7.84_Beta
 
 * Added missing project versions
