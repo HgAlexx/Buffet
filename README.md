@@ -2,8 +2,7 @@
 
 
 What's new :
-- Custom macros, available now!
-See [here](https://github.com/HgAlexx/Buffet/wiki) for more info.
+- Beta version available for Wrath, please report any issue!
 
 
 Feel free to report any bug or request any feature [here](https://github.com/HgAlexx/Buffet/issues) :)
@@ -21,8 +20,7 @@ Features:
 - Option to consider "well fed" food items in macros
 - Support dark and demonic runes
 - Support Classic Wow
-- Custom macro using lua scripting language
-
+- Custom macro using lua scripting language, see [here](https://github.com/HgAlexx/Buffet/wiki) for more info.
 
 
 Currently support the following localization:
