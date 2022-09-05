@@ -88,6 +88,12 @@ if Utility.IsWLK and GetLocale() == "esES" then
             pct = false
         },
         {
+            pattern = "([%d%.]+)%% .-salud",
+            healthIndex = 1,
+            manaIndex = nil,
+            pct = true
+        },
+        {
             pattern = "instantáneamente ([%d%.]+) p%. de vida",
             healthIndex = 1,
             manaIndex = nil,
@@ -107,6 +113,12 @@ if Utility.IsWLK and GetLocale() == "esES" then
             healthIndex = nil,
             manaIndex = 1,
             pct = false
+        },
+        {
+            pattern = "([%d%.]+)%% .-maná",
+            healthIndex = nil,
+            manaIndex = 1,
+            pct = true
         },
     }
 

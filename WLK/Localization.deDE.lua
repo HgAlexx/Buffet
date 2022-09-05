@@ -70,6 +70,12 @@ if Utility.IsWLK and GetLocale() == "deDE" then
             pct = false
         },
         {
+            pattern = "([%d%.]+)%% gesundheit",
+            healthIndex = 1,
+            manaIndex = nil,
+            pct = true
+        },
+        {
             pattern = "stellt sofort ([%d%.]+) punkt%(e%) leben",
             healthIndex = 1,
             manaIndex = nil,
@@ -89,6 +95,12 @@ if Utility.IsWLK and GetLocale() == "deDE" then
             healthIndex = nil,
             manaIndex = 1,
             pct = false
+        },
+        {
+            pattern = "([%d%.]+)%% mana",
+            healthIndex = nil,
+            manaIndex = 1,
+            pct = true
         },
     }
 

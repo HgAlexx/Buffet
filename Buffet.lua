@@ -113,10 +113,14 @@ function Buffet:PLAYER_LOGIN()
     Core.playerHealth = UnitHealthMax("player")
     Core.playerMana = UnitPowerMax("player")
 
-    Utility.Print(Core.Version, " Loaded!")
+    Utility.Print(Core.Version, "Loaded!")
 
     if Utility.IsClassic then
         Utility.Debug("Classic mode enabled")
+    elseif Utility.IsTBC then
+        Utility.Debug("TBC mode enabled")
+    elseif Utility.WLK then
+        Utility.Debug("WLK mode enabled")
     elseif Utility.IsRetail then
         Utility.Debug("Retail mode enabled")
     end

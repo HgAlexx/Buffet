@@ -19,7 +19,7 @@ if Utility.IsWLK and GetLocale() == "frFR" then
     Locales.KeyWords.Use = "Utiliser"
     Locales.KeyWords.Restores = "Rend"
     Locales.KeyWords.Heals = "Rend"
-    Locales.KeyWords.ConjuredItem = "Objet invoqué"
+    Locales.KeyWords.ConjuredItem = { "Objet invoqué", "Gemme de mana" }
     Locales.KeyWords.Health = "vie"
     Locales.KeyWords.Life = "vie"
     Locales.KeyWords.Damage = "vie"
@@ -101,6 +101,12 @@ if Utility.IsWLK and GetLocale() == "frFR" then
             healthIndex = nil,
             manaIndex = 1,
             pct = false,
+        },
+        {
+            pattern = "rend ([%d%.]+)%% de votre mana par seconde pendant ([%d%.]+) s",
+            healthIndex = nil,
+            manaIndex = 1,
+            pct = true,
         },
     }
 

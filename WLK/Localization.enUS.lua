@@ -70,6 +70,12 @@ if Utility.IsWLK then
             pct = false,
         },
         {
+            pattern = "([%d%.]+)%%.-health",
+            healthIndex = 1,
+            manaIndex = nil,
+            pct = true
+        },
+        {
             pattern = "restores ([%d%.]+) health over ([%d%.]+) sec",
             healthIndex = 1,
             manaIndex = nil,
@@ -89,6 +95,12 @@ if Utility.IsWLK then
             healthIndex = nil,
             manaIndex = {1, 2},
             pct = false,
+        },
+        {
+            pattern = "([%d%.]+)%%.-mana",
+            healthIndex = nil,
+            manaIndex = 1,
+            pct = true
         },
         {
             pattern = "restores ([%d%.]+) mana over ([%d%.]+) sec",
