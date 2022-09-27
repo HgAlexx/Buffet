@@ -1,3 +1,8 @@
+## 88_Beta
+
+* Fix issue #49 (and #45 properly): Mana gem not properly recognized
+
+
 ### 87_Beta
 
 * Fix issue #47: Harvest festival items not working on WLK

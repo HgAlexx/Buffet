@@ -19,7 +19,7 @@ if Utility.IsRetail and GetLocale() == "frFR" then
     Locales.KeyWords.Use = "Utiliser"
     Locales.KeyWords.Restores = "Rend"
     Locales.KeyWords.Heals = "Rend"
-    Locales.KeyWords.ConjuredItem = "Objet invoqué"
+    Locales.KeyWords.ConjuredItem = { "Objet invoqué", "Gemme de mana" }
     Locales.KeyWords.Health = "vie"
     Locales.KeyWords.Damage = "vie"
     Locales.KeyWords.Mana = "mana"

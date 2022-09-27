@@ -19,7 +19,7 @@ if Utility.IsRetail then
     Locales.KeyWords.Use = "Use"
     Locales.KeyWords.Restores = "Restores"
     Locales.KeyWords.Heals = "Heals"
-    Locales.KeyWords.ConjuredItem = "Conjured item"
+    Locales.KeyWords.ConjuredItem = { "Conjured item", "Mana Gem" }
     Locales.KeyWords.Health = "health"
     Locales.KeyWords.Damage = "damage"
     Locales.KeyWords.Mana = "mana"

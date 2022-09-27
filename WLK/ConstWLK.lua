@@ -10,6 +10,7 @@ if Utility.IsWLK then
 
     ActiveConst.ItemClasses = {}
     ActiveConst.ItemClasses.Consumable = 0
+    ActiveConst.ItemClasses.Armor = 4
     ActiveConst.ItemClasses.Tradeskill = 7
     ActiveConst.ItemClasses.Miscellaneous = 15
 
@@ -19,6 +20,9 @@ if Utility.IsWLK then
     ActiveConst.ItemConsumableSubClasses.FoodAndDrink = 5
     ActiveConst.ItemConsumableSubClasses.Bandage = 7
     ActiveConst.ItemConsumableSubClasses.Other = 8
+
+    ActiveConst.ItemArmorSubClasses = {}
+    ActiveConst.ItemArmorSubClasses.Miscellaneous = 0
 
     ActiveConst.ItemTradeskillSubClasses = {}
     ActiveConst.ItemTradeskillSubClasses.Cooking = 8
@@ -32,6 +36,8 @@ if Utility.IsWLK then
         { ActiveConst.ItemClasses.Consumable, ActiveConst.ItemConsumableSubClasses.FoodAndDrink},
         { ActiveConst.ItemClasses.Consumable, ActiveConst.ItemConsumableSubClasses.Other},
         { ActiveConst.ItemClasses.Consumable, ActiveConst.ItemConsumableSubClasses.Potion},
+
+        { ActiveConst.ItemClasses.Armor, ActiveConst.ItemArmorSubClasses.Miscellaneous},
 
         { ActiveConst.ItemClasses.Tradeskill, ActiveConst.ItemTradeskillSubClasses.Cooking},
 

@@ -8,6 +8,7 @@ if Utility.IsRetail then
 
     Const.ItemClasses = {}
     Const.ItemClasses.Consumable = 0
+    Const.ItemClasses.Armor = 4
     Const.ItemClasses.Tradeskill = 7
     Const.ItemClasses.Miscellaneous = 15
 
@@ -16,6 +17,9 @@ if Utility.IsRetail then
     Const.ItemConsumableSubClasses.FoodAndDrink = 5
     Const.ItemConsumableSubClasses.Bandage = 7
     Const.ItemConsumableSubClasses.Other = 8
+
+    Const.ItemArmorSubClasses = {}
+    Const.ItemArmorSubClasses.Miscellaneous = 0
 
     Const.ItemTradeskillSubClasses = {}
     Const.ItemTradeskillSubClasses.Cooking = 8
@@ -28,6 +32,8 @@ if Utility.IsRetail then
         { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.FoodAndDrink},
         { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Other},
         { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Potion},
+
+        { Const.ItemClasses.Armor, Const.ItemArmorSubClasses.Miscellaneous},
 
         { Const.ItemClasses.Tradeskill, Const.ItemTradeskillSubClasses.Cooking},
 
