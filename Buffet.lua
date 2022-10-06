@@ -113,6 +113,8 @@ function Buffet:PLAYER_LOGIN()
     Core.playerHealth = UnitHealthMax("player")
     Core.playerMana = UnitPowerMax("player")
 
+    Utility.LoadProfessions()
+
     Utility.Print(Core.Version, "Loaded!")
 
     if Utility.IsClassic then

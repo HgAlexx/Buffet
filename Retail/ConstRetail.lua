@@ -40,6 +40,33 @@ if Utility.IsRetail then
         { Const.ItemClasses.Miscellaneous, Const.ItemMiscellaneousSubClasses.Reagent},
     }
 
+    Const.StaticItemData = {
+        [41166] = { -- Runic Healing Injector
+            modifiers = {
+                {
+                    healthFactor = 1.25,
+                    conditions = {
+                        {
+                            profession = 202 -- TradeSkillLineID: engineer
+                        }
+                    }
+                }
+            }
+        },
+        [42545] = { -- Runic Mana Injector
+            modifiers = {
+                {
+                    manaFactor = 1.25,
+                    conditions = {
+                        {
+                            profession = 202 -- TradeSkillLineID: engineer
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     -- InstanceId: https://wow.gamepedia.com/InstanceID
     -- uiMapId: https://wow.gamepedia.com/UiMapID
     Const.Restrictions = {

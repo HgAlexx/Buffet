@@ -1,3 +1,8 @@
+## 89_Beta
+
+* Fix issue #50: Handle engineer bonus for runic injector
+
+
 ## 88_Beta
 
 * Fix issue #49 (and #45 properly): Mana gem not properly recognized

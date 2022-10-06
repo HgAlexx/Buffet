@@ -270,6 +270,29 @@ function Engine.CheckStaticData(itemData)
             if staticData.isBandage ~= nil then
                 itemData.isBandage = staticData.isBandage
             end
+            if staticData.modifiers ~= nil then
+                for _, entry in pairs(staticData.modifiers) do
+                    conditionValid = true
+                    if entry.conditions then
+                        for _, condition in pairs(entry.conditions) do
+                            if condition.profession then
+                                if not Utility.TableContainsValue(Utility.skillLineIds, condition.profession) then
+                                    conditionValid = false
+                                    break
+                                end
+                            end
+                        end
+                    end
+                    if conditionValid then
+                        if itemData.isHealth and entry.healthFactor then
+                            itemData.health = itemData.health * entry.healthFactor
+                        end
+                        if itemData.isMana and entry.manaFactor then
+                            itemData.mana = itemData.mana * entry.manaFactor
+                        end
+                    end
+                end
+            end
         end
     end
     return itemData

@@ -60,6 +60,30 @@ if Utility.IsWLK then
         [33093] = { -- Mana Potion Injector
             isPotion = true,
             isMana = true
+        },
+        [41166] = { -- Runic Healing Injector
+            modifiers = {
+                {
+                    healthFactor = 1.25,
+                    conditions = {
+                        {
+                            profession = 202 -- TradeSkillLineID: engineer
+                        }
+                    }
+                }
+            }
+        },
+        [42545] = { -- Runic Mana Injector
+            modifiers = {
+                {
+                    manaFactor = 1.25,
+                    conditions = {
+                        {
+                            profession = 202 -- TradeSkillLineID: engineer
+                        }
+                    }
+                }
+            }
         }
     }
 
