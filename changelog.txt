@@ -1,3 +1,8 @@
+## 90_Beta
+
+* Fix issue #51: Black jelly not being considered
+
+
 ## 89_Beta
 
 * Fix issue #50: Handle engineer bonus for runic injector
