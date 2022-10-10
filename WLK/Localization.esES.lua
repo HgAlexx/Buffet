@@ -82,7 +82,7 @@ if Utility.IsWLK and GetLocale() == "esES" then
             pct = false
         },
         {
-            pattern = "restaura ([%d%.]+) p%. de salud durante ([%d%.]+) s",
+            pattern = "restaura ([%d%.]+) p%. de salud durante ([%d%.]+) ",
             healthIndex = 1,
             manaIndex = nil,
             pct = false
@@ -109,7 +109,7 @@ if Utility.IsWLK and GetLocale() == "esES" then
             pct = false
         },
         {
-            pattern = "restaura ([%d%.]+) p%. de maná durante ([%d%.]+) s",
+            pattern = "restaura ([%d%.]+) p%. de maná durante ([%d%.]+) ",
             healthIndex = nil,
             manaIndex = 1,
             pct = false

@@ -55,7 +55,7 @@ if Utility.IsWLK and GetLocale() == "frFR" then
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+) points de vie.- ([%d%.]+) points de mana en ([%d%.]+) s",
+            pattern = "rend ([%d%.]+) points de vie.- ([%d%.]+) points de mana en ([%d%.]+) ",
             healthIndex = 1,
             manaIndex = 2,
             pct = false,
@@ -70,13 +70,13 @@ if Utility.IsWLK and GetLocale() == "frFR" then
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+) points de vie en ([%d%.]+) s",
+            pattern = "rend ([%d%.]+) points de vie en ([%d%.]+) ",
             healthIndex = 1,
             manaIndex = nil,
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+)%% de vos points de vie par seconde pendant ([%d%.]+) s",
+            pattern = "rend ([%d%.]+)%% de vos points de vie par seconde pendant ([%d%.]+) ",
             healthIndex = 1,
             manaIndex = nil,
             pct = true,
@@ -97,13 +97,13 @@ if Utility.IsWLK and GetLocale() == "frFR" then
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+) points de mana en ([%d%.]+) s",
+            pattern = "rend ([%d%.]+) points de mana en ([%d%.]+) ",
             healthIndex = nil,
             manaIndex = 1,
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+)%% de votre mana par seconde pendant ([%d%.]+) s",
+            pattern = "rend ([%d%.]+)%% de votre mana par seconde pendant ([%d%.]+) ",
             healthIndex = nil,
             manaIndex = 1,
             pct = true,
