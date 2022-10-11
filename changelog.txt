@@ -1,14 +1,19 @@
-## 90_Beta
+### 91_Beta
+
+* Added feature #52: user-defined ignore list
+
+
+### 90_Beta
 
 * Fix issue #51: Black jelly not being considered
 
 
-## 89_Beta
+### 89_Beta
 
 * Fix issue #50: Handle engineer bonus for runic injector
 
 
-## 88_Beta
+### 88_Beta
 
 * Fix issue #49 (and #45 properly): Mana gem not properly recognized
 
@@ -16,7 +21,7 @@
 ### 87_Beta
 
 * Fix issue #47: Harvest festival items not working on WLK
-* Changed versioning scheme: git tags wil now only contain an incremental version number, with an optional _Beta suffix
+* Changed versioning scheme: git tags will now only contain an incremental version number, with an optional _Beta suffix
 
 
 ### 9.2.7.86_Beta

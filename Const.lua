@@ -15,6 +15,7 @@ Const.DBdefaults = {
     consModPotion = "",
     consModConjured = "mod:shift",
     consModSpecial = "mod:ctrl",
+    ignoredItems = {}
 }
 
 Const.MacroNames = {

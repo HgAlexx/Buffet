@@ -253,7 +253,7 @@ function Core:Scan()
             local _, _, _, _, _, _, _, _, _, itemId = GetContainerItemInfo(bag, slot)
             -- slot not empty
             if itemId then
-                if not Core.ignoredItemCache[itemId] then
+                if not Core.ignoredItemCache[itemId] and not Core.db.ignoredItems[itemId] then
                     if not itemIds[itemId] then
                         -- get total count for this item id
                         itemIds[itemId] = GetItemCount(itemId)
@@ -699,7 +699,7 @@ function Core:SetBest(cat, id, value, stack, hasRestriction)
 end
 
 function Core:SlashHandler(message, editbox)
-    local _, _, cmd, args = string.find(message, "%s?(%w+)%s?(.*)")
+    local _, _, cmd, args = string.find(message, "%s?([a-z-]+)%s?(.*)")
 
     if cmd == "combat" then
         local combat = args or nil
@@ -736,6 +736,59 @@ function Core:SlashHandler(message, editbox)
         else
             Utility.Print("next scan delay current value is", Core.nextScanDelay)
         end
+    elseif cmd == "ignore-add" then
+        local itemString = args or nil
+        if itemString and itemString ~= "" then
+            local _, itemLink = GetItemInfo(itemString)
+            if itemLink then
+                local itemId = string_match(itemLink, "item:([%d]+)")
+                if itemId then
+                    itemId = tonumber(itemId)
+                    if not Core.db.ignoredItems[itemId] then
+                        Core.db.ignoredItems[itemId] = itemLink
+                        Utility.Print(itemLink .. " added to ignore list")
+                        self:QueueScan()
+                    else
+                        Utility.Print(itemLink .. " is already in the ignore list")
+                    end
+                end
+            end
+        else
+            Utility.Print("Invalid argument")
+        end
+    elseif cmd == "ignore-remove" then
+        local itemString = args or nil
+        if itemString and itemString ~= "" then
+            local _, itemLink = GetItemInfo(itemString)
+            if itemLink then
+                local itemId = string_match(itemLink, "item:([%d]+)")
+                if itemId then
+                    itemId = tonumber(itemId)
+                    if Core.db.ignoredItems[itemId] then
+                        Core.db.ignoredItems[itemId] = nil
+                        Utility.Print(itemLink .. " removed from ignore list")
+                        self:QueueScan()
+                    else
+                        Utility.Print(itemLink .. " is not in the ignore list")
+                    end
+                end
+            end
+        else
+            Utility.Print("Invalid argument")
+        end
+    elseif cmd == "ignore-clear" then
+        Core.db.ignoredItems = {}
+        Utility.Print("The ignore list has been emptied.")
+        self:QueueScan()
+    elseif cmd == "ignore-list" then
+        if Utility.TableCount(Core.db.ignoredItems) > 0 then
+            Utility.Print("The following items are in the ignore list:")
+            for k,v in pairs(Core.db.ignoredItems) do
+                Utility.Print(v)
+            end
+        else
+            Utility.Print("The ignore list is empty.")
+        end
     elseif cmd == "info" then
         local itemString = args or nil
         if itemString then
@@ -757,8 +810,8 @@ function Core:SlashHandler(message, editbox)
         else
             Utility.Print("Invalid argument")
         end
-    elseif cmd == "ignored" then
-        Utility.Print("The following items have been ignored from scans:")
+    elseif cmd == "session-ignored" then
+        Utility.Print("The following items have been automatically ignored from scans for this session:")
         for k,v in pairs(Core.ignoredItemCache) do
             Utility.Print(v)
         end
@@ -801,8 +854,14 @@ function Core:SlashHandler(message, editbox)
         Utility.Print("/buffet delay [<number>]: show or set next scan delay in seconds (default is 1.2)")
         Utility.Print("/buffet info <itemLink>: display info about <itemLink> (if item is in cache)")
         Utility.Print("/buffet scan: perform a manual scan of your bags")
-        Utility.Print("/buffet ignored: list all items ignored from scan (session cached)")
+
+        Utility.Print("/buffet ignore-add <itemLink>: add item to ignore list")
+        Utility.Print("/buffet ignore-remove <itemLink>: remove item from ignore list")
+        Utility.Print("/buffet ignore-list: list all ignored items")
+
+        Utility.Print("/buffet session-ignored: list all items automatically ignored from scan (session cached)")
         Utility.Print("/buffet debug <itemLink>: scan and display info about <itemLink> (bypass caches)")
+
         Utility.Print("/buffet bests: show current best item ids")
     end
 end
