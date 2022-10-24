@@ -858,6 +858,7 @@ function Core:SlashHandler(message, editbox)
         Utility.Print("/buffet ignore-add <itemLink>: add item to ignore list")
         Utility.Print("/buffet ignore-remove <itemLink>: remove item from ignore list")
         Utility.Print("/buffet ignore-list: list all ignored items")
+        Utility.Print("/buffet ignore-clear: clear the ignore list")
 
         Utility.Print("/buffet session-ignored: list all items automatically ignored from scan (session cached)")
         Utility.Print("/buffet debug <itemLink>: scan and display info about <itemLink> (bypass caches)")

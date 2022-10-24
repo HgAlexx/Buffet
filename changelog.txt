@@ -1,3 +1,10 @@
+### 92
+
+* Moved from Beta to Release
+* Added missing command info in /buffet help
+* Ready for Dragonflight (v10.0.0)
+
+
 ### 91_Beta
 
 * Added feature #52: user-defined ignore list
