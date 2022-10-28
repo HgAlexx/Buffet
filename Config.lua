@@ -410,9 +410,11 @@ InterfaceOptions_AddCategory(frame_config)
 
 
 local customMacro = {}
+customMacro.uiLoaded = false
 customMacro.active = nil
 customMacro.saved = false
 customMacro.valid = false
+
 
 customMacro.nameEdit = nil
 customMacro.sourceEdit = nil
@@ -437,6 +439,10 @@ StaticPopupDialogs["BUFFET_DELETE_MACRO_CONFIRM"] = {
 };
 
 function customMacro:ui()
+    if not customMacro.uiLoaded then
+        return
+    end
+
     if UnitAffectingCombat("player") then
         customMacro.buttonNew:Disable()
         customMacro.buttonLoad:Disable()
@@ -589,6 +595,10 @@ function customMacro:load(value)
 end
 
 function customMacro:loadActive()
+    if not customMacro.uiLoaded then
+        return
+    end
+
     if self.active then
         if self.active.name then
             self.nameEdit:SetText(self.active.name)
@@ -815,10 +825,6 @@ frame_custom.okay = function()
     customMacro:reset()
     Core:QueueScan()
 end
-frame_custom.cancel = function()
-    customMacro:reset()
-    Core:QueueScan()
-end
 
 frame_custom:Hide()
 frame_custom:SetScript("OnShow", function()
@@ -973,6 +979,8 @@ frame_custom:SetScript("OnShow", function()
         end
     end)
     customMacro.sourceEdit:Disable()
+
+    customMacro.uiLoaded = true
 
     customMacro:reset()
 

@@ -1,3 +1,8 @@
+### 93
+
+* Fix issue #56: Error when closing option menu
+
+
 ### 92
 
 * Moved from Beta to Release
