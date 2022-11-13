@@ -25,6 +25,7 @@ WLK\Localization.esES.lua
 WLK\Localization.esMX.lua
 WLK\Localization.frFR.lua
 WLK\Localization.zhCN.lua
+WLK\Localization.koKR.lua
 
 WLK\ConstWLK.lua
 WLK\WLK.lua
