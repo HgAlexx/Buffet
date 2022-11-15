@@ -1,8 +1,9 @@
-**Buffet** is a food/water macro generator originally developed by **[tekkub](https://www.curseforge.com/linkout?remoteUrl=http%253a%252f%252fwww.tekkub.net%252f)** and currently maintained by **mZHg**.
+**Buffet** is a food/water macro generator originally developed by **[tekkub](http://www.tekkub.net/)** and currently maintained by **mZHg**.
 
 
 What's new :
-- Beta version available for Wrath, please report any issue!
+- Available for Wrath, please report any issue!
+- User-defined ignore list (per characters) (via command only)
 
 
 Feel free to report any bug or request any feature [here](https://github.com/HgAlexx/Buffet/issues) :)
@@ -20,10 +21,11 @@ Features:
 - Option to consider "well fed" food items in macros
 - Support dark and demonic runes
 - Support Classic Wow
-- Custom macro using lua scripting language, see [here](https://github.com/HgAlexx/Buffet/wiki) for more info.
+- Custom macro using lua scripting language, see [here](https://github.com/HgAlexx/Buffet/wiki) for more info
+- User-defined ignore list (per characters)
 
 
-Currently supporting the following localization:
+Currently supporting the following localizations:
 
 For retail:
 - English (enUS)
@@ -46,10 +48,10 @@ For classic:
 - Français (frFR)
 
 
-Partially supporting the following localization:
+Partially supporting the following localizations:
 
 For Retail, WotTK and classic:
 - Simplified Chinese (zhCN) provided by Witnesscm
 
 
-If you want to contribute to localization, [pull request](https://github.com/HgAlexx/Buffet/pulls) are welcome!
+If you want to contribute to localizations, [pull requests](https://github.com/HgAlexx/Buffet/pulls) are welcome!
