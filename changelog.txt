@@ -1,3 +1,12 @@
+### 94
+
++ Added Korean localization (provided by coderhyme)
+* Handled incoming API changes
+* Small fix in config panel
+* Updated LibBabble-SubZone to version r252
+* Update README
+
+
 ### 93
 
 * Fix issue #56: Error when closing option menu

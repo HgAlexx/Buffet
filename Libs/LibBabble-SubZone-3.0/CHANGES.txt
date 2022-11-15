@@ -1,9 +1,8 @@
 ------------------------------------------------------------------------
-r229 | arith | 2020-02-11 15:06:38 +0000 (Tue, 11 Feb 2020) | 1 line
+r252 | arithmandar | 2022-08-17 14:32:07 +0000 (Wed, 17 Aug 2022) | 1 line
 Changed paths:
-   M /trunk/LibBabble-SubZone-3.0_esMX.lua
-   M /trunk/LibBabble-SubZone-3.0_zhCN.lua
+   M /trunk/LibBabble-SubZone-3.0.toc
 
-zh-CN and es-MX translation update
+Toc update to support 9.2.7
 ------------------------------------------------------------------------
 

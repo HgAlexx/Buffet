@@ -12,23 +12,25 @@ local string_gsub = string.gsub
 local string_match = string.match
 local string_lower = string.lower
 
-function Engine.ScanTooltip(itemLink)
-    local texts = {}
-    local tooltip = Utility.GetTooltip()
-    tooltip:SetHyperlink(itemLink)
+if not Engine.ScanTooltip then
+    function Engine.ScanTooltip(itemLink)
+        local texts = {}
+        local tooltip = Utility.GetTooltip()
+        tooltip:SetHyperlink(itemLink)
 
-    local lineCount = 0
-    for i = 2, tooltip:NumLines() do
-        local text = _G["buffetTooltipTextLeft" .. i]:GetText() or ""
-        text = Utility.Trim(text)
-        if text ~= "" then
-            texts[lineCount] = text
-            lineCount = lineCount + 1
+        local lineCount = 0
+        for i = 2, tooltip:NumLines() do
+            local text = _G["buffetTooltipTextLeft" .. i]:GetText() or ""
+            text = Utility.Trim(text)
+            if text ~= "" then
+                texts[lineCount] = text
+                lineCount = lineCount + 1
+            end
         end
-    end
-    tooltip:Hide()
+        tooltip:Hide()
 
-    return texts
+        return texts
+    end
 end
 
 function Engine.ParseTexts(texts, itemData)

@@ -23,7 +23,7 @@ Features:
 - Custom macro using lua scripting language, see [here](https://github.com/HgAlexx/Buffet/wiki) for more info.
 
 
-Currently support the following localization:
+Currently supporting the following localization:
 
 For retail:
 - English (enUS)
@@ -32,8 +32,24 @@ For retail:
 - Français (frFR)
 - Italiano (itIT)
 
+For WolTK:
+- English (enUS)
+- Deutsch (deDE)
+- Español (esES)
+- Français (frFR)
+- Korean (koKR) provided by coderhyme
+
 For classic:
 - English (enUS)
 - Deutsch (deDE)
 - Español (esES)
 - Français (frFR)
+
+
+Partially supporting the following localization:
+
+For Retail, WotTK and classic:
+- Simplified Chinese (zhCN) provided by Witnesscm
+
+
+If you want to contribute to localization, [pull request](https://github.com/HgAlexx/Buffet/pulls) are welcome!

@@ -1,8 +1,8 @@
-## Interface: 90207
+## Interface: 100000
 ## Title: Buffet
 ## Notes: Food/water macro generator
 ## Author: Tekkub Stoutwrithe, mZHg
-## Version: 9.2.7.@project-version@
+## Version: 10.0.0.@project-version@
 ## X-Icon: Interface\Icons\INV_Misc_Food_DimSum
 ## SavedVariables: BuffetItemDB
 ## SavedVariablesPerCharacter: BuffetDB
@@ -45,6 +45,7 @@ WLK\Localization.esES.lua
 WLK\Localization.esMX.lua
 WLK\Localization.frFR.lua
 WLK\Localization.zhCN.lua
+WLK\Localization.koKR.lua
 
 Retail\ConstRetail.lua
 Retail\Retail.lua

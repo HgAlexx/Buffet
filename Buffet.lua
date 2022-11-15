@@ -17,6 +17,32 @@ local string_match = string.match
 local string_find = string.find
 local string_format = string.format
 
+local C_Container_GetContainerNumSlots
+local C_Container_GetContainerItemId
+
+-- For retail patch 10.0.2
+if Utility.IsRetail and C_Container and C_Container.GetContainerNumSlots then
+    C_Container_GetContainerNumSlots = C_Container.GetContainerNumSlots
+else
+    C_Container_GetContainerNumSlots = GetContainerNumSlots
+end
+
+-- For retail patch 10.0.2
+if Utility.IsRetail and C_Container and C_Container.GetContainerItemInfo then
+    C_Container_GetContainerItemId = function (bag, slot)
+        local containerInfo = C_Container.GetContainerItemInfo(bag, slot)
+        if containerInfo then
+            return containerInfo.itemID
+        end
+        return nil
+    end
+else
+    C_Container_GetContainerItemId = function(bag, slot)
+        local _, _, _, _, _, _, _, _, _, itemId = GetContainerItemInfo(bag, slot)
+        return itemId
+    end
+end
+
 -- Local namespace
 local Core = {}
 
@@ -249,8 +275,8 @@ function Core:Scan()
 
     -- scan bags and build unique list of item ids
     for bag = 0, 4 do
-        for slot = 1, GetContainerNumSlots(bag) do
-            local _, _, _, _, _, _, _, _, _, itemId = GetContainerItemInfo(bag, slot)
+        for slot = 1, C_Container_GetContainerNumSlots(bag) do
+            local itemId = C_Container_GetContainerItemId(bag, slot)
             -- slot not empty
             if itemId then
                 if not Core.ignoredItemCache[itemId] and not Core.db.ignoredItems[itemId] then

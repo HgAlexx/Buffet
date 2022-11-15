@@ -19,7 +19,7 @@ if Utility.IsWLK and GetLocale() == "koKR" then
     Locales.KeyWords.Use = "사용 효과"
     Locales.KeyWords.Restores = "회복"
     Locales.KeyWords.Heals = "회복"
-	Locales.KeyWords.ConjuredItem = { "창조 아이템", "마나석" }
+    Locales.KeyWords.ConjuredItem = { "창조 아이템", "마나석" }
     Locales.KeyWords.Health = "생명력"
     Locales.KeyWords.Damage = "회복시킵니다"
     Locales.KeyWords.Life = "생명력"

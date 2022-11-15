@@ -9,7 +9,29 @@ if Utility.IsRetail then
     local ActiveConst = ns.ActiveConst
     local Engine = ns.Engine or {}
 
-    local string_match = string.match
+    if C_TooltipInfo and C_TooltipInfo.GetHyperlink then
+        function Engine.ScanTooltip(itemLink)
+            local texts = {}
+            local lineCount = 0
+            local tooltipData = C_TooltipInfo.GetHyperlink(itemLink)
+
+            for _, line in ipairs(tooltipData.lines) do
+                TooltipUtil.SurfaceArgs(line)
+            end
+
+            local linesTotal = Utility.TableCount(tooltipData.lines)
+            for i = 2, linesTotal do
+                local text = tooltipData.lines[i].leftText or ""
+                text = Utility.Trim(text)
+                if text ~= "" then
+                    texts[lineCount] = text
+                    lineCount = lineCount + 1
+                end
+            end
+
+            return texts
+        end
+    end
 
     function Engine.IsValidItemClasses(itemClassId, itemSubClassId)
         for _, v in pairs(ActiveConst.ValidItemClasses) do

@@ -826,6 +826,11 @@ frame_custom.okay = function()
     Core:QueueScan()
 end
 
+if not Utility.IsRetail then
+    frame_custom.cancel = frame_custom.okay
+end
+
+
 frame_custom:Hide()
 frame_custom:SetScript("OnShow", function()
     local title, subtitle = LibStub("tekKonfig-Heading").new(
