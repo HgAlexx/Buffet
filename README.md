@@ -34,7 +34,7 @@ For retail:
 - Français (frFR)
 - Italiano (itIT)
 
-For WolTK:
+For WotLK:
 - English (enUS)
 - Deutsch (deDE)
 - Español (esES)
@@ -50,7 +50,7 @@ For classic:
 
 Partially supporting the following localizations:
 
-For Retail, WotTK and classic:
+For Retail, WotLK and classic:
 - Simplified Chinese (zhCN) provided by Witnesscm
 
 
