@@ -21,8 +21,6 @@ local BACKDROP_TOOLTIP_12_12_4444 = BACKDROP_TOOLTIP_12_12_4444 or {
     insets = { left = 4, right = 4, top = 4, bottom = 4 },
 }
 
-if AddonLoader and AddonLoader.RemoveInterfaceOptions then AddonLoader:RemoveInterfaceOptions("Buffet") end
-
 local GameTooltip = GameTooltip
 local function HideTooltip()
     GameTooltip:Hide()

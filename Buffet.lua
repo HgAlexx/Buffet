@@ -20,15 +20,15 @@ local string_format = string.format
 local C_Container_GetContainerNumSlots
 local C_Container_GetContainerItemId
 
--- For retail patch 10.0.2
-if Utility.IsRetail and C_Container and C_Container.GetContainerNumSlots then
+-- For patch 10.0.2 / 3.4.1
+if C_Container and C_Container.GetContainerNumSlots then
     C_Container_GetContainerNumSlots = C_Container.GetContainerNumSlots
 else
     C_Container_GetContainerNumSlots = GetContainerNumSlots
 end
 
--- For retail patch 10.0.2
-if Utility.IsRetail and C_Container and C_Container.GetContainerItemInfo then
+-- For patch 10.0.2 / 3.4.1
+if C_Container and C_Container.GetContainerItemInfo then
     C_Container_GetContainerItemId = function (bag, slot)
         local containerInfo = C_Container.GetContainerItemInfo(bag, slot)
         if containerInfo then
