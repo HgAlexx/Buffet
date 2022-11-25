@@ -1,3 +1,16 @@
+### 96
+
+* Missing changelog ;)
+* Retail toc update
+
+
+### 95
+
+* Handled incoming API changes (3.4.1)
+* Updated LibBabble-SubZone
+- Removed old AddonLoader code
+
+
 ### 94
 
 + Added Korean localization (provided by coderhyme)
