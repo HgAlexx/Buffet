@@ -57,7 +57,7 @@ function Engine.ParseTexts(texts, itemData)
                         break
                     end
                 end
-            elseif type(Locales.KeyWords.WellFed) == "string" then
+            elseif type(Locales.KeyWords.ConjuredItem) == "string" then
                 if Utility.StringContains(text, Locales.KeyWords.ConjuredItem:lower()) then
                     itemData.isConjured = true
                 end

@@ -1,3 +1,9 @@
+### 97
+
+* Fixed bug with conjured item in Classic
+* Added IconTexture in TOCs
+
+
 ### 96
 
 * Missing changelog ;)
