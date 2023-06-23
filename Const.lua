@@ -15,7 +15,8 @@ Const.DBdefaults = {
     consModPotion = "",
     consModConjured = "mod:shift",
     consModSpecial = "mod:ctrl",
-    ignoredItems = {}
+    ignoredItems = {},
+    showVersion = true
 }
 
 Const.MacroNames = {

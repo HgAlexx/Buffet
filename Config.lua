@@ -241,8 +241,14 @@ frame:SetScript("OnShow", function()
     frame:SetScript("OnShow", nil)
 end)
 
-InterfaceOptions_AddCategory(frame)
+local category = nil
 
+if Settings and Settings.RegisterCanvasLayoutCategory and Settings.RegisterAddOnCategory then
+    category = Settings.RegisterCanvasLayoutCategory(frame, frame.name)
+    Settings.RegisterAddOnCategory(category)
+else
+    InterfaceOptions_AddCategory(frame)
+end
 
 local frame_config = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 frame_config.name = "Configuration"
@@ -258,7 +264,7 @@ frame_config:SetScript("OnShow", function()
     local hearthstoneCheckButton = CreateFrame("CheckButton", "HearthstoneCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
     HearthstoneCheckButtonText:SetText("Default to hearthstone (all macros)")
     hearthstoneCheckButton.tooltip = "Check this to default to hearthstone"
-    hearthstoneCheckButton:SetPoint("TOPLEFT", subtitle, "BOTTOMLEFT", 0, -16)
+    hearthstoneCheckButton:SetPoint("TOPLEFT", subtitle, "BOTTOMLEFT", 0, -5)
     hearthstoneCheckButton:SetChecked(Core.db.hearthstone)
     hearthstoneCheckButton:SetScript("OnClick",
         function()
@@ -401,11 +407,35 @@ frame_config:SetScript("OnShow", function()
         end
     )
 
+    local header = frame_config:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+    header:SetPoint("TOPLEFT", consModSpecial, "BOTTOMLEFT", 0, -16)
+    header:SetText("Other")
+
+    local showVersionCheckButton = CreateFrame("CheckButton", "ShowVersionCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
+    ShowVersionCheckButtonText:SetText("Show version on loading")
+    showVersionCheckButton.tooltip = "Check this to version on loading"
+    showVersionCheckButton:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, -5)
+    showVersionCheckButton:SetChecked(Core.db.showVersion)
+    showVersionCheckButton:SetScript("OnClick",
+            function()
+                if showVersionCheckButton:GetChecked() then
+                    Core.db.showVersion = true
+                else
+                    Core.db.showVersion = false
+                end
+            end
+    )
+
+
+
     frame_config:SetScript("OnShow", nil)
 end)
 
-InterfaceOptions_AddCategory(frame_config)
-
+if Settings and Settings.RegisterCanvasLayoutSubcategory then
+    local subcategory, layout = Settings.RegisterCanvasLayoutSubcategory(category, frame_config, frame_config.name, frame_config.name);
+else
+    InterfaceOptions_AddCategory(frame_config)
+end
 
 local customMacro = {}
 customMacro.uiLoaded = false
@@ -950,7 +980,7 @@ frame_custom:SetScript("OnShow", function()
         end
     end)
 
-    local scrollFrame = CreateFrame("ScrollFrame", nil, sourceFrame, "UIPanelScrollFrameTemplate")
+    local scrollFrame = CreateFrame("ScrollFrame", nil, sourceFrame, "ScrollFrameTemplate")
     scrollFrame:SetPoint("TOPLEFT", sourceFrame, "TOPLEFT", 0, -3)
     scrollFrame:SetPoint("BOTTOMRIGHT", sourceFrame, "BOTTOMRIGHT", -25, 3)
 
@@ -1010,11 +1040,14 @@ frame_custom:SetScript("OnShow", function()
     end)
 end)
 
-InterfaceOptions_AddCategory(frame_custom)
+if Settings and Settings.RegisterCanvasLayoutSubcategory then
+    local subcategory, layout = Settings.RegisterCanvasLayoutSubcategory(category, frame_custom, frame_custom.name, frame_custom.name);
+else
+    InterfaceOptions_AddCategory(frame_custom)
+end
 
 
-
-LibStub("tekKonfig-AboutPanel").new("Buffet", "Buffet")
+LibStub("tekKonfig-AboutPanel").new("Buffet", "Buffet", category)
 
 
 ----------------------------------------
@@ -1025,8 +1058,12 @@ LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Buffet", {
     type = "launcher",
     icon = "Interface\\Icons\\INV_Misc_Food_DimSum",
     OnClick = function()
-        InterfaceOptionsFrame_OpenToCategory(frame)
-        InterfaceOptionsFrame_OpenToCategory(frame_config)
-        InterfaceOptionsFrame_OpenToCategory(frame)
+        if Settings and Settings.OpenToCategory  then
+            Settings.OpenToCategory(frame.name);
+        else
+            InterfaceOptionsFrame_OpenToCategory(frame)
+            InterfaceOptionsFrame_OpenToCategory(frame_config)
+            InterfaceOptionsFrame_OpenToCategory(frame)
+        end
     end,
 })

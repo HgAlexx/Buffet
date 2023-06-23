@@ -15,9 +15,9 @@ if Utility.IsRetail then
             local lineCount = 0
             local tooltipData = C_TooltipInfo.GetHyperlink(itemLink)
 
-            for _, line in ipairs(tooltipData.lines) do
-                TooltipUtil.SurfaceArgs(line)
-            end
+            --for _, line in ipairs(tooltipData.lines) do
+            --    TooltipUtil.SurfaceArgs(line)
+            --end
 
             local linesTotal = Utility.TableCount(tooltipData.lines)
             for i = 2, linesTotal do

@@ -3,16 +3,19 @@ local lib, oldminor = LibStub:NewLibrary("tekKonfig-AboutPanel", 6)
 if not lib then return end
 
 
-function lib.new(parent, addonname)
+function lib.new(parent, addonname, category)
 	if not parent and AddonLoader and AddonLoader.RemoveInterfaceOptions then AddonLoader:RemoveInterfaceOptions(addonname) end
 	local frame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 	frame.name, frame.parent, frame.addonname = parent and "About" or addonname, parent, addonname
 	frame:Hide()
 	frame:SetScript("OnShow", lib.OnShow)
-	InterfaceOptions_AddCategory(frame)
+	if Settings and Settings.GetCategory and Settings.RegisterCanvasLayoutSubcategory then
+		local subcategory, layout = Settings.RegisterCanvasLayoutSubcategory(category, frame, frame.name, frame.name);
+	else
+		InterfaceOptions_AddCategory(frame)
+	end
 	return frame
 end
-
 
 local editbox = CreateFrame('EditBox', nil, UIParent)
 editbox:Hide()

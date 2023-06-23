@@ -141,7 +141,9 @@ function Buffet:PLAYER_LOGIN()
 
     Utility.LoadProfessions()
 
-    Utility.Print(Core.Version, "Loaded!")
+    if Core.db.showVersion then
+        Utility.Print(Core.Version, "Loaded!")
+    end
 
     if Utility.IsClassic then
         Utility.Debug("Classic mode enabled")

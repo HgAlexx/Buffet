@@ -1,7 +1,13 @@
+### 98
+
++ Added option to turn off version message on loading
+* Updated some code to latest wow api
+
+
 ### 97
 
 * Fixed bug with conjured item in Classic
-* Added IconTexture in TOCs
++ Added IconTexture in TOCs
 
 
 ### 96
