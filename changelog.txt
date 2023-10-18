@@ -1,3 +1,8 @@
+### 99
+
+* Fix issue #63: Some items were not detected properly on Classic
+
+
 ### 98
 
 + Added option to turn off version message on loading

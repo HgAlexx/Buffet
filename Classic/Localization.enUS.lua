@@ -34,7 +34,7 @@ if Utility.IsClassic then
 
     Locales.Patterns.Bandage = {
         {
-            pattern = "heals ([%d%.]+) damage over ([%d%.]+) sec",
+            pattern = "heals ([%d,%.]+) damage over ([%d%.]+) sec",
             healthIndex = 1,
             manaIndex = nil,
             pct = false,
@@ -43,19 +43,19 @@ if Utility.IsClassic then
 
     Locales.Patterns.HealthAndMana = {
         {
-            pattern = "([%d%.]+) to ([%d%.]+) health.- ([%d%.]+) to ([%d%.]+) mana",
+            pattern = "([%d,%.]+) to ([%d,%.]+) health.- ([%d,%.]+) to ([%d,%.]+) mana",
             healthIndex = {1, 2},
             manaIndex = {3, 4},
             pct = false,
         },
         {
-            pattern = "([%d%.]+) to ([%d%.]+) mana.- ([%d%.]+) to ([%d%.]+) health",
+            pattern = "([%d,%.]+) to ([%d,%.]+) mana.- ([%d,%.]+) to ([%d,%.]+) health",
             healthIndex = {3, 4},
             manaIndex = {1, 2},
             pct = false,
         },
         {
-            pattern = "restores ([%d%.]+) health.- ([%d%.]+) mana over ([%d%.]+) sec",
+            pattern = "restores ([%d,%.]+) health.- ([%d,%.]+) mana over ([%d%.]+) sec",
             healthIndex = 1,
             manaIndex = 2,
             pct = false,
@@ -64,19 +64,19 @@ if Utility.IsClassic then
 
     Locales.Patterns.Health = {
         {
-            pattern = "([%d%.]+) to ([%d%.]+) health",
+            pattern = "([%d,%.]+) to ([%d,%.]+) health",
             healthIndex = {1, 2},
             manaIndex = nil,
             pct = false,
         },
         {
-            pattern = "restores ([%d%.]+) health over ([%d%.]+) sec",
+            pattern = "restores ([%d,%.]+) health over ([%d%.]+) sec",
             healthIndex = 1,
             manaIndex = nil,
             pct = false,
         },
         {
-            pattern = "instantly restores ([%d%.]+) life",
+            pattern = "instantly restores ([%d,%.]+) life",
             healthIndex = 1,
             manaIndex = nil,
             pct = false,
@@ -85,13 +85,13 @@ if Utility.IsClassic then
 
     Locales.Patterns.Mana = {
         {
-            pattern = "([%d%.]+) to ([%d%.]+) mana",
+            pattern = "([%d,%.]+) to ([%d,%.]+) mana",
             healthIndex = nil,
             manaIndex = {1, 2},
             pct = false,
         },
         {
-            pattern = "restores ([%d%.]+) mana over ([%d%.]+) sec",
+            pattern = "restores ([%d,%.]+) mana over ([%d%.]+) sec",
             healthIndex = nil,
             manaIndex = 1,
             pct = false,

@@ -34,7 +34,7 @@ if Utility.IsClassic and GetLocale() == "frFR" then
 
     Locales.Patterns.Bandage = {
         {
-            pattern = "rend ([%d%.]+) points de vie en ([%d%.]+) sec",
+            pattern = "rend ([%d%s%.]+) points de vie en ([%d%.]+) sec",
             healthIndex = 1,
             manaIndex = nil,
             pct = false
@@ -43,19 +43,19 @@ if Utility.IsClassic and GetLocale() == "frFR" then
 
     Locales.Patterns.HealthAndMana = {
         {
-            pattern = "([%d%.]+) à ([%d%.]+) points de vie.- ([%d%.]+) à ([%d%.]+) points de mana",
+            pattern = "([%d%s%.]+) à ([%d%s%.]+) points de vie.- ([%d%s%.]+) à ([%d%s%.]+) points de mana",
             healthIndex = {1, 2},
             manaIndex = {3, 4},
             pct = false,
         },
         {
-            pattern = "([%d%.]+) à ([%d%.]+) points de mana.- ([%d%.]+) à ([%d%.]+) points de vie",
+            pattern = "([%d%s%.]+) à ([%d%s%.]+) points de mana.- ([%d%s%.]+) à ([%d%s%.]+) points de vie",
             healthIndex = {3, 4},
             manaIndex = {1, 2},
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+) points de vie.- ([%d%.]+) points de mana en ([%d%.]+) sec",
+            pattern = "rend ([%d%s%.]+) points de vie.- ([%d%s%.]+) points de mana en ([%d%.]+) sec",
             healthIndex = 1,
             manaIndex = 2,
             pct = false,
@@ -64,25 +64,25 @@ if Utility.IsClassic and GetLocale() == "frFR" then
 
     Locales.Patterns.Health = {
         {
-            pattern = "([%d%.]+) à ([%d%.]+) points de vie",
+            pattern = "([%d%s%.]+) à ([%d%s%.]+) points de vie",
             healthIndex = {1, 2},
             manaIndex = nil,
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+) points de vie en ([%d%.]+) sec",
+            pattern = "rend ([%d%s%.]+) points de vie en ([%d%.]+) sec",
             healthIndex = 1,
             manaIndex = nil,
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+)%% de vos points de vie par seconde pendant ([%d%.]+) sec",
+            pattern = "rend ([%d%s%.]+)%% de vos points de vie par seconde pendant ([%d%.]+) sec",
             healthIndex = 1,
             manaIndex = nil,
             pct = true,
         },
         {
-            pattern = "rend instantanément ([%d%.]+) points de vie",
+            pattern = "rend instantanément ([%d%s%.]+) points de vie",
             healthIndex = 1,
             manaIndex = nil,
             pct = false,
@@ -91,13 +91,13 @@ if Utility.IsClassic and GetLocale() == "frFR" then
 
     Locales.Patterns.Mana = {
         {
-            pattern = "([%d%.]+) à ([%d%.]+) points de mana",
+            pattern = "([%d%s%.]+) à ([%d%s%.]+) points de mana",
             healthIndex = nil,
             manaIndex = {1, 2},
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+) points de mana en ([%d%.]+) sec",
+            pattern = "rend ([%d%s%.]+) points de mana en ([%d%s%.]+) sec",
             healthIndex = nil,
             manaIndex = 1,
             pct = false,

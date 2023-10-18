@@ -2,7 +2,6 @@
 
 
 What's new :
-- Available for Wrath, please report any issue!
 - User-defined ignore list (per characters) (via command only)
 
 
