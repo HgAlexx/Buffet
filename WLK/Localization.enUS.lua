@@ -43,6 +43,12 @@ if Utility.IsWLK then
 
     Locales.Patterns.HealthAndMana = {
         {
+            pattern = "([%d%.]+)%% .-health and mana",
+            healthIndex = 1,
+            manaIndex = 1,
+            pct = true
+        },
+        {
             pattern = "([%d,%.]+) to ([%d,%.]+) health.- ([%d,%.]+) to ([%d,%.]+) mana",
             healthIndex = {1, 2},
             manaIndex = {3, 4},

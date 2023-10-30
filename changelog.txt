@@ -1,12 +1,17 @@
+### 101
+
+* Fix issue #64: Percent items were not detected properly on both Classic
+
+
 ### 100
 
-* Fix issue #64
+* Fix issue #64: Some items were not detected properly on Classic WotLK
 * Updated some code to latest wow API
 
 
 ### 99
 
-* Fix issue #63: Some items were not detected properly on Classic
+* Fix issue #63: Some items were not detected properly on Classic Era
 
 
 ### 98

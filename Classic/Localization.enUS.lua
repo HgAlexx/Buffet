@@ -43,6 +43,12 @@ if Utility.IsClassic then
 
     Locales.Patterns.HealthAndMana = {
         {
+            pattern = "([%d%.]+)%% .-health and mana",
+            healthIndex = 1,
+            manaIndex = 1,
+            pct = true
+        },
+        {
             pattern = "([%d,%.]+) to ([%d,%.]+) health.- ([%d,%.]+) to ([%d,%.]+) mana",
             healthIndex = {1, 2},
             manaIndex = {3, 4},
@@ -70,6 +76,12 @@ if Utility.IsClassic then
             pct = false,
         },
         {
+            pattern = "([%d,%.]+)%%.-health",
+            healthIndex = 1,
+            manaIndex = nil,
+            pct = true
+        },
+        {
             pattern = "restores ([%d,%.]+) health over ([%d%.]+) sec",
             healthIndex = 1,
             manaIndex = nil,
@@ -89,6 +101,12 @@ if Utility.IsClassic then
             healthIndex = nil,
             manaIndex = {1, 2},
             pct = false,
+        },
+        {
+            pattern = "([%d%.]+)%%.-mana",
+            healthIndex = nil,
+            manaIndex = 1,
+            pct = true
         },
         {
             pattern = "restores ([%d,%.]+) mana over ([%d%.]+) sec",
