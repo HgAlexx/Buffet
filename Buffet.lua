@@ -72,7 +72,11 @@ function Buffet:ADDON_LOADED(event, addon)
     end
     self:UnregisterEvent("ADDON_LOADED")
 
-    Core.Version = GetAddOnMetadata(addonName, 'Version');
+    if C_AddOns and C_AddOns.GetAddOnMetadata then
+        Core.Version = C_AddOns.GetAddOnMetadata(addonName, 'Version');
+    else
+        Core.Version = GetAddOnMetadata(addonName, 'Version');
+    end
 
     -- load saved variables
     BuffetItemDB = setmetatable(BuffetItemDB or {}, { __index = Const.ItemDBdefaults })

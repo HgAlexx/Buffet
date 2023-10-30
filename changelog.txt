@@ -1,3 +1,9 @@
+### 100
+
+* Fix issue #64
+* Updated some code to latest wow API
+
+
 ### 99
 
 * Fix issue #63: Some items were not detected properly on Classic

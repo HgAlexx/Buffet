@@ -69,8 +69,16 @@ local function ShowTooltip(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT")
 	GameTooltip:SetText("Click and press Ctrl-C to copy")
 end
+
+local C_AddOns_GetAddOnMetadata
+if C_AddOns and C_AddOns.GetAddOnMetadata then
+	C_AddOns_GetAddOnMetadata = C_AddOns.GetAddOnMetadata
+else
+	C_AddOns_GetAddOnMetadata = GetAddOnMetadata
+end
+
 function lib.OnShow(frame)
-	local notes = GetAddOnMetadata(frame.addonname, "Notes")
+	local notes = C_AddOns_GetAddOnMetadata(frame.addonname, "Notes")
 
 	local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 	title:SetPoint("TOPLEFT", 16, -16)
@@ -87,7 +95,7 @@ function lib.OnShow(frame)
 
 	local anchor
 	for _,field in pairs(fields) do
-		local val = GetAddOnMetadata(frame.addonname, field)
+		local val = C_AddOns_GetAddOnMetadata(frame.addonname, field)
 		if val then
 			local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
 			title:SetWidth(75)

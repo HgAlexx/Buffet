@@ -46,7 +46,7 @@ if Utility.IsRetail and GetLocale() == "frFR" then
             pct = true
         },
         {
-            pattern = "([%d%.]+).-de vie et de mana",
+            pattern = "([%d%s%.]+).-de vie et de mana",
             healthIndex = 1,
             manaIndex = 1,
             pct = false
@@ -58,7 +58,7 @@ if Utility.IsRetail and GetLocale() == "frFR" then
             pct = true
         },
         {
-            pattern = " ([%d%.]+) .-vie.- ([%d%.]+) .-mana",
+            pattern = " ([%d%s%.]+) .-vie.- ([%d%s%.]+) .-mana",
             healthIndex = 1,
             manaIndex = 2,
             pct = false
