@@ -76,7 +76,7 @@ if Utility.IsWLK then
             pct = false,
         },
         {
-            pattern = "([%d,%.]+)%%.-health",
+            pattern = "([%d%.]+)%%.-health",
             healthIndex = 1,
             manaIndex = nil,
             pct = true
