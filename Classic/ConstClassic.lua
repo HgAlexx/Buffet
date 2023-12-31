@@ -30,30 +30,64 @@ if Utility.IsClassic then
                 inInstanceIds = { 30 }, -- Alterac Valley
             },
         },
+        [19068] = { -- Warsong Gulch Silk Bandage
+            {
+                inInstanceIds = { 489 }, -- Warsong Gulch
+            },
+        },
+        [19067] = { -- Warsong Gulch Magewave Bandage
+            {
+                inInstanceIds = { 489 }, -- Warsong Gulch
+            },
+        },
         [19066] = { -- Warsong Gulch Runecloth Bandage
             {
-                inInstaceIds = { 489 }, -- Warsong Gulch
+                inInstanceIds = { 489 }, -- Warsong Gulch
             },
         },
-
+        [19062] = { -- Warsong Gulch Field Ration
+            {
+                inInstanceIds = { 489 }, -- Warsong Gulch
+            },
+        },
+        [19061] = { -- Warsong Gulch Iron Ration
+            {
+                inInstanceIds = { 489 }, -- Warsong Gulch
+            },
+        },
+        [19060] = { -- Warsong Gulch Enriched Ration
+            {
+                inInstanceIds = { 489 }, -- Warsong Gulch
+            },
+        },
+        [17348] = { -- Major Healing Draught
+            {
+                inInstanceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+            },
+        },
         [17349] = { -- Superior Healing Draught
             {
-                inInstaceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
-            },
-        },
-        [17352] = { -- Superior Mana Draught
-            {
-                inInstaceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+                inInstanceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
             },
         },
         [17351] = { -- Major Mana Draught
             {
-                inInstaceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+                inInstanceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+            },
+        },
+        [17352] = { -- Superior Mana Draught
+            {
+                inInstanceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+            },
+        },
+        [17351] = { -- Major Mana Draught
+            {
+                inInstanceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
             }
         },
         [17348] = { -- Major Healing Draught
             {
-                inInstaceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+                inInstanceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
             },
         },
 
