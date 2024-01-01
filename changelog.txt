@@ -1,3 +1,8 @@
+### 103
+
+* Fix typo on various Const files affecting some PvP items (thanks to yannlugrin)
+
+
 ### 102
 
 * Updated tocs to latest

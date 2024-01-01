@@ -35,6 +35,7 @@ if Utility.IsClassic then
                 inInstanceIds = { 489 }, -- Warsong Gulch
             },
         },
+
         [19067] = { -- Warsong Gulch Magewave Bandage
             {
                 inInstanceIds = { 489 }, -- Warsong Gulch
@@ -45,6 +46,7 @@ if Utility.IsClassic then
                 inInstanceIds = { 489 }, -- Warsong Gulch
             },
         },
+
         [19062] = { -- Warsong Gulch Field Ration
             {
                 inInstanceIds = { 489 }, -- Warsong Gulch
@@ -55,11 +57,13 @@ if Utility.IsClassic then
                 inInstanceIds = { 489 }, -- Warsong Gulch
             },
         },
+
         [19060] = { -- Warsong Gulch Enriched Ration
             {
                 inInstanceIds = { 489 }, -- Warsong Gulch
             },
         },
+
         [17348] = { -- Major Healing Draught
             {
                 inInstanceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
