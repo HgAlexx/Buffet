@@ -19,8 +19,9 @@ if Utility.IsRetail then
     Locales.KeyWords.Use = "Use"
     Locales.KeyWords.Restores = "Restores"
     Locales.KeyWords.Heals = "Heals"
+    Locales.KeyWords.Consume = "Consume" -- currently use only by https://www.wowhead.com/item=207039/potion-of-withering-dreams
     Locales.KeyWords.ConjuredItem = { "Conjured item", "Mana Gem" }
-    Locales.KeyWords.Health = "health"
+    Locales.KeyWords.Health = { "health", "instantly heal" }
     Locales.KeyWords.Damage = "damage"
     Locales.KeyWords.Mana = "mana"
     Locales.KeyWords.WellFed = "well fed"
@@ -74,6 +75,12 @@ if Utility.IsRetail then
         },
         {
             pattern = "([%d,%.]+).-health",
+            healthIndex = 1,
+            manaIndex = nil,
+            pct = false
+        },
+        {
+            pattern = "instantly heal yourself for ([%d,%.]+),",
             healthIndex = 1,
             manaIndex = nil,
             pct = false

@@ -43,11 +43,22 @@ if Utility.IsRetail then
     end
 
     function Engine.CheckUsable(text)
-        if Utility.StringContains(text, Locales.KeyWords.Use:lower()) and (
-                Utility.StringContains(text, Locales.KeyWords.Health:lower()) or
-                Utility.StringContains(text, Locales.KeyWords.Damage:lower()) or
-                Utility.StringContains(text, Locales.KeyWords.Mana:lower()))
-        then
+        local health = false
+        if type(Locales.KeyWords.Health) == "table" then
+            for _, s in pairs(Locales.KeyWords.Health) do
+                if Utility.StringContains(text, s:lower()) then
+                    health = true
+                    break
+                end
+            end
+        elseif type(Locales.KeyWords.Health) == "string" then
+            health = Utility.StringContains(text, Locales.KeyWords.Health:lower())
+        end
+
+        local damage = Utility.StringContains(text, Locales.KeyWords.Damage:lower())
+        local mana = Utility.StringContains(text, Locales.KeyWords.Mana:lower())
+
+        if Utility.StringContains(text, Locales.KeyWords.Use:lower()) and (health or damage or mana) then
             return true
         end
         return false
@@ -59,9 +70,18 @@ if Utility.IsRetail then
                 return true
             end
         else
-            if Utility.StringContains(text, Locales.KeyWords.Health:lower()) then
-                return true
+            local health = false
+            if type(Locales.KeyWords.Health) == "table" then
+                for _, s in pairs(Locales.KeyWords.Health) do
+                    if Utility.StringContains(text, s:lower()) then
+                        health = true
+                        break
+                    end
+                end
+            elseif type(Locales.KeyWords.Health) == "string" then
+                health = Utility.StringContains(text, Locales.KeyWords.Health:lower())
             end
+            return health
         end
         return false
     end

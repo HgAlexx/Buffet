@@ -383,6 +383,16 @@ function Engine.ParseValues(itemData, itemDescription)
                             itemData.overTime = tonumber(overTime)
                         end
                     end
+                elseif Locales.KeyWords.Consume ~= nil and Utility.StringContains(itemDescription, Locales.KeyWords.Consume:lower()) then
+                    -- loop on Health pattern here
+                    itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.Health)
+                    if itemData.health and (itemData.health > 0) and itemData.isOverTime then
+                        local overTime = string_match(itemDescription, Locales.Patterns.OverTime)
+                        if overTime then
+                            itemData.isOverTime = true
+                            itemData.overTime = tonumber(overTime)
+                        end
+                    end
                 end
             end
         end

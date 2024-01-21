@@ -1,3 +1,8 @@
+### 104
+
+* Added support for Potion of Withering Dreams (Retail/enUS)
+
+
 ### 103
 
 * Fix typo on various Const files affecting some PvP items (thanks to yannlugrin)
