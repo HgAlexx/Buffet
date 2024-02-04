@@ -50,6 +50,7 @@ local Core = {}
 Core.nextScan = 0
 Core.nextScanTimer = nil
 Core.bests = {}
+Core.availableItems = {}
 Core.scanAttempt = {}
 Core.firstRun = true
 Core.scanning = false
@@ -113,6 +114,7 @@ function Buffet:ADDON_LOADED(event, addon)
     end
 
     Core:ResetBest()
+    Core:ResetAvailableItems()
 
     self.ADDON_LOADED = nil
 
@@ -239,6 +241,12 @@ function Core:ResetBest()
     end
 end
 
+function Core:ResetAvailableItems()
+    for _, v in pairs(Const.BestCategories) do
+        Core.availableItems[v] = nil
+    end
+end
+
 function Core:QueueScan()
     if InCombatLockdown() then
         self.dirty = true -- try when out of combat (regen event)
@@ -275,6 +283,7 @@ function Core:Scan()
 
     -- clear previous bests
     self:ResetBest()
+    self:ResetAvailableItems()
 
     local delayedScanRequired = false
     local itemIds = {}
@@ -399,11 +408,13 @@ function Core:Scan()
                     if healthCats then
                         for _, v2 in pairs(healthCats) do
                             self:SetBest(v2, itemId, health, itemCount, hasRestriction)
+                            self:SetAvailable(v2, itemId, health, itemCount, hasRestriction)
                         end
                     end
                     if manaCats then
                         for _, v2 in pairs(manaCats) do
                             self:SetBest(v2, itemId, mana, itemCount, hasRestriction)
+                            self:SetAvailable(v2, itemId, mana, itemCount, hasRestriction)
                         end
                     end
                 end
@@ -423,6 +434,7 @@ function Core:Scan()
                 runeValue = 550
             end
             self:SetBest(Const.BestCategories.rune, 12662, runeValue, itemIds[12662])
+            self:SetAvailable(Const.BestCategories.rune, 12662, runeValue, itemIds[12662])
         end
     end
 
@@ -438,6 +450,7 @@ function Core:Scan()
                 runeValue = 364
             end
             self:SetBest(Const.BestCategories.rune, 20520, runeValue, itemIds[20520])
+            self:SetAvailable(Const.BestCategories.rune, 20520, runeValue, itemIds[20520])
         end
     end
 
@@ -459,14 +472,22 @@ function Core:Scan()
     local food = Core.bests.percfood.id or bestFood
     local water = Core.bests.percwater.id or bestDrink
 
+    local healthPotion = Core.bests.hppot.id
+    if Core.db.isToxicPotion then
+        if Core.bests.toxicpot.id then
+            if not Core.bests.hppot.id or (Core.bests.toxicpot.val > Core.bests.hppot.val) then
+                healthPotion = Core.bests.toxicpot.id
+            end
+        end
+    end
 
-    self:EditDefault(Const.MacroNames.defaultHP, Core.db.macroHP, food, Core.bests.healthstone.id, Core.bests.hppot.id, Core.bests.bandage.id)
+    self:EditDefault(Const.MacroNames.defaultHP, Core.db.macroHP, food, Core.bests.healthstone.id, healthPotion, Core.bests.bandage.id)
     self:EditDefault(Const.MacroNames.defaultMP, Core.db.macroMP, water, Core.bests.managem.id, Core.bests.mppot.id, Core.bests.rune.id)
 
     self:EditFoodOnly(Const.MacroNames.foodOnlyHP, Core.db.macroHP, food)
     self:EditFoodOnly(Const.MacroNames.drinkOnlyMP, Core.db.macroMP, water)
 
-    self:EditConsumable(Const.MacroNames.consumableHP, Core.db.macroHP, Core.bests.healthstone.id, Core.bests.hppot.id, Core.bests.bandage.id)
+    self:EditConsumable(Const.MacroNames.consumableHP, Core.db.macroHP, Core.bests.healthstone.id, healthPotion, Core.bests.bandage.id)
     self:EditConsumable(Const.MacroNames.consumableMP, Core.db.macroMP, Core.bests.managem.id, Core.bests.mppot.id, Core.bests.rune.id)
 
     -- Update custom macros
@@ -506,7 +527,7 @@ function Core:RunChunk(macro)
         return nil, nil
     end
 
-    local success, ret1, ret2 = pcall(macro.chunk, Core:BestsBeautifier(), Core.itemCache)
+    local success, ret1, ret2 = pcall(macro.chunk, Core:BestsBeautifier(), Core.itemCache, Core:AvailableItemsBeautifier())
     if success then
         return ret1, ret2
     else
@@ -547,6 +568,7 @@ function Core:MakeNewItemData(itemId, itemClassId, itemSubClassId)
     itemData.isPct = false
     itemData.isFoodAndDrink = false
     itemData.isPotion = false
+    itemData.isToxicPotion = false
     itemData.isBandage = false
     itemData.isRestricted = false
     itemData.isOverTime = false
@@ -570,11 +592,70 @@ function Core:BestsBeautifier()
         bests.healthstone = Core.bests.healthstone.id
         bests.manaGem = Core.bests.managem.id
         bests.healthPotion = Core.bests.hppot.id
+        bests.toxicPotion = Core.bests.toxicpot.id
         bests.manaPotion = Core.bests.mppot.id
         bests.wellFedFood = Core.bests.wellfedfood.id
         bests.wellFedDrink = Core.bests.wellfedwater.id
     end
     return bests
+end
+
+function Core:AvailableItemsBeautifier()
+    local comparer = function (item1, item2)
+        if item1.value == item2.value then
+            return item1.itemCount > item2.itemCount
+        end
+        return item1.value > item2.value
+    end
+
+    local items = {}
+    if Core.availableItems then
+        if Core.availableItems[Const.BestCategories.bandage] then
+            items.bandage = Core.availableItems[Const.BestCategories.bandage]
+        end
+        if Core.availableItems[Const.BestCategories.rune] then
+            items.rune = Core.availableItems[Const.BestCategories.rune]
+        end
+        if Core.availableItems[Const.BestCategories.hppot] then
+            items.healthPotion = Core.availableItems[Const.BestCategories.hppot]
+        end
+        if Core.availableItems[Const.BestCategories.toxicpot] then
+            items.toxicPotion = Core.availableItems[Const.BestCategories.toxicpot]
+        end
+        if Core.availableItems[Const.BestCategories.mppot] then
+            items.manaPotion = Core.availableItems[Const.BestCategories.mppot]
+        end
+        if Core.availableItems[Const.BestCategories.healthstone] then
+            items.healthstone = Core.availableItems[Const.BestCategories.healthstone]
+        end
+        if Core.availableItems[Const.BestCategories.managem] then
+            items.manaGem = Core.availableItems[Const.BestCategories.managem]
+        end
+        if Core.availableItems[Const.BestCategories.water] then
+            items.drink = Core.availableItems[Const.BestCategories.water]
+        end
+        if Core.availableItems[Const.BestCategories.food] then
+            items.food = Core.availableItems[Const.BestCategories.food]
+        end
+        if Core.availableItems[Const.BestCategories.percfood] then
+            items.conjuredFood = Core.availableItems[Const.BestCategories.percfood]
+        end
+        if Core.availableItems[Const.BestCategories.percwater] then
+            items.conjuredDrink = Core.availableItems[Const.BestCategories.percwater]
+        end
+        if Core.availableItems[Const.BestCategories.wellfedfood] then
+            items.wellFedFood = Core.availableItems[Const.BestCategories.wellfedfood]
+        end
+        if Core.availableItems[Const.BestCategories.wellfedwater] then
+            items.wellFedDrink = Core.availableItems[Const.BestCategories.wellfedwater]
+        end
+
+        for k, _ in pairs(items) do
+            table.sort(items[k], comparer)
+        end
+    end
+
+    return items
 end
 
 function Core:Edit(name, substring, food, pot, mod)
@@ -719,7 +800,6 @@ function Core:EditConsumable(name, substring, conjured, pot, mod)
 end
 
 function Core:SetBest(cat, id, value, stack, hasRestriction)
-    -- Utility.Debug("SetBest: ", cat, id, value, stack, hasRestriction)
     local best = Core.bests[cat];
     if best and id then
         if (hasRestriction and (value >= best.val)) or ((value > best.val) or ((value == best.val) and (best.stack > stack))) then
@@ -728,6 +808,17 @@ function Core:SetBest(cat, id, value, stack, hasRestriction)
             best.stack = stack
         end
     end
+end
+
+function Core:SetAvailable(cat, id, value, stack, hasRestriction)
+    if not Core.availableItems[cat] then
+        Core.availableItems[cat] = { }
+    end
+    local item = { }
+    item.value = value
+    item.itemId = id
+    item.itemCount = stack
+    table.insert(Core.availableItems[cat], item)
 end
 
 function Core:SlashHandler(message, editbox)
@@ -749,6 +840,7 @@ function Core:SlashHandler(message, editbox)
         Core.scanAttempt = {}
         Core.itemCache = {}
         Core.ignoredItemCache = {}
+        Core.availableItems = {}
         Utility.Print("Cache cleared!")
         Utility.Print("Rescanning bags...")
         self:QueueScan()
@@ -879,6 +971,15 @@ function Core:SlashHandler(message, editbox)
         for k,v in pairs(Core:BestsBeautifier()) do
             Utility.Print("bests."  .. k .. "=" .. v)
         end
+    elseif cmd == "availables" then
+        Utility.Print("Available items ids:")
+        for k1, v1 in pairs(Core:AvailableItemsBeautifier()) do
+            Utility.Print("Category: "  .. k1)
+            for k2, v2 in pairs(v1) do
+                local item = v2
+                Utility.Print("- Id: "  .. item.itemId .. ", Value: " .. item.value .. ", stack size: " .. item.itemCount)
+            end
+        end
     else
         Utility.Print("Usage:")
         Utility.Print("/buffet combat [0, 1]: 1 to enable, 0 to disable")
@@ -886,16 +987,17 @@ function Core:SlashHandler(message, editbox)
         Utility.Print("/buffet delay [<number>]: show or set next scan delay in seconds (default is 1.2)")
         Utility.Print("/buffet info <itemLink>: display info about <itemLink> (if item is in cache)")
         Utility.Print("/buffet scan: perform a manual scan of your bags")
-
+        Utility.Print(" ")
         Utility.Print("/buffet ignore-add <itemLink>: add item to ignore list")
         Utility.Print("/buffet ignore-remove <itemLink>: remove item from ignore list")
         Utility.Print("/buffet ignore-list: list all ignored items")
         Utility.Print("/buffet ignore-clear: clear the ignore list")
-
+        Utility.Print(" ")
         Utility.Print("/buffet session-ignored: list all items automatically ignored from scan (session cached)")
         Utility.Print("/buffet debug <itemLink>: scan and display info about <itemLink> (bypass caches)")
-
+        Utility.Print(" ")
         Utility.Print("/buffet bests: show current best item ids")
+        Utility.Print("/buffet availables: show all currently available items ids")
     end
 end
 
@@ -910,6 +1012,7 @@ function Core:PrintItemData(itemString, itemData)
         Utility.Print("- Is food and drink: " .. Utility.BoolToStr(itemData.isFoodAndDrink))
     end
     Utility.Print("- Is potion: " .. Utility.BoolToStr(itemData.isPotion))
+    Utility.Print("- Is toxic potion: " .. Utility.BoolToStr(itemData.isToxicPotion))
     Utility.Print("- Is bandage: " .. Utility.BoolToStr(itemData.isBandage))
     Utility.Print("- Is over time: " .. Utility.BoolToStr(itemData.isOverTime))
     Utility.Print("- Is restricted: ", Utility.BoolToStr(itemData.isRestricted))

@@ -25,6 +25,7 @@ if Utility.IsRetail then
     Locales.KeyWords.Damage = "damage"
     Locales.KeyWords.Mana = "mana"
     Locales.KeyWords.WellFed = "well fed"
+    Locales.KeyWords.ToxicPotion = "vile concoction"
     Locales.KeyWords.OverTime = "per second for"
 
     Locales.Patterns = {}

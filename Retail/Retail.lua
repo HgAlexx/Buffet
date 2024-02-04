@@ -132,7 +132,11 @@ if Utility.IsRetail then
         -- potion
         if itemData.itemClassId == ActiveConst.ItemClasses.Consumable and itemData.itemSubClassId == ActiveConst.ItemConsumableSubClasses.Potion then
             if itemData.isHealth then
-                table.insert(healthCats, Const.BestCategories.hppot)
+                if itemData.isToxicPotion then
+                    table.insert(healthCats, Const.BestCategories.toxicpot)
+                else
+                    table.insert(healthCats, Const.BestCategories.hppot)
+                end
             end
             if itemData.isMana then
                 table.insert(manaCats, Const.BestCategories.mppot)

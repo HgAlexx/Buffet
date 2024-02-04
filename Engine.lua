@@ -44,7 +44,6 @@ function Engine.ParseTexts(texts, itemData)
         if Locales.KeyWords.FoodAndDrink then
             if not itemData.isFoodAndDrink and Utility.StringContains(text, Locales.KeyWords.FoodAndDrink:lower()) then
                 itemData.isFoodAndDrink = true
-                -- TODO: extract function
             end
         end
 
@@ -72,6 +71,13 @@ function Engine.ParseTexts(texts, itemData)
         -- Potion
         if not itemData.isPotion and Engine.CheckPotion(text, itemData.itemClassId, itemData.itemSubClassId) then
             itemData.isPotion = true
+        end
+
+        -- Toxic potion
+        if Locales.KeyWords.ToxicPotion then
+            if not itemData.isToxicPotion and Utility.StringContains(text, Locales.KeyWords.ToxicPotion:lower()) then
+                itemData.isToxicPotion = true
+            end
         end
 
         -- well fed

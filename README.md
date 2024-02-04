@@ -2,7 +2,8 @@
 
 
 What's new :
-- User-defined ignore list (per characters) (via command only)
+- Added support for Toxic Health Potion (Retail; enUS/frFR)
+- Added list of available items in custom macro, sorted by value decreasing, see the GitHub wiki page for more info
 
 
 Feel free to report any bug or request any feature [here](https://github.com/HgAlexx/Buffet/issues) :)
@@ -17,7 +18,8 @@ Features:
   - Consumable only
 - Allow configuration of modifiers used by macros
 - Option to default macros to hearthstone if no item found
-- Option to consider "well fed" food items in macros
+- Option to consider "well-fed" food items in macros
+- Option to consider "toxic" potion items in macros
 - Support dark and demonic runes
 - Support Classic Wow
 - Custom macro using lua scripting language, see [here](https://github.com/HgAlexx/Buffet/wiki) for more info

@@ -1,3 +1,9 @@
+### 105
+
+* Added proper support for Toxic Health Potion (Retail; enUS/frFR)
+* Added list of available items in custom macro, sorted by value decreasing, see the GitHub wiki page for more info
+
+
 ### 104
 
 * Added support for Potion of Withering Dreams (Retail/enUS)
@@ -165,7 +171,7 @@
 ### 9.0.2.75 / 1.13.6.75
 
 + New feature: custom macro, using lua scripting language
-* Add option to also consider "well fed" food items in macros
+* Add option to also consider "well-fed" food items in macros
 * Reworks and improvements of the restriction system
 * Various other fixes and improvements
 
@@ -189,12 +195,12 @@
 
 ### 9.0.2.71-Beta / 1.13.6.71-Beta
 
-* Add option to also consider "well fed" items in macros
+* Add option to also consider "well-fed" items in macros
 
 
 ### 9.0.2.70-Beta / 1.13.6.70-Beta
 
-* Made well fed items available to custom macro
+* Made well-fed items available to custom macro
 * Made item cache available to custom macro
 * Few UI tweaks
 * Cleanup
@@ -326,7 +332,7 @@
 
 ### 8.1.5.50-Beta
 
-* Bug fix: some items can have less than 3 lines tooltip.. logic rewritten
+* Bug fix: some items can have less than 3 lines tooltip. logic rewritten
 
 
 ### 8.1.5.49-Beta
@@ -551,7 +557,7 @@
 ### 2.4.0.5-Beta
 
 * Add crystal potions (Ogri'la vendor items)
-* Add Holy Spring Water... a crappy potion, but a potion none the less
+* Add Holy Spring Water... a crappy potion, but a potion nonetheless
 
 ### 2.3.3.4-Beta
 

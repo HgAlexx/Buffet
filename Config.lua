@@ -250,11 +250,20 @@ else
     InterfaceOptions_AddCategory(frame)
 end
 
-local frame_config = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
-frame_config.name = "Configuration"
-frame_config.parent = "Buffet"
-frame_config:Hide()
-frame_config:SetScript("OnShow", function()
+local frame_config_base = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
+frame_config_base.name = "Configuration"
+frame_config_base.parent = "Buffet"
+frame_config_base:Hide()
+frame_config_base:SetScript("OnShow", function()
+    local scrollFrame = CreateFrame("ScrollFrame", nil, frame_config_base, "UIPanelScrollFrameTemplate")
+    scrollFrame:SetPoint("TOPLEFT", 0, 0)
+    scrollFrame:SetPoint("BOTTOMRIGHT", -27, 0)
+
+    local frame_config = CreateFrame("Frame")
+    scrollFrame:SetScrollChild(frame_config)
+    frame_config:SetWidth(frame_config_base:GetWidth()-18)
+    frame_config:SetHeight(1)
+
     local title, subtitle = LibStub("tekKonfig-Heading").new(
         frame_config,
         "Configuration",
@@ -293,8 +302,28 @@ frame_config:SetScript("OnShow", function()
         end
     )
 
+    local nextAnchor = wellFedCheckButton
+    if Utility.IsRetail then
+        local toxicPotionCheckButton = CreateFrame("CheckButton", "toxicPotionCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
+        toxicPotionCheckButtonText:SetText("Also consider toxic potions (all macros)")
+        toxicPotionCheckButton.tooltip = "Check this to also consider toxic potions"
+        toxicPotionCheckButton:SetPoint("TOPLEFT", wellFedCheckButton, "BOTTOMLEFT", 0, -5)
+        toxicPotionCheckButton:SetChecked(Core.db.toxicPotion)
+        toxicPotionCheckButton:SetScript("OnClick",
+                function()
+                    if toxicPotionCheckButton:GetChecked() then
+                        Core.db.toxicPotion = true
+                    else
+                        Core.db.toxicPotion = false
+                    end
+                    Core:QueueScan()
+                end
+        )
+        nextAnchor = toxicPotionCheckButton
+    end
+
     local header = frame_config:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-    header:SetPoint("TOPLEFT", wellFedCheckButton, "BOTTOMLEFT", 0, -5)
+    header:SetPoint("TOPLEFT", nextAnchor, "BOTTOMLEFT", 0, -5)
     header:SetText("Main Macros: AutoHP & AutoMP")
 
     local combatCheckButton = CreateFrame("CheckButton", "CombatCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
@@ -426,15 +455,13 @@ frame_config:SetScript("OnShow", function()
             end
     )
 
-
-
-    frame_config:SetScript("OnShow", nil)
+    frame_config_base:SetScript("OnShow", nil)
 end)
 
 if Settings and Settings.RegisterCanvasLayoutSubcategory then
-    local subcategory, layout = Settings.RegisterCanvasLayoutSubcategory(category, frame_config, frame_config.name, frame_config.name);
+    local subcategory, layout = Settings.RegisterCanvasLayoutSubcategory(category, frame_config_base, frame_config_base.name, frame_config_base.name);
 else
-    InterfaceOptions_AddCategory(frame_config)
+    InterfaceOptions_AddCategory(frame_config_base)
 end
 
 local customMacro = {}
@@ -800,7 +827,7 @@ function customMacro:checkSource()
 
             if chunk then
                 content = "Compilation: OK"
-                local success, ret = pcall(chunk, Core:BestsBeautifier(), Core.itemCache)
+                local success, ret = pcall(chunk, Core:BestsBeautifier(), Core.itemCache, Core:AvailableItemsBeautifier())
                 if success then
                     content = (ret or "<nothing>")
                     customMacro.outputEdit:SetText(content)
@@ -1062,7 +1089,7 @@ LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Buffet", {
             Settings.OpenToCategory(frame.name);
         else
             InterfaceOptionsFrame_OpenToCategory(frame)
-            InterfaceOptionsFrame_OpenToCategory(frame_config)
+            InterfaceOptionsFrame_OpenToCategory(frame_config_base)
             InterfaceOptionsFrame_OpenToCategory(frame)
         end
     end,
