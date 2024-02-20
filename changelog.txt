@@ -1,3 +1,8 @@
+### 106
+
+* Fixed some pvp items restrictions
+
+
 ### 105
 
 * Added proper support for Toxic Health Potion (Retail; enUS/frFR)

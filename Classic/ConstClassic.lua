@@ -57,41 +57,56 @@ if Utility.IsClassic then
                 inInstanceIds = { 489 }, -- Warsong Gulch
             },
         },
-
         [19060] = { -- Warsong Gulch Enriched Ration
             {
                 inInstanceIds = { 489 }, -- Warsong Gulch
             },
         },
 
+        [20064] = { -- Arathi Basin Iron Ration
+            {
+                inInstanceIds = { 2107 }, -- Arathi Basin
+            },
+        },
+        [20063] = { -- Arathi Basin Field Ration
+            {
+                inInstanceIds = { 2107 }, -- Arathi Basin
+            },
+        },
+        [20062] = { -- Arathi Basin Enriched Ration
+            {
+                inInstanceIds = { 2107 }, -- Arathi Basin
+            },
+        },
+
         [17348] = { -- Major Healing Draught
             {
-                inInstanceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+                inInstanceIds = { 30, 489, 2107 }, -- Alterac Valley, Warsong Gulch, Arathi Basin
             },
         },
         [17349] = { -- Superior Healing Draught
             {
-                inInstanceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+                inInstanceIds = { 30, 489, 2107 }, -- Alterac Valley, Warsong Gulch, Arathi Basin
             },
         },
         [17351] = { -- Major Mana Draught
             {
-                inInstanceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+                inInstanceIds = { 30, 489, 2107 }, -- Alterac Valley, Warsong Gulch, Arathi Basin
             },
         },
         [17352] = { -- Superior Mana Draught
             {
-                inInstanceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+                inInstanceIds = { 30, 489, 2107 }, -- Alterac Valley, Warsong Gulch, Arathi Basin
             },
         },
         [17351] = { -- Major Mana Draught
             {
-                inInstanceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+                inInstanceIds = { 30, 489, 2107 }, -- Alterac Valley, Warsong Gulch, Arathi Basin
             }
         },
         [17348] = { -- Major Healing Draught
             {
-                inInstanceIds = { 30, 489 }, -- Alterac Valley, Warsong Gulch
+                inInstanceIds = { 30, 489, 2107 }, -- Alterac Valley, Warsong Gulch, Arathi Basin
             },
         },
 
