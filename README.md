@@ -2,6 +2,7 @@
 
 
 What's new :
+- Added support for Cataclysm
 - Added support for Toxic Health Potion (Retail; enUS/frFR)
 - Added list of available items in custom macro, sorted by value decreasing, see the GitHub wiki page for more info
 
@@ -35,14 +36,14 @@ For retail:
 - Français (frFR)
 - Italiano (itIT)
 
-For WotLK:
+For Cataclysm:
 - English (enUS)
 - Deutsch (deDE)
 - Español (esES)
 - Français (frFR)
 - Korean (koKR) provided by coderhyme
 
-For classic:
+For Classic:
 - English (enUS)
 - Deutsch (deDE)
 - Español (esES)
@@ -51,7 +52,7 @@ For classic:
 
 Partially supporting the following localizations:
 
-For Retail, WotLK and classic:
+For Retail, Cataclysm and Classic:
 - Simplified Chinese (zhCN) provided by Witnesscm
 
 

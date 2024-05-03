@@ -1,8 +1,8 @@
-## Interface: 100205
+## Interface: 100206
 ## Title: Buffet
 ## Notes: Food/water macro generator
 ## Author: Tekkub Stoutwrithe, mZHg
-## Version: 10.2.5.@project-version@
+## Version: 10.2.6.@project-version@
 ## IconTexture: Interface\Icons\INV_Misc_Food_DimSum
 ## X-Icon: Interface\Icons\INV_Misc_Food_DimSum
 ## SavedVariables: BuffetItemDB
@@ -48,6 +48,15 @@ WLK\Localization.frFR.lua
 WLK\Localization.zhCN.lua
 WLK\Localization.koKR.lua
 
+Cataclysm\Localization.enUS.lua
+Cataclysm\Localization.deDE.lua
+Cataclysm\Localization.esES.lua
+Cataclysm\Localization.esMX.lua
+Cataclysm\Localization.frFR.lua
+Cataclysm\Localization.zhCN.lua
+Cataclysm\Localization.koKR.lua
+
+
 Retail\ConstRetail.lua
 Retail\Retail.lua
 
@@ -59,6 +68,9 @@ TBC\TBC.lua
 
 WLK\ConstWLK.lua
 WLK\WLK.lua
+
+Cataclysm\ConstCataclysm.lua
+Cataclysm\Cataclysm.lua
 
 Engine.lua
 

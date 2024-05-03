@@ -1,3 +1,9 @@
+### 107_Beta
+
++ Added support for Cataclysm
+* Updated some code to latest wow API
+
+
 ### 106
 
 * Fixed some pvp items restrictions
@@ -5,13 +11,13 @@
 
 ### 105
 
-* Added proper support for Toxic Health Potion (Retail; enUS/frFR)
-* Added list of available items in custom macro, sorted by value decreasing, see the GitHub wiki page for more info
++ Added proper support for Toxic Health Potion (Retail; enUS/frFR)
++ Added list of available items in custom macro, sorted by value decreasing, see the GitHub wiki page for more info
 
 
 ### 104
 
-* Added support for Potion of Withering Dreams (Retail/enUS)
++ Added support for Potion of Withering Dreams (Retail/enUS)
 
 
 ### 103

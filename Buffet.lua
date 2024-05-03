@@ -20,6 +20,21 @@ local string_format = string.format
 local C_Container_GetContainerNumSlots
 local C_Container_GetContainerItemId
 
+local C_Item_GetItemCount
+local C_Item_GetItemInfo
+
+-- For patch 10.2.6 / 3.4.3 / 4.4.0
+if C_Item and C_Item.GetItemCount then
+    C_Item_GetItemCount = C_Item.GetItemCount
+else
+    C_Item_GetItemCount = GetItemCount
+end
+if C_Item and C_Item.GetItemInfo then
+    C_Item_GetItemInfo = C_Item.GetItemInfo
+else
+    C_Item_GetItemInfo = GetItemInfo
+end
+
 -- For patch 10.0.2 / 3.4.1
 if C_Container and C_Container.GetContainerNumSlots then
     C_Container_GetContainerNumSlots = C_Container.GetContainerNumSlots
@@ -157,6 +172,8 @@ function Buffet:PLAYER_LOGIN()
         Utility.Debug("TBC mode enabled")
     elseif Utility.WLK then
         Utility.Debug("WLK mode enabled")
+    elseif Utility.IsCataclysm then
+        Utility.Debug("Cataclysm mode enabled")
     elseif Utility.IsRetail then
         Utility.Debug("Retail mode enabled")
     end
@@ -297,7 +314,7 @@ function Core:Scan()
                 if not Core.ignoredItemCache[itemId] and not Core.db.ignoredItems[itemId] then
                     if not itemIds[itemId] then
                         -- get total count for this item id
-                        itemIds[itemId] = GetItemCount(itemId)
+                        itemIds[itemId] = C_Item_GetItemCount(itemId)
                     end
                 end
             end
@@ -309,7 +326,7 @@ function Core:Scan()
         local itemId, itemCount = k, v
 
         -- get item info
-        local itemName, itemLink, _, itemLevel, itemMinLevel, _, _, _, _, _, _, itemClassId, itemSubClassId = GetItemInfo(itemId)
+        local itemName, itemLink, _, itemLevel, itemMinLevel, _, _, _, _, _, _, itemClassId, itemSubClassId = C_Item_GetItemInfo(itemId)
         -- Utility.Debug("Debug:", itemId, itemName, itemClassId, itemSubClassId)
 
         -- ensure itemMinLevel is not nil
@@ -424,10 +441,10 @@ function Core:Scan()
 
     -- 12662 demonic rune
     if itemIds[12662] and (itemIds[12662] > 0) then
-        local _, _, _, _, itemMinLevel = GetItemInfo(12662)
+        local _, _, _, _, itemMinLevel = C_Item_GetItemInfo(12662)
         if itemMinLevel <= self.playerLevel then
             local runeValue = 0
-            if Utility.IsClassic or Utility.IsTBC or Utility.IsWLK then
+            if Utility.IsClassic or Utility.IsTBC or Utility.IsWLK or Utility.IsCataclysm then
                 runeValue = 1200
             end
             if Utility.IsRetail then
@@ -440,10 +457,10 @@ function Core:Scan()
 
     -- 20520 dark rune
     if itemIds[20520] and (itemIds[20520] > 0) then
-        local _, _, _, _, itemMinLevel = GetItemInfo(20520)
+        local _, _, _, _, itemMinLevel = C_Item_GetItemInfo(20520)
         if itemMinLevel <= self.playerLevel then
             local runeValue = 0
-            if Utility.IsClassic or Utility.IsTBC or Utility.IsWLK then
+            if Utility.IsClassic or Utility.IsTBC or Utility.IsWLK or Utility.IsCataclysm then
                 runeValue = 1199 -- health set to 1199 to prioritize demonic rune over dark rune
             end
             if Utility.IsRetail then
@@ -943,7 +960,7 @@ function Core:SlashHandler(message, editbox)
     elseif cmd == "debug" then
         local itemString = args or nil
         if itemString then
-            local _, itemLink, _, _, _, _, _, _, _, _, _, itemClassId, itemSubClassId = GetItemInfo(itemString)
+            local _, itemLink, _, _, _, _, _, _, _, _, _, itemClassId, itemSubClassId = C_Item_GetItemInfo(itemString)
             if itemLink then
                 local itemId = string_match(itemLink, "item:([%d]+)")
                 if itemId then

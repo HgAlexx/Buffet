@@ -25,6 +25,7 @@ do
     Utility.IsClassic = false
     Utility.IsTBC = false
     Utility.IsWLK = false
+    Utility.IsCataclysm = false
     Utility.IsRetail = false
 
     local _, _, _, interfaceVersion = GetBuildInfo()
@@ -34,6 +35,8 @@ do
         Utility.IsTBC = true
     elseif interfaceVersion >= 30000 and interfaceVersion < 40000 then
         Utility.IsWLK = true
+    elseif interfaceVersion >= 40000 and interfaceVersion < 50000 then
+        Utility.IsCataclysm = true
     elseif interfaceVersion >= 90000 then
         Utility.IsRetail = true
     end
