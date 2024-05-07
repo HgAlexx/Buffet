@@ -1,3 +1,9 @@
+### 108
+
+* Released 107_Beta
+* Classic TOC Update
+
+
 ### 107_Beta
 
 + Added support for Cataclysm
