@@ -1,10 +1,6 @@
-### 110
-
-+ Added German translation for Toxic Potion (thanks to Spegeli)
-
-
 ### 109
 
++ Added German translation for Toxic Potion (thanks to Spegeli)
 * Retail TOC Update
 
 
