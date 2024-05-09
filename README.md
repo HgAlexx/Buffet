@@ -3,7 +3,7 @@
 
 What's new :
 - Added support for Cataclysm
-- Added support for Toxic Health Potion (Retail; enUS/frFR)
+- Added support for Toxic Health Potion (Retail; enUS/frFR/deDE)
 - Added list of available items in custom macro, sorted by value decreasing, see the GitHub wiki page for more info
 
 

@@ -19,11 +19,13 @@ if Utility.IsRetail and GetLocale() == "deDE" then
     Locales.KeyWords.Use = "Benutzen"
     Locales.KeyWords.Restores = "Stellt"
     Locales.KeyWords.Heals = "Heilt"
+    Locales.KeyWords.Consume = "Verzehrt" -- currently use only by https://www.wowhead.com/item=207039/potion-of-withering-dreams
     Locales.KeyWords.ConjuredItem = "Herbeigezauberter Gegenstand"
     Locales.KeyWords.Health = "gesundheit"
     Locales.KeyWords.Damage = "schaden"
     Locales.KeyWords.Mana = "mana"
     Locales.KeyWords.WellFed = "essen verbringt"
+    Locales.KeyWords.ToxicPotion = "abscheuliche Gemisch"
     Locales.KeyWords.OverTime = " pro sekunde"
 
     Locales.Patterns = {}
@@ -77,6 +79,12 @@ if Utility.IsRetail and GetLocale() == "deDE" then
             healthIndex = 1,
             manaIndex = nil,
             pct = true
+        },
+        { -- For toxic potion
+            pattern = "Euch sofort um ([%d%.]+) Gesundheit zu heilen",
+            healthIndex = 1,
+            manaIndex = nil,
+            pct = false
         },
         {
             pattern = "([%d%.]+) gesundheit",
