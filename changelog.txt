@@ -1,3 +1,10 @@
+### 110
+
+* Fixed issue when sometime mana is spelled with upper case M in tooltips
++ Added missing tooltip on DataBroker icon
+* Fixed options not opening on the correct panel from DataBroker icon
+
+
 ### 109
 
 + Added German translation for Toxic Potion (thanks to Spegeli)

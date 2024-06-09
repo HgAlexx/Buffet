@@ -1083,14 +1083,22 @@ LibStub("tekKonfig-AboutPanel").new("Buffet", "Buffet", category)
 
 LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Buffet", {
     type = "launcher",
+    label = "Buffet",
     icon = "Interface\\Icons\\INV_Misc_Food_DimSum",
     OnClick = function()
         if Settings and Settings.OpenToCategory  then
-            Settings.OpenToCategory(frame.name);
+            Settings.OpenToCategory(category:GetID())
         else
             InterfaceOptionsFrame_OpenToCategory(frame)
             InterfaceOptionsFrame_OpenToCategory(frame_config_base)
             InterfaceOptionsFrame_OpenToCategory(frame)
         end
+    end,
+    OnTooltipShow = function(tooltip)
+        if not tooltip or not tooltip.AddLine then return end
+        tooltip:AddLine("Buffet")
+        tooltip:AddLine("Click to open Buffet options")
+        tooltip:AddLine('')
+        tooltip:AddLine(string.format("Version: %s", Core.Version or ""))
     end,
 })

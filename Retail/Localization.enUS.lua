@@ -42,25 +42,25 @@ if Utility.IsRetail then
 
     Locales.Patterns.HealthAndMana = {
         {
-            pattern = "([%d%.]+)%% .-health and mana",
+            pattern = "([%d%.]+)%% .-health and [Mm]ana",
             healthIndex = 1,
             manaIndex = 1,
             pct = true
         },
         {
-            pattern = "([%d,%.]+) .-health and mana",
+            pattern = "([%d,%.]+) .-health and [Mm]ana",
             healthIndex = 1,
             manaIndex = 1,
             pct = false
         },
         {
-            pattern = "([%d%.]+)%% .-health.- ([%d%.]+)%%.-mana",
+            pattern = "([%d%.]+)%% .-health.- ([%d%.]+)%%.-[Mm]ana",
             healthIndex = 1,
             manaIndex = 2,
             pct = true
         },
         {
-            pattern = "([%d,%.]+) .-health.- ([%d,%.]+).-mana",
+            pattern = "([%d,%.]+) .-health.- ([%d,%.]+).-[Mm]ana",
             healthIndex = 1,
             manaIndex = 2,
             pct = false
@@ -90,13 +90,13 @@ if Utility.IsRetail then
 
     Locales.Patterns.Mana = {
         {
-            pattern = "([%d%.]+)%%.-mana",
+            pattern = "([%d%.]+)%%.-[Mm]ana",
             healthIndex = nil,
             manaIndex = 1,
             pct = true
         },
         {
-            pattern = "([%d,%.]+).-mana",
+            pattern = "([%d,%.]+).-[Mm]ana",
             healthIndex = nil,
             manaIndex = 1,
             pct = false
