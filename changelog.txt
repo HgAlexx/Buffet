@@ -1,6 +1,11 @@
+### 111
+
+* Fixed issue when sometime mana is spelled with upper case M in tooltips (frFR)
+
+
 ### 110
 
-* Fixed issue when sometime mana is spelled with upper case M in tooltips
+* Fixed issue when sometime mana is spelled with upper case M in tooltips (enUS)
 + Added missing tooltip on DataBroker icon
 * Fixed options not opening on the correct panel from DataBroker icon
 
