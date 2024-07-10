@@ -1,3 +1,9 @@
+### 112
+
+* Properly fixed issue with detection with "frFR" locale
+* Reverted a few unnecessary changes
+
+
 ### 111
 
 * Fixed issue when sometime mana is spelled with upper case M in tooltips (frFR)

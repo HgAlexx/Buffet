@@ -43,25 +43,25 @@ if Utility.IsCataclysm then
 
     Locales.Patterns.HealthAndMana = {
         {
-            pattern = "([%d%.]+)%% .-health and [Mm]ana",
+            pattern = "([%d%.]+)%% .-health and mana",
             healthIndex = 1,
             manaIndex = 1,
             pct = true
         },
         {
-            pattern = "([%d,%.]+) to ([%d,%.]+) health.- ([%d,%.]+) to ([%d,%.]+) [Mm]ana",
+            pattern = "([%d,%.]+) to ([%d,%.]+) health.- ([%d,%.]+) to ([%d,%.]+) mana",
             healthIndex = {1, 2},
             manaIndex = {3, 4},
             pct = false,
         },
         {
-            pattern = "([%d,%.]+) to ([%d,%.]+) [Mm]ana.- ([%d,%.]+) to ([%d,%.]+) health",
+            pattern = "([%d,%.]+) to ([%d,%.]+) mana.- ([%d,%.]+) to ([%d,%.]+) health",
             healthIndex = {3, 4},
             manaIndex = {1, 2},
             pct = false,
         },
         {
-            pattern = "restores ([%d,%.]+) health.- ([%d,%.]+) [Mm]ana over ([%d%.]+) ",
+            pattern = "restores ([%d,%.]+) health.- ([%d,%.]+) mana over ([%d%.]+) ",
             healthIndex = 1,
             manaIndex = 2,
             pct = false,
@@ -97,19 +97,19 @@ if Utility.IsCataclysm then
 
     Locales.Patterns.Mana = {
         {
-            pattern = "([%d,%.]+) to ([%d,%.]+) [Mm]ana",
+            pattern = "([%d,%.]+) to ([%d,%.]+) mana",
             healthIndex = nil,
             manaIndex = {1, 2},
             pct = false,
         },
         {
-            pattern = "([%d%.]+)%%.-[Mm]ana",
+            pattern = "([%d%.]+)%%.-mana",
             healthIndex = nil,
             manaIndex = 1,
             pct = true
         },
         {
-            pattern = "restores ([%d,%.]+) [Mm]ana over ([%d%.]+) ",
+            pattern = "restores ([%d,%.]+) mana over ([%d%.]+) ",
             healthIndex = nil,
             manaIndex = 1,
             pct = false,

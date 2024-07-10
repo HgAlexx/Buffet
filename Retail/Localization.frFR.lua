@@ -41,25 +41,25 @@ if Utility.IsRetail and GetLocale() == "frFR" then
 
     Locales.Patterns.HealthAndMana = {
         {
-            pattern = "([%d%.]+)%%.-de vie et de [Mm]ana",
+            pattern = "([%d%.]+)%%.-de vie et de mana",
             healthIndex = 1,
             manaIndex = 1,
             pct = true
         },
         {
-            pattern = "([%d%s%.]+).-de vie et de [Mm]ana",
+            pattern = "([%d%s%.]+).-de vie et de mana",
             healthIndex = 1,
             manaIndex = 1,
             pct = false
         },
         {
-            pattern = " ([%d%.]+)%% .-vie.- ([%d%.]+)%% .-[Mm]ana",
+            pattern = " ([%d%.]+)%% .-vie.- ([%d%.]+)%% .-mana",
             healthIndex = 1,
             manaIndex = 2,
             pct = true
         },
         {
-            pattern = " ([%d%s%.]+) .-vie.- ([%d%s%.]+) .-[Mm]ana",
+            pattern = " ([%d%s%.]+) .-vie.- ([%d%s%.]+) .-mana",
             healthIndex = 1,
             manaIndex = 2,
             pct = false
@@ -83,13 +83,13 @@ if Utility.IsRetail and GetLocale() == "frFR" then
 
     Locales.Patterns.Mana = {
         {
-            pattern = "([%d%.]+)%%.-[Mm]ana",
+            pattern = "([%d%.]+)%%.-mana",
             healthIndex = nil,
             manaIndex = 1,
             pct = true
         },
         {
-            pattern = "([%d%s%.]+) .-[Mm]ana",
+            pattern = "([%d%s%.]+) .-mana",
             healthIndex = nil,
             manaIndex = 1,
             pct = false

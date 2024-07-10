@@ -13,7 +13,7 @@ if Utility.IsCataclysm and GetLocale() == "frFR" then
     -- Local namespace
     local Locales = {}
 
-    Locales.ThousandSeparator = " "
+    Locales.ThousandSeparator = { " ", "-" } -- WTF Blizzard !
 
     Locales.KeyWords = {}
     Locales.KeyWords.Use = "Utiliser"
@@ -34,7 +34,7 @@ if Utility.IsCataclysm and GetLocale() == "frFR" then
 
     Locales.Patterns.Bandage = {
         {
-            pattern = "rend ([%d%.]+) points de vie en ([%d%.]+) s",
+            pattern = "rend ([%d%.-]+) points de vie en ([%d%.-]+) s",
             healthIndex = 1,
             manaIndex = nil,
             pct = false
@@ -43,19 +43,19 @@ if Utility.IsCataclysm and GetLocale() == "frFR" then
 
     Locales.Patterns.HealthAndMana = {
         {
-            pattern = "([%d%.]+) à ([%d%.]+) points de vie.- ([%d%.]+) à ([%d%.]+) points de [Mm]ana",
+            pattern = "([%d%.-]+) à ([%d%.-]+) points de vie.- ([%d%.-]+) à ([%d%.-]+) points de mana",
             healthIndex = {1, 2},
             manaIndex = {3, 4},
             pct = false,
         },
         {
-            pattern = "([%d%.]+) à ([%d%.]+) points de [Mm]ana.- ([%d%.]+) à ([%d%.]+) points de vie",
+            pattern = "([%d%.-]+) à ([%d%.-]+) points de mana.- ([%d%.-]+) à ([%d%.-]+) points de vie",
             healthIndex = {3, 4},
             manaIndex = {1, 2},
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+) points de vie.- ([%d%.]+) points de [Mm]ana en ([%d%.]+) ",
+            pattern = "rend ([%d%.-]+) points de vie.- ([%d%.-]+) points de mana en ([%d%.-]+) ",
             healthIndex = 1,
             manaIndex = 2,
             pct = false,
@@ -64,25 +64,25 @@ if Utility.IsCataclysm and GetLocale() == "frFR" then
 
     Locales.Patterns.Health = {
         {
-            pattern = "([%d%.]+) à ([%d%.]+) points de vie",
+            pattern = "([%d%.-]+) à ([%d%.-]+) points de vie",
             healthIndex = {1, 2},
             manaIndex = nil,
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+) points de vie en ([%d%.]+) ",
+            pattern = "rend ([%d%.-]+) points de vie en ([%d%.-]+) ",
             healthIndex = 1,
             manaIndex = nil,
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+)%% de vos points de vie par seconde pendant ([%d%.]+) ",
+            pattern = "rend ([%d%.-]+)%% de vos points de vie par seconde pendant ([%d%.-]+) ",
             healthIndex = 1,
             manaIndex = nil,
             pct = true,
         },
         {
-            pattern = "rend instantanément ([%d%.]+) points de vie",
+            pattern = "rend instantanément ([%d%.-]+) points de vie",
             healthIndex = 1,
             manaIndex = nil,
             pct = false,
@@ -91,19 +91,19 @@ if Utility.IsCataclysm and GetLocale() == "frFR" then
 
     Locales.Patterns.Mana = {
         {
-            pattern = "([%d%.]+) à ([%d%.]+) points de [Mm]ana",
+            pattern = "([%d%.-]+) à ([%d%.-]+) points de mana",
             healthIndex = nil,
             manaIndex = {1, 2},
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+) points de [Mm]ana en ([%d%.]+) ",
+            pattern = "rend ([%d%.-]+) points de mana en ([%d%.-]+) ",
             healthIndex = nil,
             manaIndex = 1,
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+)%% de votre [Mm]ana par seconde pendant ([%d%.]+) ",
+            pattern = "rend ([%d%.-]+)%% de votre mana par seconde pendant ([%d%.-]+) ",
             healthIndex = nil,
             manaIndex = 1,
             pct = true,
