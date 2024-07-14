@@ -1,3 +1,8 @@
+### 113
+
+* Added zhCN translation for WtLK (thanks to clijiac)
+
+
 ### 112
 
 * Properly fixed issue with detection with "frFR" locale
