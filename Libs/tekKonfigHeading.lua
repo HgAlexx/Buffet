@@ -1,5 +1,5 @@
 
-local lib, oldminor = LibStub:NewLibrary("tekKonfig-Heading", 1)
+local lib, oldminor = LibStub:NewLibrary("tekKonfig-Heading-Hg", 2)
 if not lib then return end
 
 local stringSplit = function(str, pattern)

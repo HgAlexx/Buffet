@@ -1,5 +1,5 @@
 
-local lib, oldminor = LibStub:NewLibrary("tekKonfig-AboutPanel", 6)
+local lib, oldminor = LibStub:NewLibrary("tekKonfig-AboutPanel-Hg", 6)
 if not lib then return end
 
 

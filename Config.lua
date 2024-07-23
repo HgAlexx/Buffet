@@ -9,7 +9,7 @@ local Config = {}
 local MAX_ACCOUNT_MACROS, MAX_CHARACTER_MACROS = 120, 18
 
 local EDGEGAP, GAP = 16, 5
-local tekbutt = LibStub("tekKonfig-Button")
+local tekbutt = LibStub("tekKonfig-Button-Hg")
 
 local BACKDROP_TOOLTIP_12_12_4444 = BACKDROP_TOOLTIP_12_12_4444 or {
     bgFile = "Interface\\ChatFrame\\UI-Tooltip-Background",
@@ -91,7 +91,7 @@ local frame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 frame.name = "Buffet"
 frame:Hide()
 frame:SetScript("OnShow", function()
-    local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Buffet", "This panel allows you to quickly create the base macros for Buffet to edit.\nYou can also set the macro text to be used.")
+    local title, subtitle = LibStub("tekKonfig-Heading-Hg").new(frame, "Buffet", "This panel allows you to quickly create the base macros for Buffet to edit.\nYou can also set the macro text to be used.")
 
     local function OnClick(self)
         local id = GetMacroIndexByName(self.name)
@@ -264,7 +264,7 @@ frame_config_base:SetScript("OnShow", function()
     frame_config:SetWidth(frame_config_base:GetWidth()-18)
     frame_config:SetHeight(1)
 
-    local title, subtitle = LibStub("tekKonfig-Heading").new(
+    local title, subtitle = LibStub("tekKonfig-Heading-Hg").new(
         frame_config,
         "Configuration",
         "This panel allows you to configure all the macros.\nModifiers use macro syntax: nomod | mod:key | mod:key1/key2 | mod:key1,mod:key2\nEmpty modifiers to disable them."
@@ -888,7 +888,7 @@ end
 
 frame_custom:Hide()
 frame_custom:SetScript("OnShow", function()
-    local title, subtitle = LibStub("tekKonfig-Heading").new(
+    local title, subtitle = LibStub("tekKonfig-Heading-Hg").new(
         frame_custom,
         "Custom Macros",
         "This panel allows you to create custom macro using the lua language.\nHelp and macro examples here: https://github.com/HgAlexx/Buffet/wiki"
@@ -1074,7 +1074,7 @@ else
 end
 
 
-LibStub("tekKonfig-AboutPanel").new("Buffet", "Buffet", category)
+LibStub("tekKonfig-AboutPanel-Hg").new("Buffet", "Buffet", category)
 
 
 ----------------------------------------

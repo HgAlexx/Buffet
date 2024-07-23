@@ -53,7 +53,7 @@ For Classic:
 Partially supporting the following localizations:
 
 For Retail, Cataclysm and Classic:
-- Simplified Chinese (zhCN) provided by Witnesscm
+- Simplified Chinese (zhCN) provided by Witnesscm, with additional fixes for WtLK by clijiac
 
 
 If you want to contribute to localizations, [pull requests](https://github.com/HgAlexx/Buffet/pulls) are welcome!

@@ -1,5 +1,5 @@
 
-local lib, oldminor = LibStub:NewLibrary("tekKonfig-Button", 5)
+local lib, oldminor = LibStub:NewLibrary("tekKonfig-Button-Hg", 6)
 if not lib then return end
 oldminor = oldminor or 0
 
