@@ -11,6 +11,7 @@ local debugColoredAddonName = "|cFF33BB99" .. addonName .. "|r:"
 local string_match = string.match
 local string_find = string.find
 local string_lower = string.lower
+local string_join = string.join
 
 -- Parameters
 do
@@ -52,7 +53,7 @@ function Utility.Print(...)
     if Utility.Mode == 2 then
         print(coloredAddonName, ...)
     else
-        DEFAULT_CHAT_FRAME:AddMessage(string.join(" ", coloredAddonName, ...))
+        DEFAULT_CHAT_FRAME:AddMessage(string_join(" ", coloredAddonName, ...))
     end
 end
 

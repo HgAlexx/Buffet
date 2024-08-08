@@ -1,3 +1,8 @@
+### 115
+
+* Fixed some well-fed foods not properly detected on Retail
+
+
 ### 114
 
 * Fixed conflict with IHaveDoneThat

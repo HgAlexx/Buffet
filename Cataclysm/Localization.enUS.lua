@@ -24,7 +24,7 @@ if Utility.IsCataclysm then
     Locales.KeyWords.Life = "life"
     Locales.KeyWords.Damage = "damage"
     Locales.KeyWords.Mana = "mana"
-    Locales.KeyWords.WellFed = { "well fed", "also increases", "also restores", "spent at least" }
+    Locales.KeyWords.WellFed = { "well fed", "also increase", "also restore", "spent at least" }
     Locales.KeyWords.OverTime = "per second for"
     Locales.KeyWords.Bandage = "first aid"
     Locales.KeyWords.FoodAndDrink = "remain seated while"

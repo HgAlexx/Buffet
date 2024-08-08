@@ -839,7 +839,7 @@ function Core:SetAvailable(cat, id, value, stack, hasRestriction)
 end
 
 function Core:SlashHandler(message, editbox)
-    local _, _, cmd, args = string.find(message, "%s?([a-z-]+)%s?(.*)")
+    local _, _, cmd, args = string_find(message, "%s?([a-z-]+)%s?(.*)")
 
     if cmd == "combat" then
         local combat = args or nil
