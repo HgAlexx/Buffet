@@ -1,3 +1,8 @@
+### 117
+
+* Fixed some well-fed foods not properly detected on Classic
+
+
 ### 116
 
 * Retail TOC Update
