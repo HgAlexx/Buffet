@@ -75,6 +75,13 @@ if Utility.IsRetail then
             pct = true
         },
         {
+            pattern = "([%d%.]+) million .-health",
+            healthIndex = 1,
+            manaIndex = nil,
+            pct = false,
+            factor = 1000000
+        },
+        {
             pattern = "([%d,%.]+).-health",
             healthIndex = 1,
             manaIndex = nil,
@@ -94,6 +101,13 @@ if Utility.IsRetail then
             healthIndex = nil,
             manaIndex = 1,
             pct = true
+        },
+        {
+            pattern = "([%d%.]+) million .-mana",
+            healthIndex = nil,
+            manaIndex = 1,
+            pct = false,
+            factor = 1000000
         },
         {
             pattern = "([%d,%.]+).-mana",

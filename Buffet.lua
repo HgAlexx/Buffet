@@ -589,8 +589,8 @@ function Core:MakeNewItemData(itemId, itemClassId, itemSubClassId)
     itemData.isBandage = false
     itemData.isRestricted = false
     itemData.isOverTime = false
-    itemData.health = 0
-    itemData.mana = 0
+    itemData.health = 0.0
+    itemData.mana = 0.0
     itemData.overTime = 0
     itemData.itemClassId = itemClassId
     itemData.itemSubClassId = itemSubClassId
@@ -1038,19 +1038,19 @@ function Core:PrintItemData(itemString, itemData)
     local overtimeTotalMana = ""
     if itemData.isOverTime and itemData.overTime and (itemData.overTime > 0) then
         if itemData.isPct then
-            overtimeTotalHealth = string_format(" per second over %d second for a total of %d%% (%d hp)", itemData.overTime, itemData.overTime * itemData.health * 100, itemData.overTime * itemData.health * Core.playerHealth)
-            overtimeTotalMana   = string_format(" per second over %d second for a total of %d%% (%d mp)", itemData.overTime, itemData.overTime * itemData.mana * 100, itemData.overTime * itemData.mana * Core.playerMana)
+            overtimeTotalHealth = string_format(" per second over %d second for a total of %d%% (%g hp)", itemData.overTime, itemData.overTime * itemData.health * 100, itemData.overTime * itemData.health * Core.playerHealth)
+            overtimeTotalMana   = string_format(" per second over %d second for a total of %d%% (%g mp)", itemData.overTime, itemData.overTime * itemData.mana * 100, itemData.overTime * itemData.mana * Core.playerMana)
         else
-            overtimeTotalHealth = string_format(" per second over %d second for a total of %d", itemData.overTime, itemData.overTime * itemData.health)
-            overtimeTotalMana = string_format(" per second over %d second for a total of %d", itemData.overTime, itemData.overTime * itemData.mana)
+            overtimeTotalHealth = string_format(" per second over %d second for a total of %g", itemData.overTime, itemData.overTime * itemData.health)
+            overtimeTotalMana = string_format(" per second over %d second for a total of %g", itemData.overTime, itemData.overTime * itemData.mana)
         end
     end
     if itemData.isPct then
-        Utility.Print(string_format("- health value: %d%% (%d hp)", itemData.health * 100, itemData.health * Core.playerHealth) .. overtimeTotalHealth)
-        Utility.Print(string_format("- mana value: %d%% (%d mp)", itemData.mana * 100, itemData.mana * Core.playerMana) .. overtimeTotalMana)
+        Utility.Print(string_format("- health value: %d%% (%g hp)", itemData.health * 100, itemData.health * Core.playerHealth) .. overtimeTotalHealth)
+        Utility.Print(string_format("- mana value: %d%% (%g mp)", itemData.mana * 100, itemData.mana * Core.playerMana) .. overtimeTotalMana)
     else
-        Utility.Print(string_format("- health value: %d", itemData.health) .. overtimeTotalHealth)
-        Utility.Print(string_format("- mana value: %d", itemData.mana) .. overtimeTotalMana)
+        Utility.Print(string_format("- health value: %g", itemData.health) .. overtimeTotalHealth)
+        Utility.Print(string_format("- mana value: %g", itemData.mana) .. overtimeTotalMana)
     end
     Utility.Print("- itemClassId: " .. itemData.itemClassId)
     Utility.Print("- itemSubClassId: " .. itemData.itemSubClassId)

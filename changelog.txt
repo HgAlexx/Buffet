@@ -1,3 +1,8 @@
+### 118
+
+* Added unsupported number format using the word million (Retail, enUS)
+
+
 ### 117
 
 * Fixed some well-fed foods not properly detected on Classic

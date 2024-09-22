@@ -347,12 +347,18 @@ function Engine.LoopPattern(itemData, itemDescription, patterns)
         if value and (#value > 0) then
             if v.healthIndex then
                 itemData.health = Engine.ExtractValue(value, v.healthIndex)
+                if v.factor and (v.factor > 0) then
+                    itemData.health = itemData.health * v.factor
+                end
                 if v.pct then
                     itemData.health = itemData.health / 100
                 end
             end
             if v.manaIndex then
                 itemData.mana = Engine.ExtractValue(value, v.manaIndex)
+                if v.factor and (v.factor > 0) then
+                    itemData.mana = itemData.mana * v.factor
+                end
                 if v.pct then
                     itemData.mana = itemData.mana / 100
                 end
