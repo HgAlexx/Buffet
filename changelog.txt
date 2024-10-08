@@ -1,3 +1,8 @@
+### 119
+
+* Added missing unsupported number format using the word million (Retail, enUS)
+
+
 ### 118
 
 * Added unsupported number format using the word million (Retail, enUS)
