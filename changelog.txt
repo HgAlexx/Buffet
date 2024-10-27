@@ -1,4 +1,9 @@
-### 220
+### 121
+
+* Updated TOC
+
+
+### 120
 
 * Fixed issue with demonic and dark runes
 
