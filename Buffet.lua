@@ -333,7 +333,7 @@ function Core:Scan()
         itemMinLevel = itemMinLevel or 0
 
         -- treat only interesting items
-        if itemLink and (itemMinLevel <= self.playerLevel) and (Engine.IsValidItemClasses(itemClassId, itemSubClassId)) then
+        if (itemId ~= 12662) and (itemId ~= 20520) and itemLink and (itemMinLevel <= self.playerLevel) and (Engine.IsValidItemClasses(itemClassId, itemSubClassId)) then
             local itemData = self:MakeNewItemData(itemId, itemClassId, itemSubClassId)
 
             local itemFoundInCache = false
@@ -448,7 +448,7 @@ function Core:Scan()
                 runeValue = 1200
             end
             if Utility.IsRetail then
-                runeValue = 550
+                runeValue = 688
             end
             self:SetBest(Const.BestCategories.rune, 12662, runeValue, itemIds[12662])
             self:SetAvailable(Const.BestCategories.rune, 12662, runeValue, itemIds[12662])
@@ -464,7 +464,7 @@ function Core:Scan()
                 runeValue = 1199 -- health set to 1199 to prioritize demonic rune over dark rune
             end
             if Utility.IsRetail then
-                runeValue = 364
+                runeValue = 546
             end
             self:SetBest(Const.BestCategories.rune, 20520, runeValue, itemIds[20520])
             self:SetAvailable(Const.BestCategories.rune, 20520, runeValue, itemIds[20520])

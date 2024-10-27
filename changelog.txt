@@ -1,3 +1,8 @@
+### 220
+
+* Fixed issue with demonic and dark runes
+
+
 ### 119
 
 * Added missing unsupported number format using the word million (Retail, enUS)
