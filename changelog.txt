@@ -1,3 +1,10 @@
+
+### 123_Beta
+
++ Added support for Mists of Pandaria
+* Updated TOC
+
+
 ### 122
 
 * Updated TOC

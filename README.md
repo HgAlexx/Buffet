@@ -2,9 +2,7 @@
 
 
 What's new :
-- Added support for Cataclysm
-- Added support for Toxic Health Potion (Retail; enUS/frFR/deDE)
-- Added list of available items in custom macro, sorted by value decreasing, see the GitHub wiki page for more info
+- Added support for Mists of Pandaria
 
 
 Feel free to report any bug or request any feature [here](https://github.com/HgAlexx/Buffet/issues) :)

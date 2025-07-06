@@ -174,6 +174,8 @@ function Buffet:PLAYER_LOGIN()
         Utility.Debug("WLK mode enabled")
     elseif Utility.IsCataclysm then
         Utility.Debug("Cataclysm mode enabled")
+    elseif Utility.IsMists then
+        Utility.Debug("Mists mode enabled")
     elseif Utility.IsRetail then
         Utility.Debug("Retail mode enabled")
     end
@@ -447,6 +449,9 @@ function Core:Scan()
             if Utility.IsClassic or Utility.IsTBC or Utility.IsWLK or Utility.IsCataclysm then
                 runeValue = 1200
             end
+            if Utility.IsMists then
+                runeValue = 1210
+            end
             if Utility.IsRetail then
                 runeValue = 688
             end
@@ -462,6 +467,9 @@ function Core:Scan()
             local runeValue = 0
             if Utility.IsClassic or Utility.IsTBC or Utility.IsWLK or Utility.IsCataclysm then
                 runeValue = 1199 -- health set to 1199 to prioritize demonic rune over dark rune
+            end
+            if Utility.IsMists then
+                runeValue = 1200
             end
             if Utility.IsRetail then
                 runeValue = 546

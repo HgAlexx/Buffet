@@ -164,6 +164,12 @@ function Engine.GetPvpStatus()
         inArena, inRatedArena = IsActiveBattlefieldArena()
     end
 
+    if Utility.IsMists then
+        local r = UnitInBattleground("player")
+        inBg = (r ~= nil)
+        inArena, inRatedArena = IsActiveBattlefieldArena()
+    end
+
     if Utility.IsRetail then
         inBg = C_PvP.IsBattleground() -- since version 8.2.0
         inRatedBg = C_PvP.IsRatedBattleground() -- since version 8.2.0
