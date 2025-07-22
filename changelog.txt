@@ -1,4 +1,9 @@
 
+### 124
+
+* Fixed issue #80: ignore-list not being saved properly
+
+
 ### 123_Beta
 
 + Added support for Mists of Pandaria

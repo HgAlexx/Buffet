@@ -185,14 +185,17 @@ end
 
 function Buffet:PLAYER_LOGOUT()
     -- Save BuffetDB
-    for i, v in pairs(Const.DBdefaults) do
-        if Core.db[i] == v then
-            Core.db[i] = nil
+    for k, v in pairs(Core.db.ignoredItems) do
+        BuffetDB.ignoredItems[k] = v
+    end
+    for k, v in pairs(Const.DBdefaults) do
+        if Core.db[k] == v then
+            Core.db[k] = nil
         end
     end
-    for i, _ in pairs(Core.db) do
-        if Const.DBdefaults[i] == nil then
-            Core.db[i] = nil
+    for k, _ in pairs(Core.db) do
+        if Const.DBdefaults[k] == nil then
+            Core.db[k] = nil
         end
     end
 
