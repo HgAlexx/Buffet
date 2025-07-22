@@ -28,6 +28,8 @@ if Utility.IsRetail and GetLocale() == "deDE" then
     Locales.KeyWords.ToxicPotion = "abscheuliche Gemisch"
     Locales.KeyWords.OverTime = " pro sekunde"
 
+    Locales.KeyWords.QuietContemplation = "Stilles Nachdenken"
+
     Locales.Patterns = {}
     Locales.Patterns.OverTime = "von (%d+) sek"
 

@@ -72,6 +72,7 @@ Core.scanning = false
 Core.itemCache = {}
 Core.ignoredItemCache = {}
 Core.customMacros = {}
+Core.QuietContemplationSpellName = ""
 
 local Buffet = CreateFrame("frame")
 Core.Buffet = Buffet
@@ -159,6 +160,8 @@ function Buffet:PLAYER_LOGIN()
     Core.playerLevel = UnitLevel("player")
     Core.playerHealth = UnitHealthMax("player")
     Core.playerMana = UnitPowerMax("player")
+    _, _, Core.playerRaceId = UnitRace("player")
+
 
     Utility.LoadProfessions()
 
@@ -178,6 +181,7 @@ function Buffet:PLAYER_LOGIN()
         Utility.Debug("Mists mode enabled")
     elseif Utility.IsRetail then
         Utility.Debug("Retail mode enabled")
+        Core.QuietContemplationSpellName = C_Spell.GetSpellName(461063) or Locales.KeyWords.QuietContemplation
     end
 
     Core:QueueScan()
@@ -736,11 +740,15 @@ function Core:EditDefault(name, substring, food, conjured, pot, mod)
         end
     end
 
-    if food then
-        cast = cast .. "item:" .. food
+    if Utility.IsRetail and Core.db.quietContemplation and (Core.PlayerRaceId == 84 or Core.playerRaceId == 85) then
+        cast = cast .. Core.QuietContemplationSpellName
     else
-        if Core.db.hearthstone then
-            cast = cast .. "item:6948"
+        if food then
+            cast = cast .. "item:" .. food
+        else
+            if Core.db.hearthstone then
+                cast = cast .. "item:6948"
+            end
         end
     end
 

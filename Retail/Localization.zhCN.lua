@@ -26,6 +26,8 @@ if Utility.IsRetail and GetLocale() == "zhCN" then
     Locales.KeyWords.WellFed = "进食充分"
     Locales.KeyWords.OverTime = "每秒恢复"
 
+    Locales.KeyWords.QuietContemplation = "静默省思"
+
     Locales.Patterns = {}
     Locales.Patterns.OverTime = "持续(%d+)秒"
 

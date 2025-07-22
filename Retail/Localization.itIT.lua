@@ -26,6 +26,8 @@ if Utility.IsRetail and GetLocale() == "itIT" then
     Locales.KeyWords.WellFed = "ben nutrito"
     Locales.KeyWords.OverTime = "ogni secondo per"
 
+    Locales.KeyWords.QuietContemplation = "Contemplazione Tranquilla"
+
     Locales.Patterns = {}
     Locales.Patterns.OverTime = "per (%d+) s"
 

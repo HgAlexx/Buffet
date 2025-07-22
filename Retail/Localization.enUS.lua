@@ -28,6 +28,8 @@ if Utility.IsRetail then
     Locales.KeyWords.ToxicPotion = "vile concoction"
     Locales.KeyWords.OverTime = "per second for"
 
+    Locales.KeyWords.QuietContemplation = "Quiet Contemplation"
+
     Locales.Patterns = {}
     Locales.Patterns.OverTime = "for (%d+) sec"
 

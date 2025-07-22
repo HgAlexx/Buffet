@@ -4,6 +4,7 @@ local addonName, ns = ...
 local Core = ns.Core
 local Utility = ns.Utility
 local Const = ns.Const
+local Locales = ns.Locales
 local Config = {}
 
 local MAX_ACCOUNT_MACROS, MAX_CHARACTER_MACROS = 120, 18
@@ -286,10 +287,34 @@ frame_config_base:SetScript("OnShow", function()
         end
     )
 
+    local nextAnchor = hearthstoneCheckButton
+    if Utility.IsRetail then
+        -- local spellLink = "\124cffffd000\124Hspell:461063\124h[" .. Locales.KeyWords.QuietContemplation .. "]\124h\124r"
+        local spellLink = C_Spell.GetSpellLink(461063)
+        local spellName = C_Spell.GetSpellName(461063) or Locales.KeyWords.QuietContemplation
+        local quietContemplationCheckButton = CreateFrame("CheckButton", "quietContemplationCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
+        quietContemplationCheckButtonText:SetText("Replace all food by the spell " .. spellLink .. " (Earthen only)")
+        quietContemplationCheckButton.tooltip = "Check this to replace all food by the spell [" .. spellName .. "]"
+        quietContemplationCheckButton:SetPoint("TOPLEFT", hearthstoneCheckButton, "BOTTOMLEFT", 0, -5)
+        quietContemplationCheckButton:SetChecked(Core.db.quietContemplation)
+        quietContemplationCheckButton:SetEnabled(Core.db.hearthstone)
+        quietContemplationCheckButton:SetScript("OnClick",
+                function()
+                    if quietContemplationCheckButton:GetChecked() then
+                        Core.db.quietContemplation = true
+                    else
+                        Core.db.quietContemplation = false
+                    end
+                    Core:QueueScan()
+                end
+        )
+        nextAnchor = quietContemplationCheckButton
+    end
+
     local wellFedCheckButton = CreateFrame("CheckButton", "wellFedCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
     wellFedCheckButtonText:SetText("Also consider well fed items (all macros)")
     wellFedCheckButton.tooltip = "Check this to also consider well fed items"
-    wellFedCheckButton:SetPoint("TOPLEFT", hearthstoneCheckButton, "BOTTOMLEFT", 0, -5)
+    wellFedCheckButton:SetPoint("TOPLEFT", nextAnchor, "BOTTOMLEFT", 0, -5)
     wellFedCheckButton:SetChecked(Core.db.wellFed)
     wellFedCheckButton:SetScript("OnClick",
         function()
@@ -302,7 +327,7 @@ frame_config_base:SetScript("OnShow", function()
         end
     )
 
-    local nextAnchor = wellFedCheckButton
+    nextAnchor = wellFedCheckButton
     if Utility.IsRetail then
         local toxicPotionCheckButton = CreateFrame("CheckButton", "toxicPotionCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
         toxicPotionCheckButtonText:SetText("Also consider toxic potions (all macros)")

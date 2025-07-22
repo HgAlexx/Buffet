@@ -10,6 +10,7 @@ Const.DBdefaults = {
     hearthstone = true,
     wellFed = false,
     toxicPotion = false,
+    quietContemplation = false,
     modPotion = "",
     modConjured = "mod:shift",
     modSpecial = "mod:ctrl",
