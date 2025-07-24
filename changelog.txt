@@ -1,4 +1,9 @@
 
+### 126_Beta
+
+* Hopefully fixed issue #80: ignore-list not being saved properly
+
+
 ### 125_Beta
 
 * Fixed issue #74: Added Earthen Race Support

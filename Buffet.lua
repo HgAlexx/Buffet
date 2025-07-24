@@ -99,6 +99,7 @@ function Buffet:ADDON_LOADED(event, addon)
     BuffetItemDB = setmetatable(BuffetItemDB or {}, { __index = Const.ItemDBdefaults })
     BuffetDB = setmetatable(BuffetDB or {}, { __index = Const.DBdefaults })
     Core.db = BuffetDB
+    Core.db.ignoredItems = BuffetDB.ignoredItems or {}
 
     local _, build = GetBuildInfo()
     local currBuild, prevBuild, buffetVersion = tonumber(build), BuffetItemDB.build, BuffetItemDB.version
@@ -189,9 +190,7 @@ end
 
 function Buffet:PLAYER_LOGOUT()
     -- Save BuffetDB
-    for k, v in pairs(Core.db.ignoredItems) do
-        BuffetDB.ignoredItems[k] = v
-    end
+    BuffetDB.ignoredItems = Core.db.ignoredItems
     for k, v in pairs(Const.DBdefaults) do
         if Core.db[k] == v then
             Core.db[k] = nil
