@@ -1,3 +1,8 @@
+### 127
+
+* Properly fixed issue #80 for all game version
+* Fixed potential issue with old wow api functions
+
 
 ### 126_Beta
 

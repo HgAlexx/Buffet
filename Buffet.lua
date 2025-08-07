@@ -71,6 +71,7 @@ Core.firstRun = true
 Core.scanning = false
 Core.itemCache = {}
 Core.ignoredItemCache = {}
+Core.ignoredItems = {}
 Core.customMacros = {}
 Core.QuietContemplationSpellName = ""
 
@@ -98,8 +99,9 @@ function Buffet:ADDON_LOADED(event, addon)
     -- load saved variables
     BuffetItemDB = setmetatable(BuffetItemDB or {}, { __index = Const.ItemDBdefaults })
     BuffetDB = setmetatable(BuffetDB or {}, { __index = Const.DBdefaults })
+
     Core.db = BuffetDB
-    Core.db.ignoredItems = BuffetDB.ignoredItems or {}
+    Core.ignoredItems = BuffetDB.ignoredItems or {}
 
     local _, build = GetBuildInfo()
     local currBuild, prevBuild, buffetVersion = tonumber(build), BuffetItemDB.build, BuffetItemDB.version
@@ -190,12 +192,14 @@ end
 
 function Buffet:PLAYER_LOGOUT()
     -- Save BuffetDB
-    BuffetDB.ignoredItems = Core.db.ignoredItems
     for k, v in pairs(Const.DBdefaults) do
         if Core.db[k] == v then
             Core.db[k] = nil
         end
     end
+
+    BuffetDB.ignoredItems = Core.ignoredItems
+
     for k, _ in pairs(Core.db) do
         if Const.DBdefaults[k] == nil then
             Core.db[k] = nil
@@ -319,7 +323,7 @@ function Core:Scan()
             local itemId = C_Container_GetContainerItemId(bag, slot)
             -- slot not empty
             if itemId then
-                if not Core.ignoredItemCache[itemId] and not Core.db.ignoredItems[itemId] then
+                if not Core.ignoredItemCache[itemId] and not Core.ignoredItems[itemId] then
                     if not itemIds[itemId] then
                         -- get total count for this item id
                         itemIds[itemId] = C_Item_GetItemCount(itemId)
@@ -898,13 +902,13 @@ function Core:SlashHandler(message, editbox)
     elseif cmd == "ignore-add" then
         local itemString = args or nil
         if itemString and itemString ~= "" then
-            local _, itemLink = GetItemInfo(itemString)
+            local _, itemLink = C_Item_GetItemInfo(itemString)
             if itemLink then
                 local itemId = string_match(itemLink, "item:([%d]+)")
                 if itemId then
                     itemId = tonumber(itemId)
-                    if not Core.db.ignoredItems[itemId] then
-                        Core.db.ignoredItems[itemId] = itemLink
+                    if not Core.ignoredItems[itemId] then
+                        Core.ignoredItems[itemId] = itemLink
                         Utility.Print(itemLink .. " added to ignore list")
                         self:QueueScan()
                     else
@@ -918,13 +922,13 @@ function Core:SlashHandler(message, editbox)
     elseif cmd == "ignore-remove" then
         local itemString = args or nil
         if itemString and itemString ~= "" then
-            local _, itemLink = GetItemInfo(itemString)
+            local _, itemLink = C_Item_GetItemInfo(itemString)
             if itemLink then
                 local itemId = string_match(itemLink, "item:([%d]+)")
                 if itemId then
                     itemId = tonumber(itemId)
-                    if Core.db.ignoredItems[itemId] then
-                        Core.db.ignoredItems[itemId] = nil
+                    if Core.ignoredItems[itemId] then
+                        Core.ignoredItems[itemId] = nil
                         Utility.Print(itemLink .. " removed from ignore list")
                         self:QueueScan()
                     else
@@ -936,13 +940,13 @@ function Core:SlashHandler(message, editbox)
             Utility.Print("Invalid argument")
         end
     elseif cmd == "ignore-clear" then
-        Core.db.ignoredItems = {}
+        Core.ignoredItems = {}
         Utility.Print("The ignore list has been emptied.")
         self:QueueScan()
     elseif cmd == "ignore-list" then
-        if Utility.TableCount(Core.db.ignoredItems) > 0 then
+        if Utility.TableCount(Core.ignoredItems) > 0 then
             Utility.Print("The following items are in the ignore list:")
-            for k,v in pairs(Core.db.ignoredItems) do
+            for k,v in pairs(Core.ignoredItems) do
                 Utility.Print(v)
             end
         else
@@ -951,7 +955,7 @@ function Core:SlashHandler(message, editbox)
     elseif cmd == "info" then
         local itemString = args or nil
         if itemString then
-            local _, itemLink = GetItemInfo(itemString)
+            local _, itemLink = C_Item_GetItemInfo(itemString)
             if itemLink then
                 local itemId = string_match(itemLink, "item:([%d]+)")
                 if itemId then
