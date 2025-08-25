@@ -76,6 +76,13 @@ if Utility.IsRetail then
             factor = 1000000
         },
         {
+            pattern = "([%d%.]+) .-million.- health.- ([%d%.]+)  .-mana",
+            healthIndex = 1,
+            manaIndex = 2,
+            pct = false,
+            healthFactor = 1000000
+        },
+        {
             pattern = "([%d,%.]+) .-health.- ([%d,%.]+) .-mana",
             healthIndex = 1,
             manaIndex = 2,
@@ -91,7 +98,7 @@ if Utility.IsRetail then
             pct = true
         },
         {
-            pattern = "([%d%.]+) million .-health",
+            pattern = "([%d%.]+) .-million .-health",
             healthIndex = 1,
             manaIndex = nil,
             pct = false,
@@ -119,7 +126,7 @@ if Utility.IsRetail then
             pct = true
         },
         {
-            pattern = "([%d%.]+) million .-mana",
+            pattern = "([%d%.]+) .-million .-mana",
             healthIndex = nil,
             manaIndex = 1,
             pct = false,

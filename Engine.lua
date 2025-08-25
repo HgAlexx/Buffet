@@ -338,14 +338,20 @@ function Engine.ExtractValue(value, indexes)
         if type(indexes) == "table" then
             local value1 = Engine.StripThousandSeparator(value[indexes[1]])
             local value2 = Engine.StripThousandSeparator(value[indexes[2]])
+            value1 = Engine.ReplaceDecimalSeparator(value1)
+            value2 = Engine.ReplaceDecimalSeparator(value2)
             return (tonumber(value1) + tonumber(value2)) / 2
         elseif type(indexes) == "number" then
             local value = Engine.StripThousandSeparator(value[indexes])
+            value = Engine.ReplaceDecimalSeparator(value)
             return tonumber(value)
         end
     end
     return 0
 end
+
+
+-- [12:39:13] Buffet: desc: utiliser : rend 2,5 |7million:millions; de points de vie et 153119 de mana. (5 |4min:min; de recharge)
 
 function Engine.LoopPattern(itemData, itemDescription, patterns)
     for k, v in ipairs(patterns) do
@@ -353,6 +359,9 @@ function Engine.LoopPattern(itemData, itemDescription, patterns)
         if value and (#value > 0) then
             if v.healthIndex then
                 itemData.health = Engine.ExtractValue(value, v.healthIndex)
+                if v.healthFactor and (v.healthFactor >0) then
+                    itemData.health = itemData.health * v.healthFactor
+                end
                 if v.factor and (v.factor > 0) then
                     itemData.health = itemData.health * v.factor
                 end
@@ -453,6 +462,20 @@ function Engine.StripThousandSeparator(text)
     elseif type(Locales.ThousandSeparator) == "table" then
         for i, v in ipairs(Locales.ThousandSeparator) do
             text = string_gsub(text, v, "")
+        end
+    end
+    return text
+end
+
+function Engine.ReplaceDecimalSeparator(text)
+    if not Locales.DecimalSeparator then
+        return text
+    end
+    if type(Locales.DecimalSeparator) == "string" then
+        text = string_gsub(text, Locales.DecimalSeparator, ".")
+    elseif type(Locales.DecimalSeparator) == "table" then
+        for i, v in ipairs(Locales.DecimalSeparator) do
+            text = string_gsub(text, v, ".")
         end
     end
     return text

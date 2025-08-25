@@ -13,15 +13,17 @@ if Utility.IsRetail then
         function Engine.ScanTooltip(itemLink)
             local texts = {}
             local lineCount = 0
-            local tooltipData = C_TooltipInfo.GetHyperlink(itemLink)
+            local tooltipData = C_TooltipInfo.GetHyperlink(itemLink, nil, nil, true)
 
             local linesTotal = Utility.TableCount(tooltipData.lines)
             for i = 2, linesTotal do
-                local text = tooltipData.lines[i].leftText or ""
-                text = Utility.Trim(text)
-                if text ~= "" then
-                    texts[lineCount] = text
-                    lineCount = lineCount + 1
+                if tooltipData.lines[i].type == 0 then
+                    local text = tooltipData.lines[i].leftText or ""
+                    text = Utility.Trim(text)
+                    if text ~= "" then
+                        texts[lineCount] = text
+                        lineCount = lineCount + 1
+                    end
                 end
             end
 

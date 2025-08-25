@@ -14,6 +14,7 @@ if Utility.IsRetail and GetLocale() == "frFR" then
     local Locales = {}
 
     Locales.ThousandSeparator = " "
+    Locales.DecimalSeparator = ","
 
     Locales.KeyWords = {}
     Locales.KeyWords.Use = "Utiliser"
@@ -61,6 +62,13 @@ if Utility.IsRetail and GetLocale() == "frFR" then
             pct = true
         },
         {
+            pattern = " ([%d%s,%.]+) .-million.- vie.- ([%d%s%.]+) .-mana",
+            healthIndex = 1,
+            manaIndex = 2,
+            pct = false,
+            healthFactor = 1000000
+        },
+        {
             pattern = " ([%d%s%.]+) .-vie.- ([%d%s%.]+) .-mana",
             healthIndex = 1,
             manaIndex = 2,
@@ -76,6 +84,13 @@ if Utility.IsRetail and GetLocale() == "frFR" then
             pct = true
         },
         {
+            pattern = "([%d%s%.]+) .-million.- vie",
+            healthIndex = 1,
+            manaIndex = nil,
+            pct = false,
+            factor = 1000000
+        },
+        {
             pattern = "([%d%s%.]+) .-vie",
             healthIndex = 1,
             manaIndex = nil,
@@ -89,6 +104,13 @@ if Utility.IsRetail and GetLocale() == "frFR" then
             healthIndex = nil,
             manaIndex = 1,
             pct = true
+        },
+        {
+            pattern = "([%d%s%.]+) .-million.- mana",
+            healthIndex = 1,
+            manaIndex = nil,
+            pct = false,
+            factor = 1000000
         },
         {
             pattern = "([%d%s%.]+) .-mana",
