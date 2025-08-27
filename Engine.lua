@@ -350,9 +350,6 @@ function Engine.ExtractValue(value, indexes)
     return 0
 end
 
-
--- [12:39:13] Buffet: desc: utiliser : rend 2,5 |7million:millions; de points de vie et 153119 de mana. (5 |4min:min; de recharge)
-
 function Engine.LoopPattern(itemData, itemDescription, patterns)
     for k, v in ipairs(patterns) do
         local value = Engine.Match(itemDescription, v.pattern)

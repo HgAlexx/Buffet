@@ -1,3 +1,8 @@
+### 129
+
+* Fixed other detection issues of potions over 1 million points
+
+
 ### 128
 
 * Fixed detection of potions over 1 million points
