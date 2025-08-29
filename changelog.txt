@@ -1,3 +1,9 @@
+### 130
+
++ Added ruRU translation for Retail (thanks to ZamestoTV)
+* Updated LibBabble-SubZone
+
+
 ### 129
 
 * Fixed other detection issues of potions over 1 million points

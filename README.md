@@ -34,6 +34,7 @@ For retail:
 - Español (esES)
 - Français (frFR)
 - Italiano (itIT)
+- Русский (ruRU) provided by ZamestoTV
 
 For Cataclysm:
 - English (enUS)

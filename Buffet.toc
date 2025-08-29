@@ -25,6 +25,7 @@ Retail\Localization.deDE.lua
 Retail\Localization.esES.lua
 Retail\Localization.frFR.lua
 Retail\Localization.itIT.lua
+Retail\Localization.ruRU.lua
 Retail\Localization.zhCN.lua
 
 Classic\Localization.enUS.lua

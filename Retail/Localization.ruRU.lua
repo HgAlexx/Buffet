@@ -1,5 +1,12 @@
 local _, ns = ...
 -- Translator ZamestoTV
+
+--[[
+    Special char must be escaped for:
+    - ThousandSeparator
+    - Patterns
+--]]
+
 -- Imports
 local Utility = ns.Utility
 
