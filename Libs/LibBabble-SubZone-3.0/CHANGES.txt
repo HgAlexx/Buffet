@@ -1,38 +1,9 @@
 ------------------------------------------------------------------------
-r258 | arithmandar | 2022-11-20 01:52:01 +0000 (Sun, 20 Nov 2022) | 3 lines
+r260 | arithmandar | 2023-03-20 14:45:25 +0000 (Mon, 20 Mar 2023) | 1 line
 Changed paths:
-   A /trunk/Core
-   A /trunk/Core/AreaToUIMapID.lua
-   A /trunk/Core/Core.lua
-   A /trunk/Core/LibBabble-3.0.lua (from /trunk/LibBabble-3.0.lua:257)
-   D /trunk/LibBabble-3.0.lua
-   D /trunk/LibBabble-SubZone-3.0.lua
-   D /trunk/LibBabble-SubZone-3.0_deDE.lua
-   D /trunk/LibBabble-SubZone-3.0_esES.lua
-   D /trunk/LibBabble-SubZone-3.0_esMX.lua
-   D /trunk/LibBabble-SubZone-3.0_frFR.lua
-   D /trunk/LibBabble-SubZone-3.0_itIT.lua
-   D /trunk/LibBabble-SubZone-3.0_koKR.lua
-   D /trunk/LibBabble-SubZone-3.0_ptBR.lua
-   D /trunk/LibBabble-SubZone-3.0_ruRU.lua
-   D /trunk/LibBabble-SubZone-3.0_zhCN.lua
-   D /trunk/LibBabble-SubZone-3.0_zhTW.lua
-   A /trunk/Locale
-   A /trunk/Locale/deDE.lua (from /trunk/LibBabble-SubZone-3.0_deDE.lua:257)
-   A /trunk/Locale/enUS.lua (from /trunk/LibBabble-SubZone-3.0.lua:257)
-   A /trunk/Locale/esES.lua (from /trunk/LibBabble-SubZone-3.0_esES.lua:257)
-   A /trunk/Locale/esMX.lua (from /trunk/LibBabble-SubZone-3.0_esMX.lua:257)
-   A /trunk/Locale/frFR.lua (from /trunk/LibBabble-SubZone-3.0_frFR.lua:257)
-   A /trunk/Locale/itIT.lua (from /trunk/LibBabble-SubZone-3.0_itIT.lua:257)
-   A /trunk/Locale/koKR.lua (from /trunk/LibBabble-SubZone-3.0_koKR.lua:257)
-   A /trunk/Locale/ptBR.lua (from /trunk/LibBabble-SubZone-3.0_ptBR.lua:257)
-   A /trunk/Locale/ruRU.lua (from /trunk/LibBabble-SubZone-3.0_ruRU.lua:257)
-   A /trunk/Locale/zhCN.lua (from /trunk/LibBabble-SubZone-3.0_zhCN.lua:257)
-   A /trunk/Locale/zhTW.lua (from /trunk/LibBabble-SubZone-3.0_zhTW.lua:257)
-   M /trunk/lib.xml
+   M /trunk/LibBabble-SubZone-3.0-WOTLKC.toc
+   M /trunk/LibBabble-SubZone-3.0.toc
 
-- Re-organize folder structure and locale files
-- Added AreaToUIMapID.lua
-- Added area names used in TaxiNodes
+Toc update to support 10.0.7 / 3.4.1
 ------------------------------------------------------------------------
 
