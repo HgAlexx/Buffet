@@ -41,7 +41,7 @@ do
         Utility.IsCataclysm = true
     elseif interfaceVersion >= 50000 and interfaceVersion < 60000 then
         Utility.IsMists = true
-    elseif interfaceVersion >= 90000 then
+    elseif interfaceVersion >= 120000 then
         Utility.IsRetail = true
     end
 
