@@ -1,8 +1,8 @@
-## Interface: 50500
+## Interface: 50503
 ## Title: Buffet
 ## Notes: Food/water macro generator
 ## Author: Tekkub Stoutwrithe, mZHg
-## Version: 5.5.0.@project-version@
+## Version: 5.5.3.@project-version@
 ## IconTexture: Interface\Icons\INV_Misc_Food_DimSum
 ## X-Icon: Interface\Icons\INV_Misc_Food_DimSum
 ## SavedVariables: BuffetItemDB
