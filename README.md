@@ -3,7 +3,7 @@
 
 What's new :
 - Added support for Mists of Pandaria
-- (Beta) Added Earthen Race Support
+- Added Earthen Race Support
 
 
 Feel free to report any bug or request any feature [here](https://github.com/HgAlexx/Buffet/issues) :)
