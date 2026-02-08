@@ -1,3 +1,8 @@
+### 133
+
+* Fixed scanning issues in TBC Anniversary
+
+
 ### 132
 
 * Bump TOC
