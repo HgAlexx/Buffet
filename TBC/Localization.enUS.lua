@@ -64,7 +64,7 @@ if Utility.IsTBC then
 
     Locales.Patterns.Health = {
         {
-            pattern = "([%d,%.]+) to ([%,d%.]+) health",
+            pattern = "([%d,%.]+) to ([%d,%.]+) health",
             healthIndex = {1, 2},
             manaIndex = nil,
             pct = false,
