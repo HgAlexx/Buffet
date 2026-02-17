@@ -1,3 +1,8 @@
+### 136
+
+* Added a warning at login when no macro are detected
+
+
 ### 135
 
 * Fixed more scanning issues in TBC Anniversary

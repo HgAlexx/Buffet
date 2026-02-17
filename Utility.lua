@@ -4,6 +4,7 @@ local _, ns = ...
 local Utility = {}
 local addonName = "Buffet"
 local coloredAddonName = "|cFF33FF99" .. addonName .. "|r:"
+local warningColoredAddonName = "|cFFFF3333" .. addonName .. "|r:"
 local debugColoredAddonName = "|cFF33BB99" .. addonName .. "|r:"
 
 
@@ -57,6 +58,14 @@ function Utility.Print(...)
         print(coloredAddonName, ...)
     else
         DEFAULT_CHAT_FRAME:AddMessage(string_join(" ", coloredAddonName, ...))
+    end
+end
+
+function Utility.Warning(...)
+    if Utility.Mode == 2 then
+        print(warningColoredAddonName, ...)
+    else
+        DEFAULT_CHAT_FRAME:AddMessage(string_join(" ", warningColoredAddonName, ...))
     end
 end
 

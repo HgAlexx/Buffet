@@ -545,9 +545,14 @@ function Core:Scan()
 
     -- if we didn't found any food or water, and it is the first run, queue a delayed scan
     if (not food and not water) and Core.firstRun then
-        Core.firstRun = false
         delayedScanRequired = true
     end
+
+    if Core.firstRun then
+        self:ShowMacroTips()
+    end
+
+    Core.firstRun = false
 
     Core.scanning = false
     Core.dirty = false
@@ -1038,6 +1043,48 @@ function Core:SlashHandler(message, editbox)
         Utility.Print("/buffet bests: show current best item ids")
         Utility.Print("/buffet availables: show all currently available items ids")
     end
+
+    self:ShowMacroTips()
+end
+
+function Core:ShowMacroTips()
+    if not self:CheckForMacroTips() then
+        Utility.Warning("No macro detected!")
+        Utility.Warning("Open Buffet options and click one of the buttons to create the desired macro.")
+    end
+end
+
+function Core:CheckForMacroTips()
+    if GetMacroIndexByName(Const.MacroNames.defaultHP) > 0 then
+        return true
+    end
+    if GetMacroIndexByName(Const.MacroNames.defaultMP) > 0 then
+        return true
+    end
+
+    if GetMacroIndexByName(Const.MacroNames.foodOnlyHP) > 0 then
+        return true
+    end
+    if GetMacroIndexByName(Const.MacroNames.drinkOnlyMP) > 0 then
+        return true
+    end
+
+    if GetMacroIndexByName(Const.MacroNames.consumableHP) > 0 then
+        return true
+    end
+    if GetMacroIndexByName(Const.MacroNames.consumableMP) > 0 then
+        return true
+    end
+
+    for _, macro in pairs(Core.customMacros) do
+        -- check if the macro exists
+        local macroId = GetMacroIndexByName(macro.name)
+        if macroId > 0 then
+            return true
+        end
+    end
+
+    return false
 end
 
 function Core:PrintItemData(itemString, itemData)
