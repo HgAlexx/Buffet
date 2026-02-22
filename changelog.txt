@@ -1,3 +1,8 @@
+### 137
+
+* Fixed detection of some food&drink items
+
+
 ### 136
 
 * Added a warning at login when no macro are detected

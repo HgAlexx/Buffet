@@ -25,6 +25,7 @@ if Utility.IsRetail and GetLocale() == "esES" then
     Locales.KeyWords.Mana = "maná"
     Locales.KeyWords.WellFed = "bien alimentado"
     Locales.KeyWords.OverTime = "por segundo durante"
+    Locales.KeyWords.FoodAndDrink = "permanecer sentado mientras"
 
     Locales.KeyWords.QuietContemplation = "Contemplación tranquila"
 

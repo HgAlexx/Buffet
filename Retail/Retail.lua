@@ -102,8 +102,9 @@ if Utility.IsRetail then
         local healthCats = {}
         local manaCats = {}
 
-        -- food
-        if (itemData.itemClassId == ActiveConst.ItemClasses.Consumable and itemData.itemSubClassId == ActiveConst.ItemConsumableSubClasses.FoodAndDrink) or
+        -- food & drink
+        if itemData.isFoodAndDrink or
+           (itemData.itemClassId == ActiveConst.ItemClasses.Consumable and itemData.itemSubClassId == ActiveConst.ItemConsumableSubClasses.FoodAndDrink) or
            (itemData.itemClassId == ActiveConst.ItemClasses.Tradeskill and itemData.itemSubClassId == ActiveConst.ItemTradeskillSubClasses.Cooking) or
            (itemData.itemClassId == ActiveConst.ItemClasses.Miscellaneous and itemData.itemSubClassId == ActiveConst.ItemMiscellaneousSubClasses.Reagent) then
             if itemData.isHealth then

@@ -27,6 +27,7 @@ if Utility.IsRetail and GetLocale() == "frFR" then
     Locales.KeyWords.WellFed = "bien nourri"
     Locales.KeyWords.ToxicPotion = "horrible décoction"
     Locales.KeyWords.OverTime = "par seconde pendant"
+    Locales.KeyWords.FoodAndDrink = "rester assis pendant"
 
     Locales.KeyWords.QuietContemplation = "Contemplation paisible"
 

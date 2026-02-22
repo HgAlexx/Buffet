@@ -27,6 +27,7 @@ if Utility.IsRetail then
     Locales.KeyWords.WellFed = { "well fed", "also increase", "also restore", "spent at least" }
     Locales.KeyWords.ToxicPotion = "vile concoction"
     Locales.KeyWords.OverTime = "per second for"
+    Locales.KeyWords.FoodAndDrink = "remain seated while"
 
     Locales.KeyWords.QuietContemplation = "Quiet Contemplation"
 
