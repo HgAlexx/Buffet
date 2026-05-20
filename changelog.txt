@@ -1,3 +1,9 @@
+### 139
+
+* Fixed health value of Potent Healing Potion
+* Fixed percentage values no longer detected (Thx Blizzard)
+
+
 ### 138
 
 * Fixed detection of some well-fed items

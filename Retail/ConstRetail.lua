@@ -64,6 +64,13 @@ if Utility.IsRetail then
                     }
                 }
             }
+        },
+        [258138] = { -- Potent Healing Potion
+            modifiers = {
+                {
+                    healthMaxCap = 175000
+                }
+            }
         }
     }
 

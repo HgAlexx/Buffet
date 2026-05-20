@@ -432,6 +432,10 @@ function Core:Scan()
                         end
                     end
 
+                    if itemData.healthMaxCap and (itemData.healthMaxCap > 0) and (health > itemData.healthMaxCap) then
+                        health = itemData.healthMaxCap
+                    end
+
                     -- set bests
                     local healthCats, manaCats = Engine.GetCategories(itemData)
                     if healthCats then
@@ -613,6 +617,7 @@ function Core:MakeNewItemData(itemId, itemClassId, itemSubClassId)
     itemData.isRestricted = false
     itemData.isOverTime = false
     itemData.health = 0.0
+    itemData.healthMaxCap = nil
     itemData.mana = 0.0
     itemData.overTime = 0
     itemData.itemClassId = itemClassId
@@ -1120,6 +1125,9 @@ function Core:PrintItemData(itemString, itemData)
     else
         Utility.Print(string_format("- health value: %g", itemData.health) .. overtimeTotalHealth)
         Utility.Print(string_format("- mana value: %g", itemData.mana) .. overtimeTotalMana)
+    end
+    if itemData.healthMaxCap then
+        Utility.Print(string_format("- health max cap value: %g", itemData.healthMaxCap))
     end
     Utility.Print("- itemClassId: " .. itemData.itemClassId)
     Utility.Print("- itemSubClassId: " .. itemData.itemSubClassId)

@@ -123,6 +123,7 @@ function Engine.ParseTexts(texts, itemData)
         if itemData.isHealth or itemData.isMana then
             -- FU Blizzard
             itemDescription = Engine.ReplaceFakeSpace(itemDescription)
+            itemDescription = Engine.FixPercentValue(itemDescription)
             -- Utility.Debug("desc: ", itemDescription)
 
             -- parse for health and/or mana
@@ -307,6 +308,10 @@ function Engine.CheckStaticData(itemData)
                         if itemData.isHealth and entry.healthFactor then
                             itemData.health = itemData.health * entry.healthFactor
                         end
+                        if itemData.isHealth and entry.healthMaxCap then
+                            itemData.healthMaxCap = entry.healthMaxCap
+                        end
+
                         if itemData.isMana and entry.manaFactor then
                             itemData.mana = itemData.mana * entry.manaFactor
                         end
@@ -452,6 +457,16 @@ function Engine.ReplaceFakeSpace(text)
     local t = string_gsub(text, " ", " ") -- WTF Blizzard !
     return t
 end
+
+function Engine.FixPercentValue(text)
+    local t = text
+    while Utility.StringContains(t, " %") do
+        t = string_gsub(t, "%s%%", "%%")
+    end
+    return t
+end
+
+-- Utility.StringContains(string, needle)
 
 function Engine.StripThousandSeparator(text)
     if type(Locales.ThousandSeparator) == "string" then
