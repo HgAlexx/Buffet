@@ -291,6 +291,9 @@ function Engine.CheckStaticData(itemData)
             if staticData.isBandage ~= nil then
                 itemData.isBandage = staticData.isBandage
             end
+            if staticData.isConjured ~= nil then
+                itemData.isConjured = staticData.isConjured
+            end
             if staticData.modifiers ~= nil then
                 for _, entry in pairs(staticData.modifiers) do
                     conditionValid = true

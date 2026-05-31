@@ -28,6 +28,7 @@ if Utility.IsTBC then
     ActiveConst.ItemTradeskillSubClasses.Cooking = 8
 
     ActiveConst.ItemMiscellaneousSubClasses = {}
+    ActiveConst.ItemMiscellaneousSubClasses.Other = 0
     ActiveConst.ItemMiscellaneousSubClasses.Reagent = 1
 
     ActiveConst.ValidItemClasses = {
@@ -41,6 +42,7 @@ if Utility.IsTBC then
 
         { ActiveConst.ItemClasses.Tradeskill, ActiveConst.ItemTradeskillSubClasses.Cooking},
 
+        { ActiveConst.ItemClasses.Miscellaneous, ActiveConst.ItemMiscellaneousSubClasses.Other},
         { ActiveConst.ItemClasses.Miscellaneous, ActiveConst.ItemMiscellaneousSubClasses.Reagent},
     }
 
@@ -60,6 +62,9 @@ if Utility.IsTBC then
         [33093] = { -- Mana Potion Injector
             isPotion = true,
             isMana = true
+        },
+        [32578] = { -- Charged Crystal Focus
+            isConjured = true -- Shares cooldown with healthstone, assume conjured
         }
     }
 

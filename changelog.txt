@@ -1,3 +1,8 @@
+### 140_beta
+
+* Added support for Charged Crystal Focus
+
+
 ### 139
 
 * Fixed health value of Potent Healing Potion
