@@ -25,6 +25,7 @@ Retail\Localization.deDE.lua
 Retail\Localization.esES.lua
 Retail\Localization.frFR.lua
 Retail\Localization.itIT.lua
+Retail\Localization.ptBR.lua
 Retail\Localization.ruRU.lua
 Retail\Localization.zhCN.lua
 
@@ -32,6 +33,7 @@ Classic\Localization.enUS.lua
 Classic\Localization.deDE.lua
 Classic\Localization.esES.lua
 Classic\Localization.frFR.lua
+Classic\Localization.ptBR.lua
 Classic\Localization.zhCN.lua
 
 TBC\Localization.enUS.lua
@@ -39,6 +41,7 @@ TBC\Localization.deDE.lua
 TBC\Localization.esES.lua
 TBC\Localization.esMX.lua
 TBC\Localization.frFR.lua
+TBC\Localization.ptBR.lua
 TBC\Localization.zhCN.lua
 
 WLK\Localization.enUS.lua
@@ -46,6 +49,7 @@ WLK\Localization.deDE.lua
 WLK\Localization.esES.lua
 WLK\Localization.esMX.lua
 WLK\Localization.frFR.lua
+WLK\Localization.ptBR.lua
 WLK\Localization.zhCN.lua
 WLK\Localization.koKR.lua
 
@@ -54,6 +58,7 @@ Cataclysm\Localization.deDE.lua
 Cataclysm\Localization.esES.lua
 Cataclysm\Localization.esMX.lua
 Cataclysm\Localization.frFR.lua
+Cataclysm\Localization.ptBR.lua
 Cataclysm\Localization.zhCN.lua
 Cataclysm\Localization.koKR.lua
 
@@ -62,6 +67,7 @@ Mists\Localization.deDE.lua
 Mists\Localization.esES.lua
 Mists\Localization.esMX.lua
 Mists\Localization.frFR.lua
+Mists\Localization.ptBR.lua
 Mists\Localization.zhCN.lua
 Mists\Localization.koKR.lua
 

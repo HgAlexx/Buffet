@@ -25,6 +25,7 @@ Cataclysm\Localization.deDE.lua
 Cataclysm\Localization.esES.lua
 Cataclysm\Localization.esMX.lua
 Cataclysm\Localization.frFR.lua
+Cataclysm\Localization.ptBR.lua
 Cataclysm\Localization.zhCN.lua
 Cataclysm\Localization.koKR.lua
 

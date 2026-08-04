@@ -25,6 +25,7 @@ Mists\Localization.deDE.lua
 Mists\Localization.esES.lua
 Mists\Localization.esMX.lua
 Mists\Localization.frFR.lua
+Mists\Localization.ptBR.lua
 Mists\Localization.zhCN.lua
 Mists\Localization.koKR.lua
 

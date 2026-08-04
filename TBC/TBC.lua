@@ -19,11 +19,11 @@ if Utility.IsTBC then
     end
 
     function Engine.CheckUsable(text)
-        if Utility.StringContains(text, Locales.KeyWords.Use:lower()) and (
-              Utility.StringContains(text, Locales.KeyWords.Health:lower()) or
-              Utility.StringContains(text, Locales.KeyWords.Life:lower()) or
-              Utility.StringContains(text, Locales.KeyWords.Damage:lower()) or
-              Utility.StringContains(text, Locales.KeyWords.Mana:lower()))
+        if Engine.KeywordMatches(text, Locales.KeyWords.Use) and (
+              Engine.KeywordMatches(text, Locales.KeyWords.Health) or
+              Engine.KeywordMatches(text, Locales.KeyWords.Life) or
+              Engine.KeywordMatches(text, Locales.KeyWords.Damage) or
+              Engine.KeywordMatches(text, Locales.KeyWords.Mana))
         then
             return true
         end
@@ -32,11 +32,11 @@ if Utility.IsTBC then
 
     function Engine.CheckHealth(text, isBandage)
         if isBandage then
-            if Utility.StringContains(text, Locales.KeyWords.Damage:lower()) then
+            if Engine.KeywordMatches(text, Locales.KeyWords.Damage) then
                 return true
             end
         else
-            if Utility.StringContains(text, Locales.KeyWords.Health:lower()) or Utility.StringContains(text, Locales.KeyWords.Life:lower()) then
+            if Engine.KeywordMatches(text, Locales.KeyWords.Health) or Engine.KeywordMatches(text, Locales.KeyWords.Life) then
                 return true
             end
         end
