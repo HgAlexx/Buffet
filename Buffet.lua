@@ -441,13 +441,13 @@ function Core:Scan()
                     if healthCats then
                         for _, v2 in pairs(healthCats) do
                             self:SetBest(v2, itemId, health, itemCount, hasRestriction)
-                            self:SetAvailable(v2, itemId, health, itemCount, hasRestriction)
+                            self:SetAvailable(v2, itemId, health, itemCount)
                         end
                     end
                     if manaCats then
                         for _, v2 in pairs(manaCats) do
                             self:SetBest(v2, itemId, mana, itemCount, hasRestriction)
-                            self:SetAvailable(v2, itemId, mana, itemCount, hasRestriction)
+                            self:SetAvailable(v2, itemId, mana, itemCount)
                         end
                     end
                 end
@@ -469,7 +469,7 @@ function Core:Scan()
             if Utility.IsRetail then
                 runeValue = 688
             end
-            self:SetBest(Const.BestCategories.rune, 12662, runeValue, itemIds[12662])
+            self:SetBest(Const.BestCategories.rune, 12662, runeValue, itemIds[12662], false)
             self:SetAvailable(Const.BestCategories.rune, 12662, runeValue, itemIds[12662])
         end
     end
@@ -488,7 +488,7 @@ function Core:Scan()
             if Utility.IsRetail then
                 runeValue = 546
             end
-            self:SetBest(Const.BestCategories.rune, 20520, runeValue, itemIds[20520])
+            self:SetBest(Const.BestCategories.rune, 20520, runeValue, itemIds[20520], false)
             self:SetAvailable(Const.BestCategories.rune, 20520, runeValue, itemIds[20520])
         end
     end
@@ -859,7 +859,7 @@ function Core:SetBest(cat, id, value, stack, hasRestriction)
     end
 end
 
-function Core:SetAvailable(cat, id, value, stack, hasRestriction)
+function Core:SetAvailable(cat, id, value, stack)
     if not Core.availableItems[cat] then
         Core.availableItems[cat] = { }
     end

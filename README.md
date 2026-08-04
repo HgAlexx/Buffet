@@ -2,8 +2,7 @@
 
 
 What's new :
-- Added support for Mists of Pandaria
-- Added Earthen Race Support
+- Added Brazilian Portuguese translation, provided by Lucas Fell
 
 
 Feel free to report any bug or request any feature [here](https://github.com/HgAlexx/Buffet/issues) :)
@@ -28,31 +27,41 @@ Features:
 
 Currently supporting the following localizations:
 
-For retail:
+For Retail:
 - English (enUS)
 - Deutsch (deDE)
 - Español (esES)
 - Français (frFR)
 - Italiano (itIT)
+- Brazilian Portuguese (ptBR) provided by Lucas Fell
 - Русский (ruRU) provided by ZamestoTV
 
-For Cataclysm:
+For Mists:
 - English (enUS)
 - Deutsch (deDE)
 - Español (esES)
 - Français (frFR)
+- Brazilian Portuguese (ptBR) provided by Lucas Fell
 - Korean (koKR) provided by coderhyme
+
+For TBC:
+- English (enUS)
+- Deutsch (deDE)
+- Español (esES)
+- Français (frFR)
+- Brazilian Portuguese (ptBR) provided by Lucas Fell
 
 For Classic:
 - English (enUS)
 - Deutsch (deDE)
 - Español (esES)
+- Brazilian Portuguese (ptBR) provided by Lucas Fell
 - Français (frFR)
 
 
 Partially supporting the following localizations:
 
-For Retail, Cataclysm and Classic:
+For Retail, Mists, TBC and Classic:
 - Simplified Chinese (zhCN) provided by Witnesscm, with additional fixes for WtLK by clijiac
 
 
