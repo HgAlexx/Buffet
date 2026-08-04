@@ -41,22 +41,11 @@ if Utility.IsRetail then
     end
 
     function Engine.CheckUsable(text)
-        local health = false
-        if type(Locales.KeyWords.Health) == "table" then
-            for _, s in pairs(Locales.KeyWords.Health) do
-                if Utility.StringContains(text, s:lower()) then
-                    health = true
-                    break
-                end
-            end
-        elseif type(Locales.KeyWords.Health) == "string" then
-            health = Utility.StringContains(text, Locales.KeyWords.Health:lower())
-        end
+        local health = Engine.KeywordMatches(text, Locales.KeyWords.Health)
+        local damage = Engine.KeywordMatches(text, Locales.KeyWords.Damage)
+        local mana = Engine.KeywordMatches(text, Locales.KeyWords.Mana)
 
-        local damage = Utility.StringContains(text, Locales.KeyWords.Damage:lower())
-        local mana = Utility.StringContains(text, Locales.KeyWords.Mana:lower())
-
-        if Utility.StringContains(text, Locales.KeyWords.Use:lower()) and (health or damage or mana) then
+        if Engine.KeywordMatches(text, Locales.KeyWords.Use) and (health or damage or mana) then
             return true
         end
         return false
@@ -64,22 +53,11 @@ if Utility.IsRetail then
 
     function Engine.CheckHealth(text, isBandage)
         if isBandage then
-            if Utility.StringContains(text, Locales.KeyWords.Damage:lower()) then
+            if Engine.KeywordMatches(text, Locales.KeyWords.Damage) then
                 return true
             end
         else
-            local health = false
-            if type(Locales.KeyWords.Health) == "table" then
-                for _, s in pairs(Locales.KeyWords.Health) do
-                    if Utility.StringContains(text, s:lower()) then
-                        health = true
-                        break
-                    end
-                end
-            elseif type(Locales.KeyWords.Health) == "string" then
-                health = Utility.StringContains(text, Locales.KeyWords.Health:lower())
-            end
-            return health
+            return Engine.KeywordMatches(text, Locales.KeyWords.Health)
         end
         return false
     end

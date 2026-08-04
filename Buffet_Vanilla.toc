@@ -24,6 +24,7 @@ Classic\Localization.enUS.lua
 Classic\Localization.deDE.lua
 Classic\Localization.esES.lua
 Classic\Localization.frFR.lua
+Classic\Localization.ptBR.lua
 Classic\Localization.zhCN.lua
 
 Classic\ConstClassic.lua

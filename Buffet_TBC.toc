@@ -24,6 +24,7 @@ TBC\Localization.deDE.lua
 TBC\Localization.esES.lua
 TBC\Localization.esMX.lua
 TBC\Localization.frFR.lua
+TBC\Localization.ptBR.lua
 TBC\Localization.zhCN.lua
 
 TBC\ConstTBC.lua

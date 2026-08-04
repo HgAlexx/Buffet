@@ -12,6 +12,41 @@ local string_gsub = string.gsub
 local string_match = string.match
 local string_lower = string.lower
 
+function Engine.KeywordMatches(text, keyword)
+    if not text or not keyword then
+        return false
+    end
+    if type(keyword) == "table" then
+        for _, s in pairs(keyword) do
+            if Utility.StringContains(text, s:lower()) then
+                return true
+            end
+        end
+        return false
+    end
+    if type(keyword) == "string" then
+        return Utility.StringContains(text, keyword:lower())
+    end
+    return false
+end
+
+function Engine.MatchOverTime(itemDescription)
+    local pattern = Locales.Patterns.OverTime
+    if type(pattern) == "table" then
+        for _, p in ipairs(pattern) do
+            local overTime = string_match(itemDescription, p)
+            if overTime then
+                return overTime
+            end
+        end
+        return nil
+    end
+    if type(pattern) == "string" then
+        return string_match(itemDescription, pattern)
+    end
+    return nil
+end
+
 if not Engine.ScanTooltip then
     function Engine.ScanTooltip(itemLink)
         local texts = {}
@@ -42,25 +77,14 @@ function Engine.ParseTexts(texts, itemData)
 
         -- Food and Drink
         if Locales.KeyWords.FoodAndDrink then
-            if not itemData.isFoodAndDrink and Utility.StringContains(text, Locales.KeyWords.FoodAndDrink:lower()) then
+            if not itemData.isFoodAndDrink and Engine.KeywordMatches(text, Locales.KeyWords.FoodAndDrink) then
                 itemData.isFoodAndDrink = true
             end
         end
 
         -- Conjured item
-        if not itemData.isConjured then
-            if type(Locales.KeyWords.ConjuredItem) == "table" then
-                for _, s in pairs(Locales.KeyWords.ConjuredItem) do
-                    if Utility.StringContains(text, s:lower()) then
-                        itemData.isConjured = true
-                        break
-                    end
-                end
-            elseif type(Locales.KeyWords.ConjuredItem) == "string" then
-                if Utility.StringContains(text, Locales.KeyWords.ConjuredItem:lower()) then
-                    itemData.isConjured = true
-                end
-            end
+        if not itemData.isConjured and Engine.KeywordMatches(text, Locales.KeyWords.ConjuredItem) then
+            itemData.isConjured = true
         end
 
         -- Bandage
@@ -75,29 +99,18 @@ function Engine.ParseTexts(texts, itemData)
 
         -- Toxic potion
         if Locales.KeyWords.ToxicPotion then
-            if not itemData.isToxicPotion and Utility.StringContains(text, Locales.KeyWords.ToxicPotion:lower()) then
+            if not itemData.isToxicPotion and Engine.KeywordMatches(text, Locales.KeyWords.ToxicPotion) then
                 itemData.isToxicPotion = true
             end
         end
 
         -- well fed
-        if not itemData.isWellFed then
-            if type(Locales.KeyWords.WellFed) == "table" then
-                for _, s in pairs(Locales.KeyWords.WellFed) do
-                    if Utility.StringContains(text, s:lower()) then
-                        itemData.isWellFed = true
-                        break
-                    end
-                end
-            elseif type(Locales.KeyWords.WellFed) == "string" then
-                if Utility.StringContains(text, Locales.KeyWords.WellFed:lower()) then
-                    itemData.isWellFed = true
-                end
-            end
+        if not itemData.isWellFed and Engine.KeywordMatches(text, Locales.KeyWords.WellFed) then
+            itemData.isWellFed = true
         end
 
         -- OverTime
-        if not itemData.isOverTime and Utility.StringContains(text, Locales.KeyWords.OverTime:lower()) then
+        if not itemData.isOverTime and Engine.KeywordMatches(text, Locales.KeyWords.OverTime) then
             itemData.isOverTime = true
         end
 
@@ -116,7 +129,7 @@ function Engine.ParseTexts(texts, itemData)
         -- health
         itemData.isHealth = Engine.CheckHealth(itemDescription, itemData.isBandage)
         -- mana
-        if Utility.StringContains(itemDescription, Locales.KeyWords.Mana:lower()) then
+        if Engine.KeywordMatches(itemDescription, Locales.KeyWords.Mana) then
             itemData.isMana = true
         end
 
@@ -392,11 +405,11 @@ end
 
 function Engine.ParseValues(itemData, itemDescription)
     if itemData.isHealth and itemData.isMana then
-        if Utility.StringContains(itemDescription, Locales.KeyWords.Restores:lower()) then
+        if Engine.KeywordMatches(itemDescription, Locales.KeyWords.Restores) then
             -- loop on mixed Health+Mana pattern here
             itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.HealthAndMana)
             if itemData.isOverTime and itemData.health and (itemData.health > 0) and itemData.mana and (itemData.mana > 0) then
-                local overTime = string_match(itemDescription, Locales.Patterns.OverTime)
+                local overTime = Engine.MatchOverTime(itemDescription)
                 if overTime then
                     itemData.isOverTime = true
                     itemData.overTime = tonumber(overTime)
@@ -406,26 +419,26 @@ function Engine.ParseValues(itemData, itemDescription)
     else
         if itemData.isHealth then
             if itemData.isBandage then
-                if Utility.StringContains(itemDescription, Locales.KeyWords.Heals:lower()) then
+                if Engine.KeywordMatches(itemDescription, Locales.KeyWords.Heals) then
                     -- loop on Bandage pattern here
                     itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.Bandage)
                 end
             else
-                if Utility.StringContains(itemDescription, Locales.KeyWords.Restores:lower()) then
+                if Engine.KeywordMatches(itemDescription, Locales.KeyWords.Restores) then
                     -- loop on Health pattern here
                     itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.Health)
                     if itemData.health and (itemData.health > 0) and itemData.isOverTime then
-                        local overTime = string_match(itemDescription, Locales.Patterns.OverTime)
+                        local overTime = Engine.MatchOverTime(itemDescription)
                         if overTime then
                             itemData.isOverTime = true
                             itemData.overTime = tonumber(overTime)
                         end
                     end
-                elseif Locales.KeyWords.Consume ~= nil and Utility.StringContains(itemDescription, Locales.KeyWords.Consume:lower()) then
+                elseif Locales.KeyWords.Consume ~= nil and Engine.KeywordMatches(itemDescription, Locales.KeyWords.Consume) then
                     -- loop on Health pattern here
                     itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.Health)
                     if itemData.health and (itemData.health > 0) and itemData.isOverTime then
-                        local overTime = string_match(itemDescription, Locales.Patterns.OverTime)
+                        local overTime = Engine.MatchOverTime(itemDescription)
                         if overTime then
                             itemData.isOverTime = true
                             itemData.overTime = tonumber(overTime)
@@ -435,11 +448,11 @@ function Engine.ParseValues(itemData, itemDescription)
             end
         end
         if itemData.isMana then
-            if Utility.StringContains(itemDescription, Locales.KeyWords.Restores:lower()) then
+            if Engine.KeywordMatches(itemDescription, Locales.KeyWords.Restores) then
                 -- loop on Mana pattern here
                 itemData = Engine.LoopPattern(itemData, itemDescription, Locales.Patterns.Mana)
                 if itemData.mana and (itemData.mana > 0) and itemData.isOverTime then
-                    local overTime = string_match(itemDescription, Locales.Patterns.OverTime)
+                    local overTime = Engine.MatchOverTime(itemDescription)
                     if overTime then
                         itemData.isOverTime = true
                         itemData.overTime = tonumber(overTime)
