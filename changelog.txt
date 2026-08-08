@@ -1,3 +1,10 @@
+### 142
+
+* Added support for Charged Crystal Focus
+* Added Brazilian Portuguese translation, provided by Lucas Fell
+* Added missing addon icon for TBC
+
+
 ### 141_beta
 
 * Added Brazilian Portuguese translation, provided by Lucas Fell
