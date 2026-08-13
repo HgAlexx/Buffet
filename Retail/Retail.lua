@@ -17,7 +17,7 @@ if Utility.IsRetail then
 
             local linesTotal = Utility.TableCount(tooltipData.lines)
             for i = 2, linesTotal do
-                if tooltipData.lines[i].type == 0 then
+                if tooltipData.lines[i].type == 44 then
                     local text = tooltipData.lines[i].leftText or ""
                     text = Utility.Trim(text)
                     if text ~= "" then
