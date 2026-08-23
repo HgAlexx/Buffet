@@ -47,6 +47,30 @@ function Engine.MatchOverTime(itemDescription)
     return nil
 end
 
+if C_TooltipInfo and C_TooltipInfo.GetHyperlink then
+    -- Utility.Debug("Using C_TooltipInfo.GetHyperlink for Engine.ScanTooltip")
+    function Engine.ScanTooltip(itemLink)
+        local texts = {}
+        local lineCount = 0
+        local tooltipData = C_TooltipInfo.GetHyperlink(itemLink, nil, nil, true)
+
+        local linesTotal = Utility.TableCount(tooltipData.lines)
+        for i = 2, linesTotal do
+            -- type 0 hold conjured info, type 44 hold use description text
+            if tooltipData.lines[i].type == 0 or tooltipData.lines[i].type == 44 then
+                local text = tooltipData.lines[i].leftText or ""
+                text = Utility.Trim(text)
+                if text ~= "" then
+                    texts[lineCount] = text
+                    lineCount = lineCount + 1
+                end
+            end
+        end
+
+        return texts
+    end
+end
+
 if not Engine.ScanTooltip then
     function Engine.ScanTooltip(itemLink)
         local texts = {}
