@@ -1,3 +1,8 @@
+### 145
+
+* Fixed custom macro config panel on Classic, TBC and Mists
+
+
 ### 144
 
 * Fixed tooltip scanning for conjured items

@@ -71,13 +71,8 @@ local largeEdit = function(parent, anchor, label, text, tips, onAction)
     local modeditbox = makeEditbox(parent, text, tips, onAction)
     modeditbox:SetHeight(30)
     modeditbox:SetPoint("TOP", modlabel, "BOTTOM", 0, -GAP)
-    if Utility.IsRetail then
-        modeditbox:SetPoint("LEFT", parent, "LEFT", EDGEGAP, 0)
-        modeditbox:SetPoint("RIGHT", parent, "RIGHT", -EDGEGAP, 0)
-    else
-        modeditbox:SetPoint("LEFT", parent, "RIGHT", -EDGEGAP, 0)
-        modeditbox:SetPoint("RIGHT", parent, "LEFT", EDGEGAP, 0)
-    end
+    modeditbox:SetPoint("LEFT", parent, "LEFT", EDGEGAP, 0)
+    modeditbox:SetPoint("RIGHT", parent, "RIGHT", -EDGEGAP, 0)
     return modeditbox
 end
 
@@ -85,13 +80,8 @@ local largeBottomEdit = function(parent, anchor, label, text, tips, onAction)
     local modeditbox = makeEditbox(parent, text, tips, onAction)
     modeditbox:SetHeight(16*3)
     modeditbox:SetPoint("BOTTOM", anchor, "TOP", 0, GAP)
-    if Utility.IsRetail then
-        modeditbox:SetPoint("LEFT", parent, "LEFT", EDGEGAP, 0)
-        modeditbox:SetPoint("RIGHT", parent, "RIGHT", -EDGEGAP, 0)
-    else
-        modeditbox:SetPoint("LEFT", parent, "RIGHT", -EDGEGAP, 0)
-        modeditbox:SetPoint("RIGHT", parent, "LEFT", EDGEGAP, 0)
-    end
+    modeditbox:SetPoint("LEFT", parent, "LEFT", EDGEGAP, 0)
+    modeditbox:SetPoint("RIGHT", parent, "RIGHT", -EDGEGAP, 0)
     local modlabel = makeLabel(parent, label)
     modlabel:SetPoint("BOTTOMLEFT", modeditbox, "TOPLEFT", 0, GAP)
     return modeditbox
@@ -1042,7 +1032,7 @@ frame_custom:SetScript("OnShow", function()
         end
     end)
 
-    local scrollFrame = CreateFrame("ScrollFrame", nil, sourceFrame, "ScrollFrameTemplate")
+    local scrollFrame = CreateFrame("ScrollFrame", nil, sourceFrame, "UIPanelScrollFrameTemplate")
     scrollFrame:SetPoint("TOPLEFT", sourceFrame, "TOPLEFT", 0, -3)
     scrollFrame:SetPoint("BOTTOMRIGHT", sourceFrame, "BOTTOMRIGHT", -25, 3)
 
