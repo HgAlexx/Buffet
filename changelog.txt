@@ -1,3 +1,8 @@
+### 147_Beta
+
+* Fix for WoW Forever
+
+
 ### 146_Beta
 
 * Fixed Harvest Festival Foods for TBC

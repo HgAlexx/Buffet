@@ -250,7 +250,7 @@ function Utility.ShowPlayerZoneInfo()
 end
 
 function Utility.LoadProfessions()
-    if not Utility.IsRetail then
+    if not Utility.IsRetail and not Utility.IsCamelot then
         -- from https://www.wowinterface.com/forums/showthread.php?t=57554
         local profNames = Utility.ProfessionNames[GetLocale()]
         local profNames_rev = tInvert(profNames)
@@ -262,7 +262,7 @@ function Utility.LoadProfessions()
             end
         end
     end
-    if Utility.IsRetail then
+    if Utility.IsRetail or Utility.IsCamelot then
         Utility.skillLineIds = C_TradeSkillUI.GetAllProfessionTradeSkillLines()
     end
 end
