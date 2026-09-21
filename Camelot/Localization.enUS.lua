@@ -9,7 +9,7 @@ local _, ns = ...
 -- Imports
 local Utility = ns.Utility
 
-if Utility.IsTBC then
+if Utility.IsCamelot then
     -- Local namespace
     local Locales = {}
 
@@ -24,7 +24,7 @@ if Utility.IsTBC then
     Locales.KeyWords.Life = "life"
     Locales.KeyWords.Damage = "damage"
     Locales.KeyWords.Mana = "mana"
-    Locales.KeyWords.WellFed = { "well fed", "also increases", "also restores", "spent at least" }
+    Locales.KeyWords.WellFed = { "well fed", "also increase", "also restore" }
     Locales.KeyWords.OverTime = "per second for"
     Locales.KeyWords.Bandage = "first aid"
     Locales.KeyWords.FoodAndDrink = "remain seated while"
@@ -43,13 +43,19 @@ if Utility.IsTBC then
 
     Locales.Patterns.HealthAndMana = {
         {
+            pattern = "([%d%.]+)%% .-health and mana",
+            healthIndex = 1,
+            manaIndex = 1,
+            pct = true
+        },
+        {
             pattern = "([%d,%.]+) to ([%d,%.]+) health.- ([%d,%.]+) to ([%d,%.]+) mana",
             healthIndex = {1, 2},
             manaIndex = {3, 4},
             pct = false,
         },
         {
-            pattern = "([%d,%.]+) to ([%d%.]+) mana.- ([%d,%.]+) to ([%d,%.]+) health",
+            pattern = "([%d,%.]+) to ([%d,%.]+) mana.- ([%d,%.]+) to ([%d,%.]+) health",
             healthIndex = {3, 4},
             manaIndex = {1, 2},
             pct = false,

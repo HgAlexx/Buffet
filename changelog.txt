@@ -1,3 +1,9 @@
+### 146_Beta
+
+* Fixed Harvest Festival Foods for TBC
+* Added support for WoW Forever
+
+
 ### 145
 
 * Fixed custom macro config panel on Classic, TBC and Mists

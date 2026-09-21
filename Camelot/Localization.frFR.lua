@@ -9,7 +9,7 @@ local _, ns = ...
 -- Imports
 local Utility = ns.Utility
 
-if Utility.IsTBC and GetLocale() == "frFR" then
+if Utility.IsCamelot and GetLocale() == "frFR" then
     -- Local namespace
     local Locales = {}
 
@@ -19,12 +19,12 @@ if Utility.IsTBC and GetLocale() == "frFR" then
     Locales.KeyWords.Use = "Utiliser"
     Locales.KeyWords.Restores = "Rend"
     Locales.KeyWords.Heals = "Rend"
-    Locales.KeyWords.ConjuredItem = { "Objet invoqué", "Gemme de mana" }
+    Locales.KeyWords.ConjuredItem = "Objet invoqué"
     Locales.KeyWords.Health = "vie"
     Locales.KeyWords.Life = "vie"
     Locales.KeyWords.Damage = "vie"
     Locales.KeyWords.Mana = "mana"
-    Locales.KeyWords.WellFed = {"bien nourri", "augmente", "rend aussi", "passez au moins"}
+    Locales.KeyWords.WellFed = {"bien nourri", "augmente", "rend aussi"}
     Locales.KeyWords.OverTime = "par seconde pendant"
     Locales.KeyWords.Bandage = "secourisme"
     Locales.KeyWords.FoodAndDrink = "rester assis pendant"
@@ -34,7 +34,7 @@ if Utility.IsTBC and GetLocale() == "frFR" then
 
     Locales.Patterns.Bandage = {
         {
-            pattern = "rend ([%d%.]+) points de vie en ([%d%.]+) s",
+            pattern = "rend ([%d%s%.]+) points de vie en ([%d%.]+) sec",
             healthIndex = 1,
             manaIndex = nil,
             pct = false
@@ -43,19 +43,19 @@ if Utility.IsTBC and GetLocale() == "frFR" then
 
     Locales.Patterns.HealthAndMana = {
         {
-            pattern = "([%d%.]+) à ([%d%.]+) points de vie.- ([%d%.]+) à ([%d%.]+) points de mana",
+            pattern = "([%d%s%.]+) à ([%d%s%.]+) points de vie.- ([%d%s%.]+) à ([%d%s%.]+) points de mana",
             healthIndex = {1, 2},
             manaIndex = {3, 4},
             pct = false,
         },
         {
-            pattern = "([%d%.]+) à ([%d%.]+) points de mana.- ([%d%.]+) à ([%d%.]+) points de vie",
+            pattern = "([%d%s%.]+) à ([%d%s%.]+) points de mana.- ([%d%s%.]+) à ([%d%s%.]+) points de vie",
             healthIndex = {3, 4},
             manaIndex = {1, 2},
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+) points de vie.- ([%d%.]+) points de mana en ([%d%.]+) s",
+            pattern = "rend ([%d%s%.]+) points de vie.- ([%d%s%.]+) points de mana en ([%d%.]+) sec",
             healthIndex = 1,
             manaIndex = 2,
             pct = false,
@@ -64,31 +64,25 @@ if Utility.IsTBC and GetLocale() == "frFR" then
 
     Locales.Patterns.Health = {
         {
-            pattern = "([%d%.]+) à ([%d%.]+) points de vie",
+            pattern = "([%d%s%.]+) à ([%d%s%.]+) points de vie",
             healthIndex = {1, 2},
             manaIndex = nil,
             pct = false,
         },
         {
-            pattern = "([%d,%.]+)%%.-vie",
-            healthIndex = 1,
-            manaIndex = nil,
-            pct = true
-        },
-        {
-            pattern = "rend ([%d%.]+) points de vie en ([%d%.]+) s",
+            pattern = "rend ([%d%s%.]+) points de vie en ([%d%.]+) sec",
             healthIndex = 1,
             manaIndex = nil,
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+)%% de vos points de vie par seconde pendant ([%d%.]+) s",
+            pattern = "rend ([%d%s%.]+)%% de vos points de vie par seconde pendant ([%d%.]+) sec",
             healthIndex = 1,
             manaIndex = nil,
             pct = true,
         },
         {
-            pattern = "rend instantanément ([%d%.]+) points de vie",
+            pattern = "rend instantanément ([%d%s%.]+) points de vie",
             healthIndex = 1,
             manaIndex = nil,
             pct = false,
@@ -97,22 +91,16 @@ if Utility.IsTBC and GetLocale() == "frFR" then
 
     Locales.Patterns.Mana = {
         {
-            pattern = "([%d%.]+) à ([%d%.]+) points de mana",
+            pattern = "([%d%s%.]+) à ([%d%s%.]+) points de mana",
             healthIndex = nil,
             manaIndex = {1, 2},
             pct = false,
         },
         {
-            pattern = "rend ([%d%.]+) points de mana en ([%d%.]+) s",
+            pattern = "rend ([%d%s%.]+) points de mana en ([%d%s%.]+) sec",
             healthIndex = nil,
             manaIndex = 1,
             pct = false,
-        },
-        {
-            pattern = "rend ([%d%.]+)%% de votre mana par seconde pendant ([%d%.]+) ",
-            healthIndex = nil,
-            manaIndex = 1,
-            pct = true,
         },
     }
 

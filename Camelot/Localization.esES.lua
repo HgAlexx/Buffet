@@ -9,16 +9,16 @@ local _, ns = ...
 -- Imports
 local Utility = ns.Utility
 
-if Utility.IsTBC and GetLocale() == "esES" then
+if Utility.IsCamelot and GetLocale() == "esES" then
     -- Local namespace
     local Locales = {}
 
     Locales.ThousandSeparator = "%."
 
     Locales.KeyWords = {}
-    Locales.KeyWords.Use = "Uso"
+    Locales.KeyWords.Use = "Usar"
     Locales.KeyWords.Restores = "Restaura"
-    Locales.KeyWords.Heals = "Sana"
+    Locales.KeyWords.Heals = "Cura"
     Locales.KeyWords.ConjuredItem = "Objeto mágico"
     Locales.KeyWords.Health = "salud"
     Locales.KeyWords.Life = "vida"
@@ -34,7 +34,7 @@ if Utility.IsTBC and GetLocale() == "esES" then
 
     Locales.Patterns.Bandage = {
         {
-            pattern = "sana ([%d%.]+) p%. de daño durante ([%d%.]+) s",
+            pattern = "cura ([%d%.]+) p%. de daño durante ([%d%.]+) s",
             healthIndex = 1,
             manaIndex = nil,
             pct = false
@@ -88,12 +88,6 @@ if Utility.IsTBC and GetLocale() == "esES" then
             pct = false
         },
         {
-            pattern = "([%d%.]+)%% .-salud",
-            healthIndex = 1,
-            manaIndex = nil,
-            pct = true
-        },
-        {
             pattern = "instantáneamente ([%d%.]+) p%. de vida",
             healthIndex = 1,
             manaIndex = nil,
@@ -113,12 +107,6 @@ if Utility.IsTBC and GetLocale() == "esES" then
             healthIndex = nil,
             manaIndex = 1,
             pct = false
-        },
-        {
-            pattern = "([%d%.]+)%% .-maná",
-            healthIndex = nil,
-            manaIndex = 1,
-            pct = true
         },
     }
 

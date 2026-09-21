@@ -9,7 +9,7 @@ local _, ns = ...
 -- Imports
 local Utility = ns.Utility
 
-if Utility.IsTBC and GetLocale() == "deDE" then
+if Utility.IsCamelot and GetLocale() == "deDE" then
     -- Local namespace
     local Locales = {}
 
@@ -34,7 +34,7 @@ if Utility.IsTBC and GetLocale() == "deDE" then
 
     Locales.Patterns.Bandage = {
         {
-            pattern = "heilt ([%d%.]+) sek%. lang insgesamt ([%d%.]+) schaden",
+            pattern = "heilt ([%d%.]+) sek%. lang ([%d%.]+) punkt%(e%) schaden",
             healthIndex = 2,
             manaIndex = nil,
             pct = false
@@ -48,32 +48,20 @@ if Utility.IsTBC and GetLocale() == "deDE" then
             manaIndex =  {3, 4},
             pct = false
         },
-        {
-            pattern = "([%d%.]+) gesundheit und ([%d%.]+) mana",
-            healthIndex =  1,
-            manaIndex =  2,
-            pct = false
-        },
     }
 
     Locales.Patterns.Health = {
         {
-            pattern = "stellt ([%d%.]+) bis ([%d%.]+) gesundheit wieder her",
+            pattern = "stellt ([%d%.]+) bis ([%d%.]+) punkt%(e%) gesundheit wieder her",
             healthIndex = {1, 2},
             manaIndex = nil,
             pct = false
         },
         {
-            pattern = "([%d%.]+) gesundheit wieder her",
+            pattern = "([%d%.]+) punkt%(e%) gesundheit wieder her",
             healthIndex = 1,
             manaIndex = nil,
             pct = false
-        },
-        {
-            pattern = "([%d%.]+)%% gesundheit",
-            healthIndex = 1,
-            manaIndex = nil,
-            pct = true
         },
         {
             pattern = "stellt sofort ([%d%.]+) punkt%(e%) leben",
@@ -85,22 +73,16 @@ if Utility.IsTBC and GetLocale() == "deDE" then
 
     Locales.Patterns.Mana = {
         {
-            pattern = "stellt ([%d%.]+) bis ([%d%.]+) mana wieder her",
+            pattern = "stellt ([%d%.]+) bis ([%d%.]+) punkt%(e%) mana wieder her",
             healthIndex = nil,
             manaIndex = {1, 2},
             pct = false
         },
         {
-            pattern = "([%d%.]+) mana wieder her",
+            pattern = "([%d%.]+) punkt%(e%) mana wieder her",
             healthIndex = nil,
             manaIndex = 1,
             pct = false
-        },
-        {
-            pattern = "([%d%.]+)%% mana",
-            healthIndex = nil,
-            manaIndex = 1,
-            pct = true
         },
     }
 

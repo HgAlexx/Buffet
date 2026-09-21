@@ -172,7 +172,9 @@ function Buffet:PLAYER_LOGIN()
         Utility.Print(Core.Version, "Loaded!")
     end
 
-    if Utility.IsClassic then
+    if Utility.IsCamelot then
+        Utility.Debug("Forever mode enabled")
+    elseif Utility.IsClassic then
         Utility.Debug("Classic mode enabled")
     elseif Utility.IsTBC then
         Utility.Debug("TBC mode enabled")
