@@ -1,3 +1,8 @@
+### 148_Beta
+
+* Fixed detection for Forever
+
+
 ### 147_Beta
 
 * Fix for WoW Forever

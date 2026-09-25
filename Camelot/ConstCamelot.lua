@@ -7,19 +7,38 @@ if Utility.IsCamelot then
     -- Local namespace
     local Const = {}
 
-    -- unused for classic, but we keep it here in case class ids are implemented in the future
     Const.ItemClasses = {}
     Const.ItemClasses.Consumable = 0
+    Const.ItemClasses.Armor = 4
+    Const.ItemClasses.Tradeskill = 7
+    Const.ItemClasses.Miscellaneous = 15
 
     Const.ItemConsumableSubClasses = {}
-    Const.ItemConsumableSubClasses.Bandage = 0
-    Const.ItemConsumableSubClasses.FoodAndDrink = 0
-    Const.ItemConsumableSubClasses.Potion = 0
+    Const.ItemConsumableSubClasses.Potion = 1
+    Const.ItemConsumableSubClasses.FoodAndDrink = 5
+    Const.ItemConsumableSubClasses.Bandage = 7
+    Const.ItemConsumableSubClasses.Other = 8
+
+    Const.ItemArmorSubClasses = {}
+    Const.ItemArmorSubClasses.Miscellaneous = 0
+
+    Const.ItemTradeskillSubClasses = {}
+    Const.ItemTradeskillSubClasses.Cooking = 8
+
+    Const.ItemMiscellaneousSubClasses = {}
+    Const.ItemMiscellaneousSubClasses.Reagent = 1
 
     Const.ValidItemClasses = {
         { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Bandage},
         { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.FoodAndDrink},
+        { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Other},
         { Const.ItemClasses.Consumable, Const.ItemConsumableSubClasses.Potion},
+
+        { Const.ItemClasses.Armor, Const.ItemArmorSubClasses.Miscellaneous},
+
+        { Const.ItemClasses.Tradeskill, Const.ItemTradeskillSubClasses.Cooking},
+
+        { Const.ItemClasses.Miscellaneous, Const.ItemMiscellaneousSubClasses.Reagent},
     }
 
     -- InstanceId: https://wow.gamepedia.com/InstanceID
