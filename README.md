@@ -2,7 +2,7 @@
 
 
 What's new :
-- Added Brazilian Portuguese translation, provided by Lucas Fell
+- Added support for Wow Forever: please report any detection issue!
 
 
 Feel free to report any bug or request any feature [here](https://github.com/HgAlexx/Buffet/issues) :)

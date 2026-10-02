@@ -1,9 +1,56 @@
 ------------------------------------------------------------------------
-r260 | arithmandar | 2023-03-20 14:45:25 +0000 (Mon, 20 Mar 2023) | 1 line
+r263 | arithmandar | 2026-09-29 07:04:27 +0000 (Tue, 29 Sep 2026) | 1 line
 Changed paths:
-   M /trunk/LibBabble-SubZone-3.0-WOTLKC.toc
+   M /trunk/Data/LocalizedNameIndexes_ClassicEra.lua
+   M /trunk/Data/LocalizedNameIndexes_ClassicProgression.lua
+   M /trunk/Data/LocalizedNameIndexes_ClassicTBC.lua
+   M /trunk/Data/LocalizedNameIndexes_Mainline.lua
    M /trunk/LibBabble-SubZone-3.0.toc
+   M /trunk/lib.xml
 
-Toc update to support 10.0.7 / 3.4.1
+prepare for release
+------------------------------------------------------------------------
+r262 | arithmandar | 2026-09-29 06:56:13 +0000 (Tue, 29 Sep 2026) | 1 line
+Changed paths:
+   M /trunk
+   M /trunk/.pkgmeta
+   A /trunk/.util
+   A /trunk/.util/Readme.md
+   A /trunk/.util/csv_to_lua_area_table.py
+   A /trunk/.util/csv_to_lua_locale.py
+   A /trunk/.util/download_wago_tables.py
+   D /trunk/Core/AreaToUIMapID.lua
+   M /trunk/Core/Core.lua
+   M /trunk/Core/LibBabble-3.0.lua
+   A /trunk/Data
+   A /trunk/Data/AreaToUIMapID_ClassicEra.lua
+   A /trunk/Data/AreaToUIMapID_ClassicForever.lua
+   A /trunk/Data/AreaToUIMapID_ClassicProgression.lua
+   A /trunk/Data/AreaToUIMapID_ClassicTBC.lua
+   A /trunk/Data/AreaToUIMapID_Mainline.lua (from /trunk/Core/AreaToUIMapID.lua:261)
+   A /trunk/Data/LocalizedNameIndexes_ClassicEra.lua
+   A /trunk/Data/LocalizedNameIndexes_ClassicForever.lua
+   A /trunk/Data/LocalizedNameIndexes_ClassicProgression.lua
+   A /trunk/Data/LocalizedNameIndexes_ClassicTBC.lua
+   A /trunk/Data/LocalizedNameIndexes_Mainline.lua
+   D /trunk/LibBabble-SubZone-3.0-BCC.toc
+   D /trunk/LibBabble-SubZone-3.0-Classic.toc
+   D /trunk/LibBabble-SubZone-3.0-WOTLKC.toc
+   M /trunk/LibBabble-SubZone-3.0.toc
+   M /trunk/Locale/deDE.lua
+   M /trunk/Locale/enUS.lua
+   M /trunk/Locale/esES.lua
+   M /trunk/Locale/esMX.lua
+   M /trunk/Locale/frFR.lua
+   M /trunk/Locale/itIT.lua
+   M /trunk/Locale/koKR.lua
+   M /trunk/Locale/ptBR.lua
+   M /trunk/Locale/ruRU.lua
+   M /trunk/Locale/zhCN.lua
+   M /trunk/Locale/zhTW.lua
+   A /trunk/Readme.md
+   M /trunk/lib.xml
+
+updates tp add zone names from 11509, 16001, 20506, 50504, 120100
 ------------------------------------------------------------------------
 

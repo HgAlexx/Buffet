@@ -1,7 +1,17 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
+	<!-- $Id: lib.xml 263 2026-09-29 07:04:27Z arithmandar $ -->
 	<Script file="Core\LibBabble-3.0.lua" />
-	<Script file="Core\AreaToUIMapID.lua" />
+	<Script file="Data\AreaToUIMapID_Mainline.lua" />
+	<Script file="Data\AreaToUIMapID_ClassicEra.lua" />
+	<Script file="Data\AreaToUIMapID_ClassicForever.lua" />
+	<Script file="Data\AreaToUIMapID_ClassicProgression.lua" />
+	<Script file="Data\AreaToUIMapID_ClassicTBC.lua" />
+	<Script file="Data\LocalizedNameIndexes_ClassicEra.lua" />
+	<Script file="Data\LocalizedNameIndexes_ClassicForever.lua" />
+	<Script file="Data\LocalizedNameIndexes_ClassicProgression.lua" />
+	<Script file="Data\LocalizedNameIndexes_ClassicTBC.lua" />
+	<Script file="Data\LocalizedNameIndexes_Mainline.lua" />
 	<Script file="Core\Core.lua" />
 	<Script file="Locale\enUS.lua" />
 	<Script file="Locale\deDE.lua" />

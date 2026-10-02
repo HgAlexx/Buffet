@@ -1,22 +1,45 @@
-## Interface: 100007
+## Interface: 11509, 16001, 20506, 50504, 120100
 ## LoadOnDemand: 1
 ## Title: Lib: Babble-SubZone-3.0
+## Notes: A library for localized in-game subzone names.
+## Title-deDE: Lib: Babble-SubZone-3.0
+## Notes-deDE: Eine Bibliothek für lokalisierte Namen von Unterzonen im Spiel.
+## Title-esES: Lib: Babble-SubZone-3.0
+## Notes-esES: Una biblioteca para nombres localizados de subzonas del juego.
+## Title-esMX: Lib: Babble-SubZone-3.0
+## Notes-esMX: Una biblioteca para nombres localizados de subzonas del juego.
 ## Title-frFR: Lib: Babble-SubZone-3.0
+## Notes-frFR: Une bibliothèque de noms localisés de sous-zones en jeu.
 ## Title-itIT: Lib: Babble-SubZone-3.0
+## Notes-itIT: Una libreria per i nomi localizzati delle sottozone di gioco.
 ## Title-koKR: Lib: Babble-SubZone-3.0
+## Notes-koKR: 게임 내 하위 지역 이름의 현지화를 위한 라이브러리입니다.
+## Title-ptBR: Lib: Babble-SubZone-3.0
+## Notes-ptBR: Uma biblioteca de nomes localizados de subzonas no jogo.
+## Title-ruRU: Lib: Babble-SubZone-3.0
+## Notes-ruRU: Библиотека локализованных названий внутриигровых подзон.
 ## Title-zhCN: Lib: Babble-SubZone-3.0
-## Notes: A library to help with localization of in-game subzone names.
-## Notes-deDE: Eine Bibliothek, die dabei hilft, die Untergebiete des Spiels zu übersetzen.
-## Notes-itIT: Una libreria per aiutare con la localizzazione delle sotto-zone in gioco.
-## Notes-koKR: 게임 내 세부 지역 이름의 지역화로 도움을 주는 라이브러리 입니다.
-## Notes-zhCN: 一个帮助游戏内子区域名称本地化的库。
-## Notes-zhTW: 為本地化服務的函式庫 [副區域名稱]
+## Notes-zhCN: 用于本地化游戏内子区域名称的库。
+## Title-zhTW: Lib: Babble-SubZone-3.0
+## Notes-zhTW: 用於本地化遊戲內子區域名稱的函式庫。
 ## Author: Arith
-## X-eMail: arithmandarjp at yahoo.co.jp
 ## X-Category: Library
 ## X-License: MIT
-## X-Date: 2023-03-20T14:45:25Z
-## X-Website: http://www.wowace.com/addons/libbabble-subzone-3-0/
+## X-Date: 2026-09-29T7:04:27Z
+## X-Website: https://www.curseforge.com/wow/addons/libbabble-subzone-3-0
+## X-Credits: Thanks to the WoW community, WowAce, CurseForge, Warcraft Wiki, wow.tools, Wago Tools (QartemisT), and all contributors.
+## Category: Libraries
+## Category-deDE: Bibliotheken
+## Category-esES: Bibliotecas
+## Category-esMX: Bibliotecas
+## Category-frFR: Bibliothèques
+## Category-itIT: Librerie
+## Category-koKR: 라이브러리
+## Category-ptBR: Bibliotecas
+## Category-ruRU: Библиотеки
+## Category-zhCN: 函数库
+## Category-zhTW: 函式庫
+## IconTexture: Interface\icons\inv_misc_map07
 
 LibStub\LibStub.lua
 lib.xml

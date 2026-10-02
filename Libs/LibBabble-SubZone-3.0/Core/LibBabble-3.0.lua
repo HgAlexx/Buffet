@@ -1,6 +1,6 @@
 -- LibBabble-3.0 is hereby placed in the Public Domain
 -- Credits: ckknight
-local LIBBABBLE_MAJOR, LIBBABBLE_MINOR = "LibBabble-3.0", 2
+local LIBBABBLE_MAJOR, LIBBABBLE_MINOR = "LibBabble-3.0", 3
 
 local LibBabble = LibStub:NewLibrary(LIBBABBLE_MAJOR, LIBBABBLE_MINOR)
 if not LibBabble then
@@ -27,6 +27,11 @@ end
 
 local lookup_mt = { __index = function(self, key)
 	local db = tablesToDB[self]
+	local resolved_key = db.lookupResolver and db.lookupResolver(key)
+	if resolved_key then
+		rawset(self, key, resolved_key)
+		return resolved_key
+	end
 	local current_key = db.current[key]
 	if current_key then
 		self[key] = current_key
@@ -81,11 +86,22 @@ end
 local prototype = {}
 local prototype_mt = {__index = prototype}
 
+-- #NODOC
+-- Modules may register a resolver that takes precedence over locale translations.
+function prototype:SetLookupResolver(resolver)
+	local db = tablesToDB[self]
+	db.lookupResolver = resolver
+	if db.lookup then
+		initLookup(self, db.lookup)
+	end
+end
+
 --[[---------------------------------------------------------------------------
 Notes:
-	* If you try to access a nonexistent key, it will warn but allow the code to pass through.
+	* A registered resolver is checked before the current-locale table.
+	* If no resolver result or current-locale translation is available, accessing a known key warns and returns its base (English) value; an unknown key warns and returns itself.
 Returns:
-	A lookup table for english to localized words.
+	A lookup table from English keys to current-locale values, with warning and fallback behavior for missing translations.
 Example:
 	local B = LibStub("LibBabble-Module-3.0") -- where Module is what you want.
 	local BL = B:GetLookupTable()
@@ -103,9 +119,10 @@ function prototype:GetLookupTable()
 end
 --[[---------------------------------------------------------------------------
 Notes:
-	* If you try to access a nonexistent key, it will return nil.
+	* Returns the raw current translation table directly; the module's lookup resolver is not applied.
+	* Keys without a current translation return nil and do not trigger warnings.
 Returns:
-	A lookup table for english to localized words.
+	The current translation table, mapping English keys to current-locale values.
 Example:
 	local B = LibStub("LibBabble-Module-3.0") -- where Module is what you want.
 	local B_has = B:GetUnstrictLookupTable()
@@ -119,10 +136,10 @@ function prototype:GetUnstrictLookupTable()
 end
 --[[---------------------------------------------------------------------------
 Notes:
-	* If you try to access a nonexistent key, it will return nil.
-	* This is useful for checking if the base (English) table has a key, even if the localized one does not have it registered.
+	* Returns the base (English) table directly; keys not present in that table return nil.
+	* Use this to check whether an English key exists, regardless of whether it has a current-locale translation.
 Returns:
-	A lookup table for english to localized words.
+	The base table, mapping each English key to its English value.
 Example:
 	local B = LibStub("LibBabble-Module-3.0") -- where Module is what you want.
 	local B_hasBase = B:GetBaseLookupTable()
@@ -136,10 +153,11 @@ function prototype:GetBaseLookupTable()
 end
 --[[---------------------------------------------------------------------------
 Notes:
-	* If you try to access a nonexistent key, it will return nil.
-	* This will return only one English word that it maps to, if there are more than one to check, see :GetReverseIterator("word")
+	* Keys without a current-locale translation return nil.
+	* If multiple English keys share a localized value, this table returns only one of them; use :GetReverseIterator("word") to retrieve all matches.
+	* Reverse lookup tables are built from the raw current translation table, not dynamic lookup-resolver results.
 Returns:
-	A lookup table for localized to english words.
+	A lookup table from current-locale values to English keys.
 Example:
 	local B = LibStub("LibBabble-Module-3.0") -- where Module is what you want.
 	local BR = B:GetReverseLookupTable()
@@ -159,9 +177,9 @@ local blank = {}
 local weakVal = {__mode='v'}
 --[[---------------------------------------------------------------------------
 Arguments:
-	string - the localized word to chek for.
+	key - the localized value whose matching English keys should be traversed.
 Returns:
-	An iterator to traverse all English words that map to the given key
+	An iterator over all English keys that map to the given current-locale value.
 Example:
 	local B = LibStub("LibBabble-Module-3.0") -- where Module is what you want.
 	for word in B:GetReverseIterator("Some localized word") do
@@ -191,7 +209,7 @@ function prototype:GetReverseIterator(key)
 end
 --[[---------------------------------------------------------------------------
 Returns:
-	An iterator to traverse all translations English to localized.
+	An iterator over the current translation table's English-key/current-locale-value pairs.
 Example:
 	local B = LibStub("LibBabble-Module-3.0") -- where Module is what you want.
 	for english, localized in B:Iterate() do

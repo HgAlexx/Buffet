@@ -1,3 +1,10 @@
+### 149
+
+* Added support for Wow Forever
+* Fixed Harvest Festival Foods for TBC
+* Updated LibBabble-SubZone-3.0 to latest
+
+
 ### 148_Beta
 
 * Fixed detection for Forever
