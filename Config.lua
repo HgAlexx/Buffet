@@ -483,8 +483,11 @@ frame_config_base:SetScript("OnShow", function()
     frame_config_base:SetScript("OnShow", nil)
 end)
 
+local category_config_base = nil
+
 if Settings and Settings.RegisterCanvasLayoutSubcategory then
-    local subcategory, layout = Settings.RegisterCanvasLayoutSubcategory(category, frame_config_base, frame_config_base.name, frame_config_base.name);
+    local subcategory, layout = Settings.RegisterCanvasLayoutSubcategory(category, frame_config_base, frame_config_base.name, frame_config_base.name)
+    category_config_base = subcategory
 else
     InterfaceOptions_AddCategory(frame_config_base)
 end
@@ -1092,8 +1095,10 @@ frame_custom:SetScript("OnShow", function()
     end)
 end)
 
+local category_custom_macro
 if Settings and Settings.RegisterCanvasLayoutSubcategory then
     local subcategory, layout = Settings.RegisterCanvasLayoutSubcategory(category, frame_custom, frame_custom.name, frame_custom.name);
+    category_custom_macro = subcategory
 else
     InterfaceOptions_AddCategory(frame_custom)
 end
@@ -1106,24 +1111,59 @@ LibStub("tekKonfig-AboutPanel-Hg").new("Buffet", "Buffet", category)
 --      Quicklaunch registration      --
 ----------------------------------------
 
-LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Buffet", {
-    type = "launcher",
-    label = "Buffet",
-    icon = "Interface\\Icons\\INV_Misc_Food_DimSum",
-    OnClick = function()
-        if Settings and Settings.OpenToCategory  then
+local function Buffet_OpenOptions(mouseButton)
+    if mouseButton == "LeftButton" then
+        if Settings and Settings.OpenToCategory then
+            Settings.OpenToCategory(category_config_base:GetID())
             Settings.OpenToCategory(category:GetID())
         else
             InterfaceOptionsFrame_OpenToCategory(frame)
             InterfaceOptionsFrame_OpenToCategory(frame_config_base)
             InterfaceOptionsFrame_OpenToCategory(frame)
         end
+    end
+    if mouseButton == "RightButton" then
+        if Settings and Settings.OpenToCategory then
+            Settings.OpenToCategory(category_custom_macro:GetID())
+        else
+            InterfaceOptionsFrame_OpenToCategory(frame)
+            InterfaceOptionsFrame_OpenToCategory(frame_custom)
+        end
+    end
+end
+
+LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Buffet", {
+    type = "launcher",
+    label = "Buffet",
+    icon = "Interface\\Icons\\INV_Misc_Food_DimSum",
+    OnClick = function(f, mouseButton)
+        Buffet_OpenOptions(mouseButton)
     end,
     OnTooltipShow = function(tooltip)
         if not tooltip or not tooltip.AddLine then return end
-        tooltip:AddLine("Buffet")
-        tooltip:AddLine("Click to open Buffet options")
-        tooltip:AddLine('')
-        tooltip:AddLine(string.format("Version: %s", Core.Version or ""))
+        tooltip:SetText(addonName)
+        tooltip:AddLine("Left click to open options", 1, 1, 1)
+        tooltip:AddLine("Right click to open custom macro", 1, 1, 1)
+        tooltip:AddLine(' ')
+        tooltip:AddLine(string.format("Version: %s", Core.Version or ""), 1, 1, 1)
     end,
 })
+
+function Buffet_OnCompartmentClick(name, mouseButton, menuInputData, menu)
+    Buffet_OpenOptions(mouseButton)
+end
+
+function Buffet_OnCompartmentEnter(addonName, buttonFrame)
+    MenuUtil.ShowTooltip(buttonFrame, function(tooltip)
+        tooltip:SetOwner(buttonFrame, "ANCHOR_LEFT")
+        tooltip:SetText(addonName)
+        tooltip:AddLine("Left click to open options", 1, 1, 1)
+        tooltip:AddLine("Right click to open custom macro", 1, 1, 1)
+        tooltip:AddLine(' ')
+        tooltip:AddLine(string.format("Version: %s", Core.Version or ""), 1, 1, 1)
+    end)
+end
+
+function Buffet_OnCompartmentLeave(addonName, buttonFrame)
+    MenuUtil.HideTooltip(buttonFrame)
+end

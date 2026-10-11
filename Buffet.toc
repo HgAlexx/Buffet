@@ -7,6 +7,9 @@
 ## X-Icon: Interface\Icons\INV_Misc_Food_DimSum
 ## SavedVariables: BuffetItemDB
 ## SavedVariablesPerCharacter: BuffetDB
+## AddonCompartmentFunc: Buffet_OnCompartmentClick
+## AddonCompartmentFuncOnEnter: Buffet_OnCompartmentEnter
+## AddonCompartmentFuncOnLeave: Buffet_OnCompartmentLeave
 
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
