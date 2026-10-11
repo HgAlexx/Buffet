@@ -1,12 +1,15 @@
 **Buffet** is a food/water macro generator originally developed by **[tekkub](http://www.tekkub.net/)** and currently maintained by **mZHg**.
 
+---
 
 What's new :
 - Added support for Wow Forever: please report any detection issue!
 
+---
 
 Feel free to report any bug or request any feature [here](https://github.com/HgAlexx/Buffet/issues) :)
 
+---
 
 Features:
 
@@ -24,6 +27,7 @@ Features:
 - Custom macro using lua scripting language, see [here](https://github.com/HgAlexx/Buffet/wiki) for more info
 - User-defined ignore list (per characters)
 
+---
 
 Currently supporting the following localizations:
 
@@ -64,5 +68,6 @@ Partially supporting the following localizations:
 For Retail, Mists, TBC and Classic:
 - Simplified Chinese (zhCN) provided by Witnesscm, with additional fixes for WtLK by clijiac
 
+---
 
 If you want to contribute to localizations, [pull requests](https://github.com/HgAlexx/Buffet/pulls) are welcome!
