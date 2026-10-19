@@ -1,3 +1,8 @@
+### 151
+
+* Fixed detection for TBC
+
+
 ### 150
 
 * Add AddonCompartment support for Buffet

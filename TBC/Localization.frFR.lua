@@ -43,6 +43,12 @@ if Utility.IsTBC and GetLocale() == "frFR" then
 
     Locales.Patterns.HealthAndMana = {
         {
+            pattern = "([%d%.]+)%%.-de vie et de mana",
+            healthIndex = 1,
+            manaIndex = 1,
+            pct = true
+        },
+        {
             pattern = "([%d%.]+) à ([%d%.]+) points de vie.- ([%d%.]+) à ([%d%.]+) points de mana",
             healthIndex = {1, 2},
             manaIndex = {3, 4},
