@@ -34,8 +34,17 @@ Interface localization:
 - English is the fallback for untranslated interface strings.
 - Simplified Chinese (zhCN) is selected automatically from the game client locale.
 - Settings, custom macro controls and sample comments, confirmations, launcher tooltips, About, chat messages and slash-command help use the shared UI string table in UILocalization.lua.
-- UI strings are separate from the version-specific item-tooltip matching patterns below. Macro identifiers, commands and saved variables retain their existing values.
+- UI strings are separate from item-tooltip matching patterns. Macro identifiers, commands and existing user settings retain their values.
 - To add another interface language, populate the UI table for that locale; missing entries fall back to their English keys. Preserve formatting placeholders and macro syntax in translations.
+
+Simplified Chinese item detection:
+
+- All seven game variants select the shared vocabulary and patterns in ItemLocalization.zhCN.lua.
+- Recognition handles Chinese food/drink and conjured-item markers, fixed amounts, ranges using either 至 or 到, comma-separated thousands, and percentages before or after the resource name.
+- Combined health/mana effects support shared or separate values in either order. Per-second restoration uses its duration; an amount already expressed as a total is not multiplied again.
+- Ordinary recovery text does not mark an item as well-fed food. Bandages accept the recovery wording used by Chinese tooltips.
+- Item caches are rebuilt when the client/addon version, language or parser revision changes. Existing macros, custom macro source and ignore lists are retained.
+- For an in-game check, use /buffet debug followed by an item link to inspect a fresh parse, and /buffet info followed by the link to inspect its cached result.
 
 Currently supporting the following item-detection localizations:
 

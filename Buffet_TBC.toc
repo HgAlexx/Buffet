@@ -21,6 +21,7 @@ Libs\tekKonfigButton.lua
 UILocalization.lua
 Utility.lua
 Const.lua
+ItemLocalization.zhCN.lua
 
 TBC\Localization.enUS.lua
 TBC\Localization.deDE.lua

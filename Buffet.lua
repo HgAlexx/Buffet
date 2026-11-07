@@ -107,11 +107,15 @@ function Buffet:ADDON_LOADED(event, addon)
     local _, build = GetBuildInfo()
     local currBuild, prevBuild, buffetVersion = tonumber(build), BuffetItemDB.build, BuffetItemDB.version
 
-    -- load items cache only if we are running the same build (client and addon)
-    if prevBuild and (prevBuild == currBuild) and buffetVersion and (buffetVersion == Core.Version) then
+    local locale = GetLocale()
+    local parserVersion = Locales.ParserVersion or 0
+
+    -- Tooltip parsing depends on the locale and parser rules as well as the build.
+    if prevBuild and (prevBuild == currBuild) and buffetVersion and (buffetVersion == Core.Version)
+        and BuffetItemDB.locale == locale and BuffetItemDB.parserVersion == parserVersion then
         Core.itemCache = BuffetItemDB.itemCache or {}
     else
-        Utility.Print(L["Cache has been cleared due to version update."])
+        Utility.Print(L["Item cache cleared; tooltip data will be rescanned."])
     end
 
     Core.nextScanDelay = BuffetItemDB.nextScanDelay
@@ -121,6 +125,8 @@ function Buffet:ADDON_LOADED(event, addon)
     BuffetItemDB.itemCache = Core.itemCache
     BuffetItemDB.nextScanDelay = Core.nextScanDelay
     BuffetItemDB.version = Core.Version
+    BuffetItemDB.locale = locale
+    BuffetItemDB.parserVersion = parserVersion
 
     for k, v in pairs(BuffetItemDB.customMacros) do
         Core.customMacros[k] = {}

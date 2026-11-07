@@ -24,6 +24,7 @@ Libs\tekKonfigButton.lua
 UILocalization.lua
 Utility.lua
 Const.lua
+ItemLocalization.zhCN.lua
 
 Camelot\Localization.enUS.lua
 Camelot\Localization.deDE.lua
