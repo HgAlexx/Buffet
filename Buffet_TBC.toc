@@ -1,6 +1,7 @@
 ## Interface: 20506
 ## Title: Buffet
 ## Notes: Food/water macro generator
+## Notes-zhCN: 自动生成食物和饮料宏
 ## Author: Tekkub Stoutwrithe, mZHg
 ## Version: 2.5.6.@project-version@
 ## IconTexture: Interface\Icons\INV_Misc_Food_DimSum
@@ -17,6 +18,7 @@ Libs\tekKonfigAboutPanel.lua
 Libs\tekKonfigHeading.lua
 Libs\tekKonfigButton.lua
 
+UILocalization.lua
 Utility.lua
 Const.lua
 

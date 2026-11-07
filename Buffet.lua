@@ -1,4 +1,5 @@
 local addonName, ns = ...
+local L = ns.L
 
 -- Lib used in this addon:
 -- https://www.wowace.com/projects/libbabble-subzone-3-0
@@ -110,7 +111,7 @@ function Buffet:ADDON_LOADED(event, addon)
     if prevBuild and (prevBuild == currBuild) and buffetVersion and (buffetVersion == Core.Version) then
         Core.itemCache = BuffetItemDB.itemCache or {}
     else
-        Utility.Print("Cache has been cleared due to version update.")
+        Utility.Print(L["Cache has been cleared due to version update."])
     end
 
     Core.nextScanDelay = BuffetItemDB.nextScanDelay
@@ -169,7 +170,7 @@ function Buffet:PLAYER_LOGIN()
     Utility.LoadProfessions()
 
     if Core.db.showVersion then
-        Utility.Print(Core.Version, "Loaded!")
+        Utility.Print(Core.Version, L["Loaded!"])
     end
 
     if Utility.IsCamelot then
@@ -580,8 +581,8 @@ function Core:RunChunk(macro)
         macro.error = true
         macro.chunk = nil
         macro.icon = nil
-        Utility.Print("Custom Macro: Unable to execute " .. macro.name ..", please check the source")
-        Utility.Print("Error: " .. (ret1 or "unknown"))
+        Utility.Print(string_format(L["Custom Macro: Unable to execute %s, please check the source"], macro.name))
+        Utility.Print(string_format(L["Error: %s"], ret1 or L["unknown"]))
         return nil, nil
     end
 end
@@ -599,8 +600,8 @@ function Core:CompileSource(macro)
         macro.chunk = nil
         macro.error = true
         macro.icon = nil
-        Utility.Print("Custom Macro: Unable to compile " .. macro.name ..", please check the source")
-        Utility.Print("Error: " .. errorMessage)
+        Utility.Print(string_format(L["Custom Macro: Unable to compile %s, please check the source"], macro.name))
+        Utility.Print(string_format(L["Error: %s"], errorMessage))
     end
 end
 
@@ -883,33 +884,33 @@ function Core:SlashHandler(message, editbox)
             self:QueueScan()
         end
         if Core.db.combat then
-            Utility.Print("combat mode: enable")
+            Utility.Print(L["combat mode: enable"])
         else
-            Utility.Print("combat mode: disable")
+            Utility.Print(L["combat mode: disable"])
         end
     elseif cmd == "clear" then
         Core.scanAttempt = {}
         Core.itemCache = {}
         Core.ignoredItemCache = {}
         Core.availableItems = {}
-        Utility.Print("Cache cleared!")
-        Utility.Print("Rescanning bags...")
+        Utility.Print(L["Cache cleared!"])
+        Utility.Print(L["Rescanning bags..."])
         self:QueueScan()
     elseif cmd == "scan" then
-        Utility.Print("Scanning bags...")
+        Utility.Print(L["Scanning bags..."])
         self:QueueScan()
     elseif cmd == "delay" then
         local delay = args or nil
         if delay and delay ~= "" then
             delay = tonumber(delay)
             if type(delay) == "number" and delay >= 0.1 and delay <= 10 then
-                Utility.Print("next scan delay set to", delay, "seconds")
+                Utility.Print(string_format(L["next scan delay set to %g seconds"], delay))
                 Core.nextScanDelay = delay
             else
-                Utility.Print("invalid value, delay must be a number between 0.1 and 10")
+                Utility.Print(L["invalid value, delay must be a number between 0.1 and 10"])
             end
         else
-            Utility.Print("next scan delay current value is", Core.nextScanDelay)
+            Utility.Print(string_format(L["next scan delay current value is %g"], Core.nextScanDelay))
         end
     elseif cmd == "ignore-add" then
         local itemString = args or nil
@@ -921,15 +922,15 @@ function Core:SlashHandler(message, editbox)
                     itemId = tonumber(itemId)
                     if not Core.ignoredItems[itemId] then
                         Core.ignoredItems[itemId] = itemLink
-                        Utility.Print(itemLink .. " added to ignore list")
+                        Utility.Print(string_format(L["%s added to ignore list"], itemLink))
                         self:QueueScan()
                     else
-                        Utility.Print(itemLink .. " is already in the ignore list")
+                        Utility.Print(string_format(L["%s is already in the ignore list"], itemLink))
                     end
                 end
             end
         else
-            Utility.Print("Invalid argument")
+            Utility.Print(L["Invalid argument"])
         end
     elseif cmd == "ignore-remove" then
         local itemString = args or nil
@@ -941,28 +942,28 @@ function Core:SlashHandler(message, editbox)
                     itemId = tonumber(itemId)
                     if Core.ignoredItems[itemId] then
                         Core.ignoredItems[itemId] = nil
-                        Utility.Print(itemLink .. " removed from ignore list")
+                        Utility.Print(string_format(L["%s removed from ignore list"], itemLink))
                         self:QueueScan()
                     else
-                        Utility.Print(itemLink .. " is not in the ignore list")
+                        Utility.Print(string_format(L["%s is not in the ignore list"], itemLink))
                     end
                 end
             end
         else
-            Utility.Print("Invalid argument")
+            Utility.Print(L["Invalid argument"])
         end
     elseif cmd == "ignore-clear" then
         Core.ignoredItems = {}
-        Utility.Print("The ignore list has been emptied.")
+        Utility.Print(L["The ignore list has been emptied."])
         self:QueueScan()
     elseif cmd == "ignore-list" then
         if Utility.TableCount(Core.ignoredItems) > 0 then
-            Utility.Print("The following items are in the ignore list:")
+            Utility.Print(L["The following items are in the ignore list:"])
             for k,v in pairs(Core.ignoredItems) do
                 Utility.Print(v)
             end
         else
-            Utility.Print("The ignore list is empty.")
+            Utility.Print(L["The ignore list is empty."])
         end
     elseif cmd == "info" then
         local itemString = args or nil
@@ -978,19 +979,19 @@ function Core:SlashHandler(message, editbox)
                         self:PrintItemData(itemString, data)
                         data.isRestricted = false
                     else
-                        Utility.Print("Item " .. itemString .. ": Not in cache")
+                        Utility.Print(string_format(L["Item %s: Not in cache"], itemString))
                     end
                 end
             end
         else
-            Utility.Print("Invalid argument")
+            Utility.Print(L["Invalid argument"])
         end
     elseif cmd == "session-ignored" then
-        Utility.Print("The following items have been automatically ignored from scans for this session:")
+        Utility.Print(L["The following items have been automatically ignored from scans for this session:"])
         for k,v in pairs(Core.ignoredItemCache) do
             Utility.Print(v)
         end
-        Utility.Print("If one or more items have been wrongly ignored, please report them to us.")
+        Utility.Print(L["If one or more items have been wrongly ignored, please report them to us."])
     elseif cmd == "debug" then
         local itemString = args or nil
         if itemString then
@@ -1002,7 +1003,7 @@ function Core:SlashHandler(message, editbox)
 
                     local texts = Engine.ScanTooltip(itemLink)
                     if Utility.TableCount(texts) <= 0 then
-                        Utility.Print("Item " .. itemString .. ": ScanTooltip failed, please retry.")
+                        Utility.Print(string_format(L["Item %s: ScanTooltip failed, please retry."], itemString))
                         return
                     end
 
@@ -1015,40 +1016,40 @@ function Core:SlashHandler(message, editbox)
                 end
             end
         else
-            Utility.Print("Invalid argument")
+            Utility.Print(L["Invalid argument"])
         end
     elseif cmd == "bests" then
-        Utility.Print("Best item ids:")
+        Utility.Print(L["Best item ids:"])
         for k,v in pairs(Core:BestsBeautifier()) do
             Utility.Print("bests."  .. k .. "=" .. v)
         end
     elseif cmd == "availables" then
-        Utility.Print("Available items ids:")
+        Utility.Print(L["Available items ids:"])
         for k1, v1 in pairs(Core:AvailableItemsBeautifier()) do
-            Utility.Print("Category: "  .. k1)
+            Utility.Print(string_format(L["Category: %s"], k1))
             for k2, v2 in pairs(v1) do
                 local item = v2
-                Utility.Print("- Id: "  .. item.itemId .. ", Value: " .. item.value .. ", stack size: " .. item.itemCount)
+                Utility.Print(string_format(L["- Id: %s, Value: %s, stack size: %s"], item.itemId, item.value, item.itemCount))
             end
         end
     else
-        Utility.Print("Usage:")
-        Utility.Print("/buffet combat [0, 1]: 1 to enable, 0 to disable")
-        Utility.Print("/buffet clear: clear all caches")
-        Utility.Print("/buffet delay [<number>]: show or set next scan delay in seconds (default is 1.2)")
-        Utility.Print("/buffet info <itemLink>: display info about <itemLink> (if item is in cache)")
-        Utility.Print("/buffet scan: perform a manual scan of your bags")
+        Utility.Print(L["Usage:"])
+        Utility.Print(L["/buffet combat [0, 1]: 1 to enable, 0 to disable"])
+        Utility.Print(L["/buffet clear: clear all caches"])
+        Utility.Print(L["/buffet delay [<number>]: show or set next scan delay in seconds (default is 1.2)"])
+        Utility.Print(L["/buffet info <itemLink>: display info about <itemLink> (if item is in cache)"])
+        Utility.Print(L["/buffet scan: perform a manual scan of your bags"])
         Utility.Print(" ")
-        Utility.Print("/buffet ignore-add <itemLink>: add item to ignore list")
-        Utility.Print("/buffet ignore-remove <itemLink>: remove item from ignore list")
-        Utility.Print("/buffet ignore-list: list all ignored items")
-        Utility.Print("/buffet ignore-clear: clear the ignore list")
+        Utility.Print(L["/buffet ignore-add <itemLink>: add item to ignore list"])
+        Utility.Print(L["/buffet ignore-remove <itemLink>: remove item from ignore list"])
+        Utility.Print(L["/buffet ignore-list: list all ignored items"])
+        Utility.Print(L["/buffet ignore-clear: clear the ignore list"])
         Utility.Print(" ")
-        Utility.Print("/buffet session-ignored: list all items automatically ignored from scan (session cached)")
-        Utility.Print("/buffet debug <itemLink>: scan and display info about <itemLink> (bypass caches)")
+        Utility.Print(L["/buffet session-ignored: list all items automatically ignored from scan (session cached)"])
+        Utility.Print(L["/buffet debug <itemLink>: scan and display info about <itemLink> (bypass caches)"])
         Utility.Print(" ")
-        Utility.Print("/buffet bests: show current best item ids")
-        Utility.Print("/buffet availables: show all currently available items ids")
+        Utility.Print(L["/buffet bests: show current best item ids"])
+        Utility.Print(L["/buffet availables: show all currently available items ids"])
     end
 
     self:ShowMacroTips()
@@ -1056,8 +1057,8 @@ end
 
 function Core:ShowMacroTips()
     if not self:CheckForMacroTips() then
-        Utility.Warning("No macro detected!")
-        Utility.Warning("Open Buffet options and click one of the buttons to create the desired macro.")
+        Utility.Warning(L["No macro detected!"])
+        Utility.Warning(L["Open Buffet options and click one of the buttons to create the desired macro."])
     end
 end
 
@@ -1095,44 +1096,44 @@ function Core:CheckForMacroTips()
 end
 
 function Core:PrintItemData(itemString, itemData)
-    Utility.Print("Item " .. itemString .. ":")
-    Utility.Print("- Is health: " .. Utility.BoolToStr(itemData.isHealth))
-    Utility.Print("- Is mana: " .. Utility.BoolToStr(itemData.isMana))
-    Utility.Print("- Is well fed: " .. Utility.BoolToStr(itemData.isWellFed))
-    Utility.Print("- Is conjured: " .. Utility.BoolToStr(itemData.isConjured))
-    Utility.Print("- Is percent: " .. Utility.BoolToStr(itemData.isPct))
+    Utility.Print(string_format(L["Item %s:"], itemString))
+    Utility.Print(L["- Is health: "] .. Utility.BoolToStr(itemData.isHealth))
+    Utility.Print(L["- Is mana: "] .. Utility.BoolToStr(itemData.isMana))
+    Utility.Print(L["- Is well fed: "] .. Utility.BoolToStr(itemData.isWellFed))
+    Utility.Print(L["- Is conjured: "] .. Utility.BoolToStr(itemData.isConjured))
+    Utility.Print(L["- Is percent: "] .. Utility.BoolToStr(itemData.isPct))
     if Locales.KeyWords.FoodAndDrink then
-        Utility.Print("- Is food and drink: " .. Utility.BoolToStr(itemData.isFoodAndDrink))
+        Utility.Print(L["- Is food and drink: "] .. Utility.BoolToStr(itemData.isFoodAndDrink))
     end
-    Utility.Print("- Is potion: " .. Utility.BoolToStr(itemData.isPotion))
-    Utility.Print("- Is toxic potion: " .. Utility.BoolToStr(itemData.isToxicPotion))
-    Utility.Print("- Is bandage: " .. Utility.BoolToStr(itemData.isBandage))
-    Utility.Print("- Is over time: " .. Utility.BoolToStr(itemData.isOverTime))
-    Utility.Print("- Is restricted: ", Utility.BoolToStr(itemData.isRestricted))
+    Utility.Print(L["- Is potion: "] .. Utility.BoolToStr(itemData.isPotion))
+    Utility.Print(L["- Is toxic potion: "] .. Utility.BoolToStr(itemData.isToxicPotion))
+    Utility.Print(L["- Is bandage: "] .. Utility.BoolToStr(itemData.isBandage))
+    Utility.Print(L["- Is over time: "] .. Utility.BoolToStr(itemData.isOverTime))
+    Utility.Print(L["- Is restricted: "], Utility.BoolToStr(itemData.isRestricted))
 
     local overtimeTotalHealth = ""
     local overtimeTotalMana = ""
     if itemData.isOverTime and itemData.overTime and (itemData.overTime > 0) then
         if itemData.isPct then
-            overtimeTotalHealth = string_format(" per second over %d second for a total of %d%% (%g hp)", itemData.overTime, itemData.overTime * itemData.health * 100, itemData.overTime * itemData.health * Core.playerHealth)
-            overtimeTotalMana   = string_format(" per second over %d second for a total of %d%% (%g mp)", itemData.overTime, itemData.overTime * itemData.mana * 100, itemData.overTime * itemData.mana * Core.playerMana)
+            overtimeTotalHealth = string_format(L[" per second over %d second for a total of %d%% (%g hp)"], itemData.overTime, itemData.overTime * itemData.health * 100, itemData.overTime * itemData.health * Core.playerHealth)
+            overtimeTotalMana   = string_format(L[" per second over %d second for a total of %d%% (%g mp)"], itemData.overTime, itemData.overTime * itemData.mana * 100, itemData.overTime * itemData.mana * Core.playerMana)
         else
-            overtimeTotalHealth = string_format(" per second over %d second for a total of %g", itemData.overTime, itemData.overTime * itemData.health)
-            overtimeTotalMana = string_format(" per second over %d second for a total of %g", itemData.overTime, itemData.overTime * itemData.mana)
+            overtimeTotalHealth = string_format(L[" per second over %d second for a total of %g"], itemData.overTime, itemData.overTime * itemData.health)
+            overtimeTotalMana = string_format(L[" per second over %d second for a total of %g"], itemData.overTime, itemData.overTime * itemData.mana)
         end
     end
     if itemData.isPct then
-        Utility.Print(string_format("- health value: %d%% (%g hp)", itemData.health * 100, itemData.health * Core.playerHealth) .. overtimeTotalHealth)
-        Utility.Print(string_format("- mana value: %d%% (%g mp)", itemData.mana * 100, itemData.mana * Core.playerMana) .. overtimeTotalMana)
+        Utility.Print(string_format(L["- health value: %d%% (%g hp)"], itemData.health * 100, itemData.health * Core.playerHealth) .. overtimeTotalHealth)
+        Utility.Print(string_format(L["- mana value: %d%% (%g mp)"], itemData.mana * 100, itemData.mana * Core.playerMana) .. overtimeTotalMana)
     else
-        Utility.Print(string_format("- health value: %g", itemData.health) .. overtimeTotalHealth)
-        Utility.Print(string_format("- mana value: %g", itemData.mana) .. overtimeTotalMana)
+        Utility.Print(string_format(L["- health value: %g"], itemData.health) .. overtimeTotalHealth)
+        Utility.Print(string_format(L["- mana value: %g"], itemData.mana) .. overtimeTotalMana)
     end
     if itemData.healthMaxCap then
-        Utility.Print(string_format("- health max cap value: %g", itemData.healthMaxCap))
+        Utility.Print(string_format(L["- health max cap value: %g"], itemData.healthMaxCap))
     end
-    Utility.Print("- itemClassId: " .. itemData.itemClassId)
-    Utility.Print("- itemSubClassId: " .. itemData.itemSubClassId)
+    Utility.Print(L["- itemClassId: "] .. itemData.itemClassId)
+    Utility.Print(L["- itemSubClassId: "] .. itemData.itemSubClassId)
 end
 
 Buffet:RegisterEvent("ADDON_LOADED")

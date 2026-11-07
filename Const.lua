@@ -1,4 +1,5 @@
 local _, ns = ...
+local L = ns.L
 
 -- Local namespace
 local Const = {}
@@ -47,16 +48,21 @@ Const.BestCategories.percwater = "percwater"
 Const.BestCategories.wellfedfood = "wellfedfood"
 Const.BestCategories.wellfedwater = "wellfedwater"
 
-Const.newMacroSource = [[local bests, cache, availables = ... -- Keep this
+Const.newMacroSource = string.format([[local bests, cache, availables = ... -- %s
 
--- Example for best food with default to hearthstone
+-- %s
 local bestfood = bests.conjuredFood or bests.food or 6948
 
--- For more info see the wiki here:
+-- %s
 -- https://github.com/HgAlexx/Buffet/wiki/Custom-Macro:-howto
 
--- Must return: body [, icon]
-return "#showtooltip\n/cast item:" .. bestfood, "INV_Misc_QuestionMark"]]
+-- %s
+return "#showtooltip\n/cast item:" .. bestfood, "INV_Misc_QuestionMark"]],
+    L["Keep this"],
+    L["Example for best food with default to hearthstone"],
+    L["For more info see the wiki here:"],
+    L["Must return: body [, icon]"]
+)
 
 -- Export
 ns.Const = Const

@@ -1,12 +1,18 @@
 
-local lib, oldminor = LibStub:NewLibrary("tekKonfig-AboutPanel-Hg", 6)
+local lib, oldminor = LibStub:NewLibrary("tekKonfig-AboutPanel-Hg", 7)
 if not lib then return end
 
 
-function lib.new(parent, addonname, category)
+-- Translations belong to each panel; other library callers keep English text.
+local function Translate(frame, text)
+	return (frame.translations and frame.translations[text]) or text
+end
+
+function lib.new(parent, addonname, category, translations)
 	if not parent and AddonLoader and AddonLoader.RemoveInterfaceOptions then AddonLoader:RemoveInterfaceOptions(addonname) end
 	local frame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
-	frame.name, frame.parent, frame.addonname = parent and "About" or addonname, parent, addonname
+	frame.translations = translations
+	frame.name, frame.parent, frame.addonname = parent and Translate(frame, "About") or addonname, parent, addonname
 	frame:Hide()
 	frame:SetScript("OnShow", lib.OnShow)
 	if Settings and Settings.GetCategory and Settings.RegisterCanvasLayoutSubcategory then
@@ -67,7 +73,7 @@ local haseditbox = {["Version"] = true, ["X-Website"] = true, ["X-Email"] = true
 local function HideTooltip() GameTooltip:Hide() end
 local function ShowTooltip(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT")
-	GameTooltip:SetText("Click and press Ctrl-C to copy")
+	GameTooltip:SetText(Translate(self:GetParent(), "Click and press Ctrl-C to copy"))
 end
 
 local C_AddOns_GetAddOnMetadata
@@ -82,7 +88,7 @@ function lib.OnShow(frame)
 
 	local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 	title:SetPoint("TOPLEFT", 16, -16)
-	title:SetText((frame.parent or frame.addonname).." - About")
+	title:SetText((frame.parent or frame.addonname).." - "..Translate(frame, "About"))
 
 	local subtitle = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
 	subtitle:SetHeight(32)
@@ -91,7 +97,7 @@ function lib.OnShow(frame)
 	subtitle:SetNonSpaceWrap(true)
 	subtitle:SetJustifyH("LEFT")
 	subtitle:SetJustifyV("TOP")
-	subtitle:SetText(notes)
+	subtitle:SetText(Translate(frame, notes))
 
 	local anchor
 	for _,field in pairs(fields) do
@@ -102,7 +108,7 @@ function lib.OnShow(frame)
 			if not anchor then title:SetPoint("TOPLEFT", subtitle, "BOTTOMLEFT", -2, -8)
 			else title:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -6) end
 			title:SetJustifyH("RIGHT")
-			title:SetText(field:gsub("X%-", ""))
+			title:SetText(Translate(frame, (field:gsub("X%-", ""))))
 
 			local detail = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
 			detail:SetPoint("LEFT", title, "RIGHT", 4, 0)

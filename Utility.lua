@@ -1,4 +1,5 @@
 local _, ns = ...
+local L = ns.L
 
 -- Local namespace
 local Utility = {}
@@ -100,9 +101,9 @@ end
 
 function Utility.BoolToStr(value)
     if value then
-        return "Yes"
+        return L["Yes"]
     end
-    return "No"
+    return L["No"]
 end
 
 function Utility.Trim(s)

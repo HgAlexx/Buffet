@@ -29,7 +29,15 @@ Features:
 
 ---
 
-Currently supporting the following localizations:
+Interface localization:
+
+- English is the fallback for untranslated interface strings.
+- Simplified Chinese (zhCN) is selected automatically from the game client locale.
+- Settings, custom macro controls and sample comments, confirmations, launcher tooltips, About, chat messages and slash-command help use the shared UI string table in UILocalization.lua.
+- UI strings are separate from the version-specific item-tooltip matching patterns below. Macro identifiers, commands and saved variables retain their existing values.
+- To add another interface language, populate the UI table for that locale; missing entries fall back to their English keys. Preserve formatting placeholders and macro syntax in translations.
+
+Currently supporting the following item-detection localizations:
 
 For Retail:
 - English (enUS)
