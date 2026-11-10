@@ -1,4 +1,4 @@
-## Interface: 11509, 16001, 20506, 50504, 120100
+## Interface: 11509, 16001, 20506, 50504, 120105
 ## LoadOnDemand: 1
 ## Title: Lib: Babble-SubZone-3.0
 ## Notes: A library for localized in-game subzone names.
@@ -23,9 +23,10 @@
 ## Title-zhTW: Lib: Babble-SubZone-3.0
 ## Notes-zhTW: 用於本地化遊戲內子區域名稱的函式庫。
 ## Author: Arith
+## Version: 12.1-release4
 ## X-Category: Library
 ## X-License: MIT
-## X-Date: 2026-09-29T7:04:27Z
+## X-Date: 2026-11-09T10:00:29Z
 ## X-Website: https://www.curseforge.com/wow/addons/libbabble-subzone-3-0
 ## X-Credits: Thanks to the WoW community, WowAce, CurseForge, Warcraft Wiki, wow.tools, Wago Tools (QartemisT), and all contributors.
 ## Category: Libraries

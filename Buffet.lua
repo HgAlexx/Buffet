@@ -110,7 +110,7 @@ function Buffet:ADDON_LOADED(event, addon)
     if prevBuild and (prevBuild == currBuild) and buffetVersion and (buffetVersion == Core.Version) then
         Core.itemCache = BuffetItemDB.itemCache or {}
     else
-        Utility.Print("Cache has been cleared due to version update.")
+        Utility.Debug("Cache has been cleared due to version update.")
     end
 
     Core.nextScanDelay = BuffetItemDB.nextScanDelay
@@ -169,7 +169,7 @@ function Buffet:PLAYER_LOGIN()
     Utility.LoadProfessions()
 
     if Core.db.showVersion then
-        Utility.Print(Core.Version, "Loaded!")
+        Utility.Print(Core.Version, ns.L["Loaded!"])
     end
 
     if Utility.IsCamelot then
@@ -462,7 +462,7 @@ function Core:Scan()
         local _, _, _, _, itemMinLevel = C_Item_GetItemInfo(12662)
         if itemMinLevel <= self.playerLevel then
             local runeValue = 0
-            if Utility.IsClassic or Utility.IsTBC or Utility.IsWLK or Utility.IsCataclysm then
+            if Utility.IsClassic or Utility.IsCamelot or Utility.IsTBC or Utility.IsWLK or Utility.IsCataclysm then
                 runeValue = 1200
             end
             if Utility.IsMists then
@@ -481,7 +481,7 @@ function Core:Scan()
         local _, _, _, _, itemMinLevel = C_Item_GetItemInfo(20520)
         if itemMinLevel <= self.playerLevel then
             local runeValue = 0
-            if Utility.IsClassic or Utility.IsTBC or Utility.IsWLK or Utility.IsCataclysm then
+            if Utility.IsClassic or Utility.IsCamelot or Utility.IsTBC or Utility.IsWLK or Utility.IsCataclysm then
                 runeValue = 1199 -- health set to 1199 to prioritize demonic rune over dark rune
             end
             if Utility.IsMists then
@@ -580,8 +580,8 @@ function Core:RunChunk(macro)
         macro.error = true
         macro.chunk = nil
         macro.icon = nil
-        Utility.Print("Custom Macro: Unable to execute " .. macro.name ..", please check the source")
-        Utility.Print("Error: " .. (ret1 or "unknown"))
+        Utility.Warning(string_format(ns.L["Custom Macro: Unable to execute %s, please check the source"], macro.name))
+        Utility.Warning(string_format(ns.L["Error: %s"], ret1 or "unknown"))
         return nil, nil
     end
 end
@@ -599,8 +599,8 @@ function Core:CompileSource(macro)
         macro.chunk = nil
         macro.error = true
         macro.icon = nil
-        Utility.Print("Custom Macro: Unable to compile " .. macro.name ..", please check the source")
-        Utility.Print("Error: " .. errorMessage)
+        Utility.Warning(string_format(ns.L["Custom Macro: Unable to compile %s, please check the source"], macro.name))
+        Utility.Warning(string_format(ns.L["Error: %s"], errorMessage))
     end
 end
 
@@ -1056,8 +1056,8 @@ end
 
 function Core:ShowMacroTips()
     if not self:CheckForMacroTips() then
-        Utility.Warning("No macro detected!")
-        Utility.Warning("Open Buffet options and click one of the buttons to create the desired macro.")
+        Utility.Warning(ns.L["No macro detected!"])
+        Utility.Warning(string_format(ns.L["Open %s options and click one of the buttons to create the desired macro."], "Buffet"))
     end
 end
 

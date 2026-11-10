@@ -1,4 +1,3 @@
--- $Id: AreaToUIMapID_ClassicProgression.lua 262 2026-09-29 06:56:13Z arithmandar $
 -- Generated for ClassicProgression from WoW CSV exports; do not edit manually.
 local _, private = ...
 local projectID = WOW_PROJECT_ID
@@ -9,7 +8,10 @@ local isMistsClassic = PROJECT_MISTS ~= nil and projectID == PROJECT_MISTS
 local isProgressionClassic = isCataclysmClassic or isMistsClassic
 if not isProgressionClassic then return end
 
-local MapData = {}
+local lib = private["LibBabble-SubZone-3.0-LoadingLib"]
+if not lib then return end
+local MapData = lib.MapData
+if not MapData then return end
 
 MapData.AreaToID = {
 	["7th Legion Base Camp"] = 5481,
@@ -3623,4 +3625,3 @@ MapData.AreaToID = {
 	["claytonio test area"] = 4688,
 }
 
-private.MapData = MapData

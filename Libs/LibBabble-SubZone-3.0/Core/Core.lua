@@ -1,46 +1,34 @@
 --[[
-$Id: Core.lua 262 2026-09-29 06:56:13Z arithmandar $
 Name: LibBabble-SubZone-3.0
-Revision: $Rev: 262 $
 Maintainers: arith
-Last updated by: $Author: arithmandar $
-Website: http://www.wowace.com/addons/libbabble-subzone-3-0/
+Last updated by: arith
+Website: https://www.curseforge.com/wow/addons/libbabble-subzone-3-0
 Dependencies: None
 License: MIT
 ]]
--- ----------------------------------------------------------------------------
--- Localized Lua globals.
--- ----------------------------------------------------------------------------
--- Functions
-local _G = getfenv(0)
-
--- Libraries
-
--- ----------------------------------------------------------------------------
--- AddOn namespace.
--- ----------------------------------------------------------------------------
 local _, private = ...
 
--- ----------------------------------------------------------------------------
--- Localized Lua globals.
--- ----------------------------------------------------------------------------
--- Functions
+local MAJOR_VERSION = "LibBabble-SubZone-3.0"
+-- MINOR_VERSION must increase with every release. It used to be derived from the SVN
+-- Rev keyword (last SVN revision: 268, i.e. 100268); it is now set manually so that
+-- Git and SVN builds share the same value.
+local MINOR_VERSION = 100301
+
 local _G = getfenv(0)
 
--- Libraries
-local tonumber = tonumber
-local LibStub, C_Map = _G.LibStub, _G.C_Map
-local GetAreaInfo = C_Map and C_Map.GetAreaInfo
-local GetMapInfo = C_Map and C_Map.GetMapInfo
-
-local MAJOR_VERSION = "LibBabble-SubZone-3.0"
-local MINOR_VERSION = 100000 + tonumber(("$Rev: 262 $"):match("%d+"))
+local LibStub = _G.LibStub
 
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub.") end
 local lib = LibStub("LibBabble-3.0"):New(MAJOR_VERSION, MINOR_VERSION)
 if not lib then return end
 
-lib.MapData = private.MapData
+local C_Map = _G.C_Map
+local GetAreaInfo = C_Map and C_Map.GetAreaInfo
+local GetMapInfo = C_Map and C_Map.GetMapInfo
+
+-- Data files fill this table. They load after this file and skip themselves
+-- when this copy did not win the LibStub version check, so only one copy builds it.
+lib.MapData = {}
 
 local function resolveCandidates(candidateIDs, getLocalizedName)
 	if not candidateIDs or not getLocalizedName then return end

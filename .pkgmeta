@@ -5,3 +5,7 @@ manual-changelog:
     markup-type: markdown
 
 enable-nolib-creation: no
+
+ignore:
+    - "inv_misc_food_dimsum.jpg"
+

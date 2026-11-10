@@ -1,4 +1,3 @@
--- $Id: LocalizedNameIndexes_ClassicProgression.lua 263 2026-09-29 07:04:27Z arithmandar $
 -- Generated for ClassicProgression from WoW CSV exports; do not edit manually.
 local _, private = ...
 local projectID = WOW_PROJECT_ID
@@ -9,7 +8,9 @@ local isMistsClassic = PROJECT_MISTS ~= nil and projectID == PROJECT_MISTS
 local isProgressionClassic = isCataclysmClassic or isMistsClassic
 if not isProgressionClassic then return end
 
-local MapData = private.MapData
+local lib = private["LibBabble-SubZone-3.0-LoadingLib"]
+if not lib then return end
+local MapData = lib.MapData
 if not MapData then return end
 
 MapData.AreaNameToIDs = {

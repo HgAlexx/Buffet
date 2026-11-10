@@ -14,8 +14,8 @@ end
 LibBabble.data = data
 
 local tablesToDB = {}
-for namespace, db in pairs(data) do
-	for k,v in pairs(db) do
+for _, db in pairs(data) do
+	for _,v in pairs(db) do
 		tablesToDB[v] = db
 	end
 end

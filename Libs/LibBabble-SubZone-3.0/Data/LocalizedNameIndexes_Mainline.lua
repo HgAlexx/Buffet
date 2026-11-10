@@ -1,11 +1,10 @@
--- $Id: LocalizedNameIndexes_Mainline.lua 263 2026-09-29 07:04:27Z arithmandar $
 -- Generated for Mainline from WoW CSV exports; do not edit manually.
 local _, private = ...
-local _, _, _, interfaceVersion = GetBuildInfo()
-local isForeverBeta = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and interfaceVersion >= 10000 and interfaceVersion < 20000
-if WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE or isForeverBeta then return end
+if WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE then return end
 
-local MapData = private.MapData
+local lib = private["LibBabble-SubZone-3.0-LoadingLib"]
+if not lib then return end
+local MapData = lib.MapData
 if not MapData then return end
 
 MapData.AreaNameToIDs = {

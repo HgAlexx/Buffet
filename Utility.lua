@@ -33,11 +33,10 @@ do
     Utility.IsRetail = false
 
     local _, _, _, interfaceVersion = GetBuildInfo()
-    if interfaceVersion >= 10000 and interfaceVersion < 20500 then
+    if interfaceVersion >= 10000 and interfaceVersion < 16000 then
         Utility.IsClassic = true
-        if interfaceVersion >= 16000 and interfaceVersion < 20500 then
-            Utility.IsCamelot = true
-        end
+    elseif interfaceVersion >= 16000 and interfaceVersion < 20500 then
+        Utility.IsCamelot = true
     elseif interfaceVersion >= 20500 and interfaceVersion < 30000 then
         Utility.IsTBC = true
     elseif interfaceVersion >= 30000 and interfaceVersion < 40000 then

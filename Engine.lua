@@ -179,7 +179,7 @@ function Engine.GetPvpStatus()
     -- all off by default
     local inBg, inRatedBg, inArena, inRatedArena, inBrawl = false, false, false, false, false
 
-    if Utility.IsClassic then
+    if Utility.IsClassic or Utility.IsCamelot then
         local r = UnitInBattleground("player")
         inBg = (r ~= nil)
     end

@@ -7,6 +7,9 @@ local Const = ns.Const
 local Locales = ns.Locales
 local Config = {}
 
+local string_format = string.format
+
+
 local MAX_ACCOUNT_MACROS, MAX_CHARACTER_MACROS = 120, 18
 
 local EDGEGAP, GAP = 16, 5
@@ -92,7 +95,7 @@ local frame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 frame.name = "Buffet"
 frame:Hide()
 frame:SetScript("OnShow", function()
-    local title, subtitle = LibStub("tekKonfig-Heading-Hg").new(frame, "Buffet", "This panel allows you to quickly create the base macros for Buffet to edit.\nYou can also set the macro text to be used.")
+    local title, subtitle = LibStub("tekKonfig-Heading-Hg").new(frame, "Buffet", string_format(ns.L["This panel allows you to quickly create the base macros for %s to edit.\nYou can also set the macro text to be used."], "Buffet"))
 
     local function OnClick(self)
         local id = GetMacroIndexByName(self.name)
@@ -100,7 +103,7 @@ frame:SetScript("OnShow", function()
         if id and id ~= 0 then
             PickupMacro(id)
         elseif acc >= MAX_ACCOUNT_MACROS then
-            Utility.Print("Unable to create the macro, you seam to have reach the maximum number of allowed macro per account.")
+            StaticPopup_Show("BUFFET_MACRO_LIMIT")
         else
             local id = CreateMacro(self.name, "INV_Misc_QuestionMark", "")
             if not InCombatLockdown() then
@@ -111,15 +114,15 @@ frame:SetScript("OnShow", function()
     end
 
     local hpbutt = tekbutt.new(frame, "TOPLEFT", subtitle, "BOTTOMLEFT", -10, -GAP)
-    hpbutt:SetText("HP Macro")
-    hpbutt.tiptext = "Generate a global macro for food, bandages, health potions and health stones."
+    hpbutt:SetText(ns.L["HP Macro"])
+    hpbutt.tiptext = ns.L["Generate a global macro for food, bandages, health potions and health stones."]
     hpbutt.name = Const.MacroNames.defaultHP
     hpbutt:SetScript("OnClick", OnClick)
     if InCombatLockdown() then hpbutt:Disable() end
 
     local mpbutt = tekbutt.new(frame, "TOPLEFT", hpbutt, "TOPRIGHT", 0, 0)
-    mpbutt:SetText("MP Macro")
-    mpbutt.tiptext = "Generate a global macro for water, runes, mana potions and mana stones."
+    mpbutt:SetText(ns.L["MP Macro"])
+    mpbutt.tiptext = ns.L["Generate a global macro for water, runes, mana potions and mana stones."]
     mpbutt.name = Const.MacroNames.defaultMP
     mpbutt:SetScript("OnClick", OnClick)
     if InCombatLockdown() then mpbutt:Disable() end
@@ -127,15 +130,15 @@ frame:SetScript("OnShow", function()
 
 
     local hpfoodbutt = tekbutt.new(frame, "TOPLEFT", mpbutt, "TOPRIGHT", 0, 0)
-    hpfoodbutt:SetText("Food Only")
-    hpfoodbutt.tiptext = "Generate a global macro for food only."
+    hpfoodbutt:SetText(ns.L["Food Only"])
+    hpfoodbutt.tiptext = ns.L["Generate a global macro for food only."]
     hpfoodbutt.name = Const.MacroNames.foodOnlyHP
     hpfoodbutt:SetScript("OnClick", OnClick)
     if InCombatLockdown() then hpfoodbutt:Disable() end
 
     local mpfoodbutt = tekbutt.new(frame, "TOPLEFT", hpfoodbutt, "TOPRIGHT", 0, 0)
-    mpfoodbutt:SetText("Drink Only")
-    mpfoodbutt.tiptext = "Generate a global macro for water only."
+    mpfoodbutt:SetText(ns.L["Drink Only"])
+    mpfoodbutt.tiptext = ns.L["Generate a global macro for water only."]
     mpfoodbutt.name = Const.MacroNames.drinkOnlyMP
     mpfoodbutt:SetScript("OnClick", OnClick)
     if InCombatLockdown() then mpfoodbutt:Disable() end
@@ -143,15 +146,15 @@ frame:SetScript("OnShow", function()
 
 
     local hppotbutt = tekbutt.new(frame, "TOPLEFT", mpfoodbutt, "TOPRIGHT", 0, 0)
-    hppotbutt:SetText("HP Cons.")
-    hppotbutt.tiptext = "Generate a global macro for health consumable only, bandages, health potions and health stones."
+    hppotbutt:SetText(ns.L["HP Cons."])
+    hppotbutt.tiptext = ns.L["Generate a global macro for health consumables only: bandages, health potions, and health stones."]
     hppotbutt.name = Const.MacroNames.consumableHP
     hppotbutt:SetScript("OnClick", OnClick)
     if InCombatLockdown() then hppotbutt:Disable() end
 
     local mppotbutt = tekbutt.new(frame, "TOPLEFT", hppotbutt, "TOPRIGHT", 0, 0)
-    mppotbutt:SetText("MP Cons.")
-    mppotbutt.tiptext = "Generate a global macro for mana consumable only, runes, mana potions and mana stones."
+    mppotbutt:SetText(ns.L["MP Cons."])
+    mppotbutt.tiptext = ns.L["Generate a global macro for mana consumables only: runes, mana potions, and mana stones."]
     mppotbutt.name = Const.MacroNames.consumableMP
     mppotbutt:SetScript("OnClick", OnClick)
     if InCombatLockdown() then mppotbutt:Disable() end
@@ -159,7 +162,7 @@ frame:SetScript("OnShow", function()
 
 
     local hpmacrolabel = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    hpmacrolabel:SetText("HP Macro")
+    hpmacrolabel:SetText(ns.L["HP Macro"])
     hpmacrolabel:SetPoint("TOPLEFT", hpbutt, "BOTTOMLEFT", 5, -GAP)
 
     local YOFFSET = (hpmacrolabel:GetTop() - frame:GetBottom() - EDGEGAP/3)/2
@@ -178,19 +181,19 @@ frame:SetScript("OnShow", function()
     hpeditbox:SetScript("OnEditFocusLost", function()
         local newmacro = hpeditbox:GetText()
         if not newmacro:find("%%MACRO%%") then
-            Utility.Print('Macro text must contain the string "%MACRO%".')
+            StaticPopup_Show("BUFFET_MACRO_TEMPLATE_ERROR")
         else
             Core.db.macroHP = newmacro
             Core:QueueScan()
         end
     end)
     hpeditbox:SetScript("OnEscapePressed", hpeditbox.ClearFocus)
-    hpeditbox.tiptext = 'Customize the macro text.  Must include the string "%MACRO%", which is replaced with the items to be used.  This setting is saved on a per-char basis.'
+    hpeditbox.tiptext = ns.L["Customize the macro text. Must include the string \"%MACRO%\", which is replaced with the items to be used. This setting is saved on a per-character basis."]
     hpeditbox:SetScript("OnEnter", mpbutt:GetScript("OnEnter"))
     hpeditbox:SetScript("OnLeave", mpbutt:GetScript("OnLeave"))
 
     local mpmacrolabel = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    mpmacrolabel:SetText("MP Macro")
+    mpmacrolabel:SetText(ns.L["MP Macro"])
     mpmacrolabel:SetPoint("TOP", hpeditbox, "BOTTOM", 0, -GAP)
     mpmacrolabel:SetPoint("LEFT", hpmacrolabel, "LEFT")
 
@@ -208,7 +211,7 @@ frame:SetScript("OnShow", function()
     mpeditbox:SetScript("OnEditFocusLost", function()
         local newmacro = mpeditbox:GetText()
         if not newmacro:find("%%MACRO%%") then
-            Utility.Print('Macro text must contain the string "%MACRO%".')
+            StaticPopup_Show("BUFFET_MACRO_TEMPLATE_ERROR")
         else
             Core.db.macroMP = newmacro
             Core:QueueScan()
@@ -252,7 +255,7 @@ else
 end
 
 local frame_config_base = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
-frame_config_base.name = "Configuration"
+frame_config_base.name = ns.L["Configuration"]
 frame_config_base.parent = "Buffet"
 frame_config_base:Hide()
 frame_config_base:SetScript("OnShow", function()
@@ -267,13 +270,13 @@ frame_config_base:SetScript("OnShow", function()
 
     local title, subtitle = LibStub("tekKonfig-Heading-Hg").new(
         frame_config,
-        "Configuration",
-        "This panel allows you to configure all the macros.\nModifiers use macro syntax: nomod | mod:key | mod:key1/key2 | mod:key1,mod:key2\nEmpty modifiers to disable them."
+        ns.L["Configuration"],
+        ns.L["This panel allows you to configure all the macros.\nModifiers use macro syntax: nomod | mod:key | mod:key1/key2 | mod:key1,mod:key2\nLeave modifiers empty to disable them."]
     )
 
     local hearthstoneCheckButton = CreateFrame("CheckButton", "HearthstoneCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
-    HearthstoneCheckButtonText:SetText("Default to hearthstone (all macros)")
-    hearthstoneCheckButton.tooltip = "Check this to default to hearthstone"
+    HearthstoneCheckButtonText:SetText(ns.L["Default to hearthstone (all macros)"])
+    hearthstoneCheckButton.tooltip = ns.L["Check this to default to hearthstone"]
     hearthstoneCheckButton:SetPoint("TOPLEFT", subtitle, "BOTTOMLEFT", 0, -5)
     hearthstoneCheckButton:SetChecked(Core.db.hearthstone)
     hearthstoneCheckButton:SetScript("OnClick",
@@ -289,12 +292,12 @@ frame_config_base:SetScript("OnShow", function()
 
     local nextAnchor = hearthstoneCheckButton
     if Utility.IsRetail then
-        -- local spellLink = "\124cffffd000\124Hspell:461063\124h[" .. Locales.KeyWords.QuietContemplation .. "]\124h\124r"
+        -- local spellLink = string_format("\124cffffd000\124Hspell:461063\124h[%s]\124h\124r", Locales.KeyWords.QuietContemplation)
         local spellLink = C_Spell.GetSpellLink(461063)
         local spellName = C_Spell.GetSpellName(461063) or Locales.KeyWords.QuietContemplation
         local quietContemplationCheckButton = CreateFrame("CheckButton", "quietContemplationCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
-        quietContemplationCheckButtonText:SetText("Replace all food by the spell " .. spellLink .. " (Earthen only)")
-        quietContemplationCheckButton.tooltip = "Check this to replace all food by the spell [" .. spellName .. "]"
+        quietContemplationCheckButtonText:SetText(string_format(ns.L["Replace all food with the spell %s (Earthen only)"], spellLink))
+        quietContemplationCheckButton.tooltip = string_format(ns.L["Check this to replace all food with the spell [%s]"], spellName)
         quietContemplationCheckButton:SetPoint("TOPLEFT", hearthstoneCheckButton, "BOTTOMLEFT", 0, -5)
         quietContemplationCheckButton:SetChecked(Core.db.quietContemplation)
         quietContemplationCheckButton:SetEnabled(Core.db.hearthstone)
@@ -312,8 +315,8 @@ frame_config_base:SetScript("OnShow", function()
     end
 
     local wellFedCheckButton = CreateFrame("CheckButton", "wellFedCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
-    wellFedCheckButtonText:SetText("Also consider well fed items (all macros)")
-    wellFedCheckButton.tooltip = "Check this to also consider well fed items"
+    wellFedCheckButtonText:SetText(ns.L["Also consider well-fed items (all macros)"])
+    wellFedCheckButton.tooltip = ns.L["Check this to also consider well-fed items"]
     wellFedCheckButton:SetPoint("TOPLEFT", nextAnchor, "BOTTOMLEFT", 0, -5)
     wellFedCheckButton:SetChecked(Core.db.wellFed)
     wellFedCheckButton:SetScript("OnClick",
@@ -330,8 +333,8 @@ frame_config_base:SetScript("OnShow", function()
     nextAnchor = wellFedCheckButton
     if Utility.IsRetail then
         local toxicPotionCheckButton = CreateFrame("CheckButton", "toxicPotionCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
-        toxicPotionCheckButtonText:SetText("Also consider toxic potions (all macros)")
-        toxicPotionCheckButton.tooltip = "Check this to also consider toxic potions"
+        toxicPotionCheckButtonText:SetText(ns.L["Also consider toxic potions (all macros)"])
+        toxicPotionCheckButton.tooltip = ns.L["Check this to also consider toxic potions"]
         toxicPotionCheckButton:SetPoint("TOPLEFT", wellFedCheckButton, "BOTTOMLEFT", 0, -5)
         toxicPotionCheckButton:SetChecked(Core.db.toxicPotion)
         toxicPotionCheckButton:SetScript("OnClick",
@@ -349,11 +352,11 @@ frame_config_base:SetScript("OnShow", function()
 
     local header = frame_config:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
     header:SetPoint("TOPLEFT", nextAnchor, "BOTTOMLEFT", 0, -5)
-    header:SetText("Main Macros: AutoHP & AutoMP")
+    header:SetText(ns.L["Main Macros: AutoHP & AutoMP"])
 
     local combatCheckButton = CreateFrame("CheckButton", "CombatCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
-    CombatCheckButtonText:SetText("Enable combat mode")
-    combatCheckButton.tooltip = "Check this to enable in-combat items in macro"
+    CombatCheckButtonText:SetText(ns.L["Enable combat mode"])
+    combatCheckButton.tooltip = ns.L["Check this to enable in-combat items in the macro"]
     combatCheckButton:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, -5)
     combatCheckButton:SetChecked(Core.db.combat)
     combatCheckButton:SetScript("OnClick",
@@ -370,9 +373,9 @@ frame_config_base:SetScript("OnShow", function()
     local modConjured = modEdit(
         frame_config,
         combatCheckButton,
-        "In-Combat: conjured items modifier (mana gems, healthstone)",
+        ns.L["In-Combat: conjured items modifier (mana gems, healthstone)"],
         Core.db.modConjured,
-        "Modifier for in-combat conjured items",
+        ns.L["Modifier for in-combat conjured items"],
         function(self)
             local mod = self:GetText() or ""
             if Core.db.modConjured ~= mod then
@@ -385,9 +388,9 @@ frame_config_base:SetScript("OnShow", function()
     local modPotion = modEdit(
         frame_config,
         modConjured,
-        "In-Combat: potion items modifier",
+        ns.L["In-Combat: potion items modifier"],
         Core.db.modPotion,
-        "Modifier for in-combat potion items",
+        ns.L["Modifier for in-combat potion items"],
         function(self)
             local mod = self:GetText() or ""
             if Core.db.modPotion ~= mod then
@@ -400,9 +403,9 @@ frame_config_base:SetScript("OnShow", function()
     local modSpecial = modEdit(
         frame_config,
         modPotion,
-        "Special items modifier (bandage, runes)",
+        ns.L["Special items modifier (bandage, runes)"],
         Core.db.modSpecial,
-        "Modifier for special items",
+        ns.L["Modifier for special items"],
         function(self)
             local mod = self:GetText() or ""
             if Core.db.modSpecial ~= mod then
@@ -414,14 +417,14 @@ frame_config_base:SetScript("OnShow", function()
 
     local header = frame_config:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
     header:SetPoint("TOPLEFT", modSpecial, "BOTTOMLEFT", 0, -16)
-    header:SetText("Consumables Macros: ConsumableHP & ConsumableMP")
+    header:SetText(ns.L["Consumables Macros: ConsumableHP & ConsumableMP"])
 
     local consModConjured = modEdit(
         frame_config,
         header,
-        "Conjured items modifier (mana gems, healthstone)",
+        ns.L["Conjured items modifier (mana gems, healthstone)"],
         Core.db.consModConjured,
-        "Modifier for in-combat conjured items",
+        ns.L["Modifier for in-combat conjured items"],
         function(self)
             local mod = self:GetText() or ""
             if Core.db.consModConjured ~= mod then
@@ -434,9 +437,9 @@ frame_config_base:SetScript("OnShow", function()
     local consModPotion = modEdit(
         frame_config,
         consModConjured,
-        "Potion items modifier",
+        ns.L["Potion items modifier"],
         Core.db.consModPotion,
-        "Modifier for in-combat potion items",
+        ns.L["Modifier for in-combat potion items"],
         function(self)
             local mod = self:GetText() or ""
             if Core.db.consModPotion ~= mod then
@@ -449,9 +452,9 @@ frame_config_base:SetScript("OnShow", function()
     local consModSpecial = modEdit(
         frame_config,
         consModPotion,
-        "Special items modifier (bandage, runes)",
+        ns.L["Special items modifier (bandage, runes)"],
         Core.db.modSpecial,
-        "Modifier for special items",
+        ns.L["Modifier for special items"],
         function(self)
             local mod = self:GetText() or ""
             if Core.db.consModSpecial ~= mod then
@@ -463,11 +466,11 @@ frame_config_base:SetScript("OnShow", function()
 
     local header = frame_config:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
     header:SetPoint("TOPLEFT", consModSpecial, "BOTTOMLEFT", 0, -16)
-    header:SetText("Other")
+    header:SetText(ns.L["Other"])
 
     local showVersionCheckButton = CreateFrame("CheckButton", "ShowVersionCheckButton", frame_config, "ChatConfigCheckButtonTemplate")
-    ShowVersionCheckButtonText:SetText("Show version on loading")
-    showVersionCheckButton.tooltip = "Check this to version on loading"
+    ShowVersionCheckButtonText:SetText(ns.L["Show version on loading"])
+    showVersionCheckButton.tooltip = ns.L["Check this to show the version on loading"]
     showVersionCheckButton:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, -5)
     showVersionCheckButton:SetChecked(Core.db.showVersion)
     showVersionCheckButton:SetScript("OnClick",
@@ -521,6 +524,24 @@ StaticPopupDialogs["BUFFET_DELETE_MACRO_CONFIRM"] = {
     hideOnEscape = 1
 };
 
+StaticPopupDialogs["BUFFET_MACRO_LIMIT"] = {
+    text = ns.L["Unable to create the macro: you have reached the maximum number of macros allowed per account."],
+    button1 = OKAY,
+    showAlert = 1,
+    timeout = 0,
+    whileDead = 1,
+    hideOnEscape = 1
+};
+
+StaticPopupDialogs["BUFFET_MACRO_TEMPLATE_ERROR"] = {
+    text = ns.L["Macro text must contain the string \"%MACRO%\"."],
+    button1 = OKAY,
+    showAlert = 1,
+    timeout = 0,
+    whileDead = 1,
+    hideOnEscape = 1
+};
+
 function customMacro:ui()
     if not customMacro.uiLoaded then
         return
@@ -547,9 +568,9 @@ function customMacro:ui()
             customMacro.buttonCheck:Enable()
 
             if self.active.key then
-                customMacro.buttonDelete:SetText("Delete the macro")
+                customMacro.buttonDelete:SetText(ns.L["Delete the macro"])
             else
-                customMacro.buttonDelete:SetText("Clear inputs")
+                customMacro.buttonDelete:SetText(ns.L["Clear inputs"])
             end
 
             if self.valid then
@@ -607,7 +628,7 @@ function customMacro:menu()
     end
 
     if #list > 0 then
-        local item = makeItem("Macros", nil, true)
+        local item = makeItem(ns.L["Macros"], nil, true)
         UIDropDownMenu_AddButton(item);
         UIDropDownMenu_AddSeparator()
         for i = 1, #list do
@@ -616,14 +637,14 @@ function customMacro:menu()
             UIDropDownMenu_AddButton(item);
         end
     else
-        local item = makeItem("Nothing yet", nil, true)
+        local item = makeItem(ns.L["Nothing yet"], nil, true)
         UIDropDownMenu_AddButton(item);
     end
 end
 
 function customMacro:new()
     if customMacro.active and customMacro.active.key and not customMacro.saved then
-        customMacro:confirm("Unsaved changes, are you sure?", function(self)
+        customMacro:confirm(ns.L["Unsaved changes, are you sure?"], function(self)
             customMacro.saved = false
             customMacro.valid = true
             customMacro.active = {}
@@ -649,7 +670,7 @@ end
 
 function customMacro:load(value)
     if customMacro.active and customMacro.active.key and not customMacro.saved then
-        customMacro:confirm("Unsaved changes, are you sure?", function(self)
+        customMacro:confirm(ns.L["Unsaved changes, are you sure?"], function(self)
             local macro = Core.customMacros[value]
 
             customMacro.saved = true
@@ -721,7 +742,7 @@ end
 
 function customMacro:delete()
     if customMacro.active and customMacro.active.key and Core.customMacros[customMacro.active.key] then
-        customMacro:confirm("Are you sure you want to delete this macro?", function(self)
+        customMacro:confirm(ns.L["Are you sure you want to delete this macro?"], function(self)
             local macroId = GetMacroIndexByName(customMacro.active.key)
             if macroId > 0 then
                 DeleteMacro(macroId)
@@ -737,11 +758,11 @@ end
 function customMacro:save()
     if self.active then
         if self.active.name == "" then
-            self.outputEdit:SetText("Error: Empty macro name")
+            self.outputEdit:SetText(ns.L["Error: Empty macro name"])
             return
         end
         if self.active.source == "" then
-            self.outputEdit:SetText("Error: Empty macro source")
+            self.outputEdit:SetText(ns.L["Error: Empty macro source"])
             return
         end
 
@@ -797,7 +818,7 @@ function customMacro:pickup()
         if macroId and macroId > 0 then
             PickupMacro(macroId)
         elseif acc >= MAX_ACCOUNT_MACROS then
-            Utility.Print("Unable to create the macro, you seam to have reach the maximum number of allowed macro per account.")
+            StaticPopup_Show("BUFFET_MACRO_LIMIT")
         else
             local macroId = CreateMacro(customMacro.active.key, "INV_Misc_Food_DimSum", "")
             if not InCombatLockdown() then
@@ -806,7 +827,7 @@ function customMacro:pickup()
             PickupMacro(macroId)
         end
     else
-        customMacro.outputEdit:SetText("Unable to proceed")
+        customMacro.outputEdit:SetText(ns.L["Unable to proceed"])
     end
 end
 
@@ -819,7 +840,7 @@ function customMacro:checkName()
             if self.active.key then
                 if self.active.key ~= name then --updating the name, check for duplicate
                     if Core.customMacros[name] or GetMacroIndexByName(name) > 0 then -- exists
-                        content = "Invalid name: macro name already in used"
+                        content = ns.L["Invalid name: macro name is already in use"]
                         customMacro.outputEdit:SetText(content)
                         self.valid = false
                         return false
@@ -827,14 +848,14 @@ function customMacro:checkName()
                 end
             else
                 if Core.customMacros[name] or GetMacroIndexByName(name) > 0 then -- exists
-                    content = "Invalid name: macro name already in used"
+                    content = ns.L["Invalid name: macro name is already in use"]
                     customMacro.outputEdit:SetText(content)
                     self.valid = false
                     return false
                 end
             end
         else
-            content = "Invalid name: empty"
+            content = ns.L["Invalid name: empty"]
             customMacro.outputEdit:SetText(content)
             self.valid = false
             return false
@@ -854,35 +875,35 @@ function customMacro:checkSource()
             local chunk, errorMessage = loadstring(source, "customMacroCode")
 
             if chunk then
-                content = "Compilation: OK"
+                content = ns.L["Compilation: OK"]
                 local success, ret = pcall(chunk, Core:BestsBeautifier(), Core.itemCache, Core:AvailableItemsBeautifier())
                 if success then
-                    content = (ret or "<nothing>")
+                    content = (ret or ns.L["<nothing>"])
                     customMacro.outputEdit:SetText(content)
                     self.valid = true
                     return true
                 else
-                    local error = ret:gsub("%[string \"customMacroCode\"%]:", "line ")
-                    content = content .. ", Execution: FAILED, Error:\n" .. (error or "unknown")
+                    local error = ret:gsub("%[string \"customMacroCode\"%]:", ns.L["line "])
+                    content = string_format(ns.L["%s, Execution: FAILED, Error:\n%s"], content, error or ns.L["unknown"])
                     customMacro.outputEdit:SetText(content)
                     self.valid = false
                     return false
                 end
             else
-                local error = errorMessage:gsub("%[string \"customMacroCode\"%]:", "line ")
-                content = "Compilation: FAILED, Error:\n" .. error
+                local error = errorMessage:gsub("%[string \"customMacroCode\"%]:", ns.L["line "])
+                content = string_format(ns.L["Compilation: FAILED, Error:\n%s"], error)
                 customMacro.outputEdit:SetText(content)
                 self.valid = false
                 return false
             end
         else
-            content = "No source code to compile"
+            content = ns.L["No source code to compile"]
             customMacro.outputEdit:SetText(content)
             self.valid = false
             return false
         end
     else
-        content = "No active macro"
+        content = ns.L["No active macro"]
         customMacro.outputEdit:SetText(content)
         self.valid = false
         return false
@@ -902,7 +923,7 @@ function customMacro:checkAll()
 end
 
 local frame_custom = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
-frame_custom.name = "Custom Macros"
+frame_custom.name = ns.L["Custom Macros"]
 frame_custom.parent = "Buffet"
 frame_custom.okay = function()
     customMacro:reset()
@@ -918,14 +939,14 @@ frame_custom:Hide()
 frame_custom:SetScript("OnShow", function()
     local title, subtitle = LibStub("tekKonfig-Heading-Hg").new(
         frame_custom,
-        "Custom Macros",
-        "This panel allows you to create custom macro using the lua language.\nHelp and macro examples here: https://github.com/HgAlexx/Buffet/wiki"
+        ns.L["Custom Macros"],
+        string_format(ns.L["This panel allows you to create custom macros using the Lua language.\nHelp and macro examples here: %s"], "https://github.com/HgAlexx/Buffet/wiki")
     )
 
     customMacro.buttonNew = tekbutt.new(frame_custom, "TOPLEFT", subtitle, "BOTTOMLEFT", 0, -GAP)
     customMacro.buttonNew:SetWidth(120)
-    customMacro.buttonNew:SetText("New Macro")
-    customMacro.buttonNew.tiptext = "Create a new macro"
+    customMacro.buttonNew:SetText(ns.L["New Macro"])
+    customMacro.buttonNew.tiptext = ns.L["Create a new macro"]
     customMacro.buttonNew.name = "BuffetButtonNew"
     customMacro.buttonNew:SetScript("OnClick", function(self)
         customMacro:new()
@@ -934,8 +955,8 @@ frame_custom:SetScript("OnShow", function()
     local menuMacro = CreateFrame("Frame", "BuffetMacroMenu", frame_custom, "UIDropDownMenuTemplate")
     customMacro.buttonLoad = tekbutt.new(frame_custom, "TOPRIGHT", subtitle, "BOTTOMRIGHT", -2, -GAP)
     customMacro.buttonLoad:SetWidth(120)
-    customMacro.buttonLoad:SetText("Load Macro")
-    customMacro.buttonLoad.tiptext = "Load an existing macro"
+    customMacro.buttonLoad:SetText(ns.L["Load Macro"])
+    customMacro.buttonLoad.tiptext = ns.L["Load an existing macro"]
     customMacro.buttonLoad.name = "BuffetButtonLoad"
     customMacro.buttonLoad:SetScript("OnClick", function(self)
         ToggleDropDownMenu(1, nil, menuMacro, self, 0, 0)
@@ -945,9 +966,9 @@ frame_custom:SetScript("OnShow", function()
 
     customMacro.nameEdit = largeEdit(frame_custom,
         customMacro.buttonNew,
-        "Macro Name",
+        ns.L["Macro Name"],
         "",
-        "Name used by the macro",
+        ns.L["Name used by the macro"],
         function(self)
             local value = self:GetText() or ""
             if customMacro.active then
@@ -970,8 +991,8 @@ frame_custom:SetScript("OnShow", function()
 
     customMacro.buttonDelete = tekbutt.new(frame_custom, "BOTTOMLEFT", frame_custom, "BOTTOMLEFT", EDGEGAP, EDGEGAP)
     customMacro.buttonDelete:SetWidth(120)
-    customMacro.buttonDelete:SetText("Delete Macro")
-    customMacro.buttonDelete.tiptext = "Delete macro"
+    customMacro.buttonDelete:SetText(ns.L["Delete Macro"])
+    customMacro.buttonDelete.tiptext = ns.L["Delete macro"]
     customMacro.buttonDelete.name = "BuffetButtonDelete"
     customMacro.buttonDelete:SetScript("OnClick", function(self)
         customMacro:delete()
@@ -979,8 +1000,8 @@ frame_custom:SetScript("OnShow", function()
 
     customMacro.buttonPick = tekbutt.new(frame_custom, "BOTTOMRIGHT", frame_custom, "BOTTOMRIGHT", -EDGEGAP, EDGEGAP)
     customMacro.buttonPick:SetWidth(120)
-    customMacro.buttonPick:SetText("Pick Up Macro")
-    customMacro.buttonPick.tiptext = "Pick Up macro"
+    customMacro.buttonPick:SetText(ns.L["Pick Up Macro"])
+    customMacro.buttonPick.tiptext = ns.L["Pick Up macro"]
     customMacro.buttonPick.name = "BuffetButtonPick"
     customMacro.buttonPick:SetScript("OnClick", function(self)
         customMacro:pickup()
@@ -988,8 +1009,8 @@ frame_custom:SetScript("OnShow", function()
 
     customMacro.buttonSave = tekbutt.new(frame_custom, "BOTTOMRIGHT", customMacro.buttonPick, "BOTTOMLEFT", -GAP, 0)
     customMacro.buttonSave:SetWidth(120)
-    customMacro.buttonSave:SetText("Save Macro")
-    customMacro.buttonSave.tiptext = "Save macro"
+    customMacro.buttonSave:SetText(ns.L["Save Macro"])
+    customMacro.buttonSave.tiptext = ns.L["Save macro"]
     customMacro.buttonSave.name = "BuffetButtonSave"
     customMacro.buttonSave:SetScript("OnClick", function(self)
         customMacro:save()
@@ -998,9 +1019,9 @@ frame_custom:SetScript("OnShow", function()
 
     customMacro.outputEdit = largeBottomEdit(frame_custom,
         customMacro.buttonDelete,
-        "Output status",
+        ns.L["Output status"],
         "",
-        "Output status",
+        ns.L["Output status"],
         function(self) end)
     customMacro.outputEdit:SetPoint("TOP", customMacro.buttonDelete, "TOP", 0, GAP + 3*16)
     customMacro.outputEdit:SetTextInsets(5, 5, 5, 5)
@@ -1011,15 +1032,15 @@ frame_custom:SetScript("OnShow", function()
 
     customMacro.buttonCheck = tekbutt.new(frame_custom, "BOTTOMRIGHT", customMacro.outputEdit, "TOPRIGHT", 0, GAP)
     customMacro.buttonCheck:SetWidth(120)
-    customMacro.buttonCheck:SetText("Check & Test")
-    customMacro.buttonCheck.tiptext = "Check & Test Source Code"
+    customMacro.buttonCheck:SetText(ns.L["Check & Test"])
+    customMacro.buttonCheck.tiptext = ns.L["Check & Test Source Code"]
     customMacro.buttonCheck.name = "BuffetButtonCheck"
     customMacro.buttonCheck:SetScript("OnClick", function(self)
         customMacro:checkAll()
     end)
 
     local sourceLabel = frame_custom:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    sourceLabel:SetText("Macro Lua Source Code")
+    sourceLabel:SetText(ns.L["Macro Lua Source Code"])
     sourceLabel:SetPoint("TOPLEFT", customMacro.nameEdit, "BOTTOMLEFT", 0, -GAP)
 
     local sourceFrame = CreateFrame("Frame", nil, frame_custom, BackdropTemplateMixin and "BackdropTemplate")
@@ -1104,8 +1125,6 @@ else
 end
 
 
-LibStub("tekKonfig-AboutPanel-Hg").new("Buffet", "Buffet", category)
-
 
 ----------------------------------------
 --      Quicklaunch registration      --
@@ -1141,11 +1160,11 @@ LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Buffet", {
     end,
     OnTooltipShow = function(tooltip)
         if not tooltip or not tooltip.AddLine then return end
-        tooltip:SetText(addonName)
-        tooltip:AddLine("Left click to open options", 1, 1, 1)
-        tooltip:AddLine("Right click to open custom macro", 1, 1, 1)
+        tooltip:SetText("Buffet")
+        tooltip:AddLine(ns.L["Left click to open options"], 1, 1, 1)
+        tooltip:AddLine(ns.L["Right click to open custom macro"], 1, 1, 1)
         tooltip:AddLine(' ')
-        tooltip:AddLine(string.format("Version: %s", Core.Version or ""), 1, 1, 1)
+        tooltip:AddLine(string_format(ns.L["Version: %s"], Core.Version or ""), 1, 1, 1)
     end,
 })
 
@@ -1156,11 +1175,11 @@ end
 function Buffet_OnCompartmentEnter(addonName, buttonFrame)
     MenuUtil.ShowTooltip(buttonFrame, function(tooltip)
         tooltip:SetOwner(buttonFrame, "ANCHOR_LEFT")
-        tooltip:SetText(addonName)
-        tooltip:AddLine("Left click to open options", 1, 1, 1)
-        tooltip:AddLine("Right click to open custom macro", 1, 1, 1)
+        tooltip:SetText("Buffet")
+        tooltip:AddLine(ns.L["Left click to open options"], 1, 1, 1)
+        tooltip:AddLine(ns.L["Right click to open custom macro"], 1, 1, 1)
         tooltip:AddLine(' ')
-        tooltip:AddLine(string.format("Version: %s", Core.Version or ""), 1, 1, 1)
+        tooltip:AddLine(string_format(ns.L["Version: %s"], Core.Version or ""), 1, 1, 1)
     end)
 end
 

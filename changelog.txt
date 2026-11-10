@@ -1,3 +1,11 @@
+### 152_Beta
+
+* Add Localization support, with French translations
+* Show macro validation errors in popups
+* Consolidate client TOCs
+* Refresh bundled libraries and zone data
+
+
 ### 151
 
 * Fixed detection for TBC

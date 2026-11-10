@@ -29,7 +29,7 @@ Features:
 
 ---
 
-Currently supporting the following localizations:
+The parsing engine currently support the following localizations:
 
 For Retail:
 - English (enUS)
@@ -39,6 +39,13 @@ For Retail:
 - Italiano (itIT)
 - Brazilian Portuguese (ptBR) provided by Lucas Fell
 - Русский (ruRU) provided by ZamestoTV
+
+For Forever:
+- English (enUS)
+- Deutsch (deDE)
+- Español (esES)
+- Brazilian Portuguese (ptBR) provided by Lucas Fell
+- Français (frFR)
 
 For Mists:
 - English (enUS)
@@ -65,8 +72,15 @@ For Classic:
 
 Partially supporting the following localizations:
 
-For Retail, Mists, TBC and Classic:
+For Retail, Mists, TBC, Classic and Forever:
 - Simplified Chinese (zhCN) provided by Witnesscm, with additional fixes for WtLK by clijiac
+
+---
+
+Configuration panels and messages are localized for:
+- English (enUS)
+- French (frFR)
+
 
 ---
 
