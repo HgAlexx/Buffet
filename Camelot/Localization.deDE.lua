@@ -43,7 +43,19 @@ if Utility.IsCamelot and GetLocale() == "deDE" then
 
     Locales.Patterns.HealthAndMana = {
         {
+            pattern = "stellt ([%d%.]+) bis ([%d%.]+) punkt%(e%) mana und gesundheit wieder her",
+            healthIndex =  {1, 2},
+            manaIndex =  {1, 2},
+            pct = false
+        },
+        {
             pattern = "stellt ([%d%.]+) bis ([%d%.]+) punkt%(e%) gesundheit.- stellt ([%d%.]+) bis ([%d%.]+) punkt%(e%) mana",
+            healthIndex =  {1, 2},
+            manaIndex =  {3, 4},
+            pct = false
+        },
+        {
+            pattern = "stellt ([%d%.]+) bis ([%d%.]+) punkt%(e%) gesundheit.- und ([%d%.]+) bis ([%d%.]+) punkt%(e%) mana",
             healthIndex =  {1, 2},
             manaIndex =  {3, 4},
             pct = false
@@ -79,7 +91,7 @@ if Utility.IsCamelot and GetLocale() == "deDE" then
             pct = false
         },
         {
-            pattern = "([%d%.]+) punkt%(e%) mana wieder her",
+            pattern = "([%d%.]+) mana wieder her",
             healthIndex = nil,
             manaIndex = 1,
             pct = false

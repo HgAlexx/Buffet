@@ -2,6 +2,8 @@ local _, ns = ...
 
 local locale = GetLocale()
 
+-- Imports
+local Utility = ns.Utility
 
 if locale == "esMX" then locale = "esES" end
 
@@ -14,7 +16,7 @@ if locale ~= "enUS" then
     Fallback = function(_, key)
         if key ~= nil and not reported[key] then
             reported[key] = true
-            ns.Print(("Missing %s translation: %s"):format(locale, tostring(key)))
+            Utility.Print(("Missing %s translation: %s"):format(locale, tostring(key)))
         end
         return key
     end

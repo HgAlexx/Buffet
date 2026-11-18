@@ -1,3 +1,8 @@
+### 153
+
+* Fixed German detections for Forever
+
+
 ### 152_Beta
 
 * Add Localization support, with French translations
